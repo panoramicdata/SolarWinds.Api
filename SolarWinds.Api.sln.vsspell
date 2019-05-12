@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Visual Studio Spell Checker configuration file - [https://github.com/EWSoftware/VSSpellChecker]
+     Do not edit the XML.  Use the configuration file editor in Visual Studio to modify the settings. -->
+<SpellCheckerConfiguration Format="2015.2.1.0">
+  <InheritAdditionalDictionaryFolders>True</InheritAdditionalDictionaryFolders>
+  <AdditionalDictionaryFolders>
+    <Folder>.\</Folder>
+  </AdditionalDictionaryFolders>
+  <DefaultLanguage>en-GB</DefaultLanguage>
+  <InheritIgnoredWords>True</InheritIgnoredWords>
+  <InheritExcludedExtensions>True</InheritExcludedExtensions>
+  <InheritXmlSettings>True</InheritXmlSettings>
+  <DetermineResourceFileLanguageFromName>True</DetermineResourceFileLanguageFromName>
+  <SpellCheckAsYouType>True</SpellCheckAsYouType>
+  <IgnoreWordsWithDigits>True</IgnoreWordsWithDigits>
+  <IgnoreWordsInAllUppercase>True</IgnoreWordsInAllUppercase>
+  <IgnoreFormatSpecifiers>True</IgnoreFormatSpecifiers>
+  <IgnoreFilenamesAndEMailAddresses>True</IgnoreFilenamesAndEMailAddresses>
+  <IgnoreXmlElementsInText>True</IgnoreXmlElementsInText>
+  <TreatUnderscoreAsSeparator>True</TreatUnderscoreAsSeparator>
+  <IgnoreCharacterClass>NonLatin</IgnoreCharacterClass>
+  <CSharpOptions>
+    <IgnoreXmlDocComments>False</IgnoreXmlDocComments>
+    <IgnoreDelimitedComments>False</IgnoreDelimitedComments>
+    <IgnoreStandardSingleLineComments>False</IgnoreStandardSingleLineComments>
+    <IgnoreQuadrupleSlashComments>False</IgnoreQuadrupleSlashComments>
+    <IgnoreNormalStrings>False</IgnoreNormalStrings>
+    <IgnoreVerbatimStrings>False</IgnoreVerbatimStrings>
+  </CSharpOptions>
+  <CadOptions>
+    <ImportCodeAnalysisDictionaries>True</ImportCodeAnalysisDictionaries>
+    <TreatUnrecognizedWordsAsMisspelled>True</TreatUnrecognizedWordsAsMisspelled>
+    <TreatDeprecatedTermsAsMisspelled>False</TreatDeprecatedTermsAsMisspelled>
+    <TreatCompoundTermsAsMisspelled>False</TreatCompoundTermsAsMisspelled>
+    <TreatCasingExceptionsAsIgnoredWords>False</TreatCasingExceptionsAsIgnoredWords>
+    <RecognizedWordHandling>None</RecognizedWordHandling>
+  </CadOptions>
+</SpellCheckerConfiguration>

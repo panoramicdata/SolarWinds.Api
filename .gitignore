@@ -1,0 +1,10 @@
+Help
+obj
+bin
+lib
+packages
+*.nupkg
+/.vs
+/SolarWinds.Api.Test/appsettings.json
+/SolarWinds.Api/nuget-api-key.txt
+/SolarWinds.Api.Help/html
