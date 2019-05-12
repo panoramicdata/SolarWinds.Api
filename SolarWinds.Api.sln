@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2046
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Api", "SolarWinds.Api\SolarWinds.Api.csproj", "{94BE0EA2-EE16-452A-A57E-5AC20EF4811D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Api", "SolarWinds.Api\SolarWinds.Api.csproj", "{94BE0EA2-EE16-452A-A57E-5AC20EF4811D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Api.Test", "SolarWinds.Api.Test\SolarWinds.Api.Test.csproj", "{300ABD68-F56A-489F-989F-4C15E3ADD6E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.Api.Test", "SolarWinds.Api.Test\SolarWinds.Api.Test.csproj", "{300ABD68-F56A-489F-989F-4C15E3ADD6E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EC6952C-4C39-4DAC-8D90-D358A5B16B71}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,10 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		en-GB_User.dic = en-GB_User.dic
 		en_GB.aff = en_GB.aff
 		en_GB.dic = en_GB.dic
+		global.json = global.json
 		README.md = README.md
 		SolarWinds.Api.sln.vsspell = SolarWinds.Api.sln.vsspell
 		SolarWinds.ico = SolarWinds.ico
 		SolarWindsLogo.jpg = SolarWindsLogo.jpg
+		version.json = version.json
 	EndProjectSection
 EndProject
 Global
