@@ -18,8 +18,7 @@ namespace SolarWinds.Api.Test
 		protected TestWithOutput(ITestOutputHelper iTestOutputHelper)
 		{
 			// Set up logger
-			Logger = new LoggerFactory()
-				.AddDebug(LogLevel.Trace)
+			Logger = LoggerFactory.Create(builder => builder.AddDebug())
 				.AddXunit(iTestOutputHelper, LogLevel.Trace)
 				.CreateLogger<SolarWindsClient>();
 
