@@ -70,6 +70,7 @@ namespace SolarWinds.Api.Test.Logging
 			}
 			catch (Exception)
 			{
+				// TODO: Should we do something here?
 			}
 		}
 
