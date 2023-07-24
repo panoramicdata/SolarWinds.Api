@@ -8,14 +8,15 @@ namespace SolarWinds.Api.Queries
 		protected Constraint(string table, object value)
 		{
 			Table = table;
-			switch (value)
+
+
+			if(value is string stringObject)
 			{
-				case string stringObject:
-					Value = $"'{value}'";
-					break;
-				default:
-					Value = $"{value}";
-					break;
+				Value = $"'{value}'";
+			}
+			else
+			{
+				Value = $"{value}";
 			}
 		}
 
