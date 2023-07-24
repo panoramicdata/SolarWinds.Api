@@ -1,5 +1,6 @@
 using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -15,7 +16,7 @@ namespace SolarWinds.Api.Test.Orion
 		/// Valid sql query returns items
 		/// </summary>
 		[Fact]
-		public async void Valid_SqlQuery_ReturnsItems()
+		public async Task Valid_SqlQuery_ReturnsItems()
 		{
 			var queryResponse = await Client.SqlQueryAsync<CustomPropertyUsage>(new SqlQuery
 			{
@@ -29,7 +30,7 @@ namespace SolarWinds.Api.Test.Orion
 		/// Valid filtered query returns items
 		/// </summary>
 		[Fact]
-		public async void Valid_FilterQuery_ReturnsItems()
+		public async Task Valid_FilterQuery_ReturnsItems()
 		{
 			var queryResponse = await Client.FilterQueryAsync(new FilterQuery<CustomPropertyUsage>
 			{
