@@ -174,8 +174,6 @@ namespace SolarWinds.Api.Orion
 		///// <summary>
 		///// CPU Count
 		///// </summary>
-		//[DataMember(Name = "CPUCount")]
-		//public short CPUCount { get; set; }
 
 		/// <summary>
 		/// CPULoad
@@ -192,20 +190,17 @@ namespace SolarWinds.Api.Orion
 		///// <summary>
 		///// LoadAverage1
 		///// </summary>
-		//[DataMember(Name = "LoadAverage1")]
-		//public double LoadAverage1 { get; set; }
+
 
 		///// <summary>
 		///// LoadAverage5
 		///// </summary>
-		//[DataMember(Name = "LoadAverage5")]
-		//public double LoadAverage5 { get; set; }
+
 
 		///// <summary>
 		///// LoadAverage15
 		///// </summary>
-		//[DataMember(Name = "LoadAverage15")]
-		//public double LoadAverage15 { get; set; }
+
 
 		/// <summary>
 		/// MemoryAvailable

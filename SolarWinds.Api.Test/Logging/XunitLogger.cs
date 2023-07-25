@@ -70,6 +70,8 @@ namespace SolarWinds.Api.Test.Logging
 			}
 			catch (Exception)
 			{
+				// Logger only used during testing,
+				// this is non-production code.
 			}
 		}
 

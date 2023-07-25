@@ -1,5 +1,6 @@
 using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
+using System.Threading.Tasks;
 using System;
 using Xunit;
 using Xunit.Abstractions;
@@ -30,7 +31,7 @@ namespace SolarWinds.Api.Test
 		/// Valid SQL query returns items
 		/// </summary>
 		[Fact]
-		public async void JObject_SqlQuery_ReturnsItems()
+		public async Task JObject_SqlQuery_ReturnsItems()
 		{
 			var queryResponse = await Client.SqlJObjectQueryAsync(new SqlQuery
 			{
