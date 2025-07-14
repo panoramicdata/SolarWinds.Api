@@ -11,7 +11,7 @@ public class CustomPropertyTests(ITestOutputHelper iTestOutputHelper) : TestWith
 {
 
 	/// <summary>
-	/// Valid sql query returns items
+	/// Valid SQL query returns items
 	/// </summary>
 	[Fact]
 	public async Task Valid_SqlQuery_ReturnsItems()

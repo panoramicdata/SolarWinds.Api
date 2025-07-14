@@ -15,17 +15,17 @@ public class ServiceTask
 	/// <summary>
 	/// Gets or sets the task name/subject.
 	/// </summary>
-	public string Name { get; set; }
+	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the task description.
 	/// </summary>
-	public string Description { get; set; }
+	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the task status.
 	/// </summary>
-	public string Status { get; set; }
+	public string Status { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the due date.
@@ -35,12 +35,12 @@ public class ServiceTask
 	/// <summary>
 	/// Gets or sets the assignee's email.
 	/// </summary>
-	public string Assignee { get; set; }
+	public string Assignee { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the requester's email.
 	/// </summary>
-	public string Requester { get; set; }
+	public string Requester { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the creation timestamp.

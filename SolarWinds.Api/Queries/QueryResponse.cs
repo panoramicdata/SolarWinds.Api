@@ -14,7 +14,7 @@ public class QueryResponse<T>
 	/// The results
 	/// </summary>
 	[DataMember(Name = "results")]
-	public List<T> Results { get; set; }
+	public List<T> Results { get; set; } = [];
 
 	/// <summary>
 	/// The total number of rows that would be returned if no "WITH ROWS" was specified

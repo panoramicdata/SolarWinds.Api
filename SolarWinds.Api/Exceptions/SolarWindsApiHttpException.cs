@@ -15,19 +15,13 @@ public class SolarWindsApiHttpException : Exception
 		Content = httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
 	}
 
-	public SolarWindsApiHttpException()
-	{
-	}
-
-	protected SolarWindsApiHttpException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
+	public SolarWindsApiHttpException() : this("An HTTP error occurred.")
 	{
 	}
 
 	public SolarWindsApiHttpException(string message) : base(message)
-	{
-	}
+		=> Content = string.Empty;
 
 	public SolarWindsApiHttpException(string message, Exception innerException) : base(message, innerException)
-	{
-	}
+		=> Content = string.Empty;
 }

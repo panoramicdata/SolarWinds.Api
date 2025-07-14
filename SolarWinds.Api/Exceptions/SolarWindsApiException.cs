@@ -8,10 +8,6 @@ public class SolarWindsApiDeserializationException : Exception
 	{
 	}
 
-	protected SolarWindsApiDeserializationException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : base(info, context)
-	{
-	}
-
 	public SolarWindsApiDeserializationException(string message) : base(message)
 	{
 	}

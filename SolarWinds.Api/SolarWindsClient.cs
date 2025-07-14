@@ -24,40 +24,16 @@ public class SolarWindsClient
 		int port,
 		bool ignoreSslCertificateErrors)
 	{
-		if (hostname == null)
-		{
-			throw new ArgumentNullException(nameof(hostname));
-		}
+		ArgumentNullException.ThrowIfNull(hostname);
+		ArgumentException.ThrowIfNullOrEmpty(hostname);
 
-		if (hostname?.Length == 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(hostname), hostname, "Must not be empty.");
-		}
+		ArgumentNullException.ThrowIfNull(username);
+		ArgumentException.ThrowIfNullOrEmpty(username);
 
-		if (username == null)
-		{
-			throw new ArgumentNullException(nameof(username));
-		}
+		ArgumentNullException.ThrowIfNull(password);
+		ArgumentException.ThrowIfNullOrEmpty(password);
 
-		if (username?.Length == 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(username), username, "Must not be empty.");
-		}
-
-		if (password == null)
-		{
-			throw new ArgumentNullException(nameof(password));
-		}
-
-		if (password?.Length == 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(password), password, "Must not be empty.");
-		}
-
-		if (port <= 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(port), port, "Must be a number greater than 0.");
-		}
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(port);
 
 		var handler = new HttpClientHandler
 		{
@@ -74,7 +50,7 @@ public class SolarWindsClient
 		};
 	}
 
-	private bool RelaxedCertificateCheck(HttpRequestMessage arg1, X509Certificate2 arg2, X509Chain arg3, SslPolicyErrors arg4) => true;
+	private bool RelaxedCertificateCheck(HttpRequestMessage arg1, X509Certificate2? arg2, X509Chain? arg3, SslPolicyErrors arg4) => true;
 
 	public Task<QueryResponse<T>> FilterQueryAsync<T>(FilterQuery<T> filterQuery, CancellationToken cancellationToken) where T : Entity
 		=> SqlQueryAsyncInternal<T>(filterQuery.GetSqlQuery(), cancellationToken);
@@ -88,20 +64,9 @@ public class SolarWindsClient
 	private async Task<QueryResponse<T>> SqlQueryAsyncInternal<T>(SqlQuery query, CancellationToken cancellationToken)
 	{
 		// Input checking
-		if (query == null)
-		{
-			throw new ArgumentNullException(nameof(query));
-		}
-
-		if (query.Sql == null)
-		{
-			throw new ArgumentException("Query SQL is null.", nameof(query));
-		}
-
-		if (query.Sql.Length == 0)
-		{
-			throw new ArgumentException("Query SQL is empty.", nameof(query));
-		}
+		ArgumentNullException.ThrowIfNull(query);
+		ArgumentNullException.ThrowIfNull(query.Sql);
+		ArgumentException.ThrowIfNullOrEmpty(query.Sql);
 
 		// Execute query
 		var content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, "application/json");
@@ -114,17 +79,16 @@ public class SolarWindsClient
 		}
 
 		// Yes.  Deserialize.
-		var responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
-		QueryResponse<T> result;
+		var responseBody = await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken);
+		QueryResponse<T>? result;
 		try
 		{
 			result = JsonConvert.DeserializeObject<QueryResponse<T>>(
-				responseBody
-				, new JsonSerializerSettings
+				responseBody,
+				new JsonSerializerSettings
 				{
 #if DEBUG
 					MissingMemberHandling = MissingMemberHandling.Error,
-					ContractResolver = new RequireObjectPropertiesContractResolver(),
 #endif
 					TypeNameHandling = TypeNameHandling.Auto
 				});
@@ -135,6 +99,6 @@ public class SolarWindsClient
 		}
 
 		// Return the result
-		return result;
+		return result ?? throw new SolarWindsApiDeserializationException("Deserialization returned null result");
 	}
 }

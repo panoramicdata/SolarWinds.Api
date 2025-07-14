@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -13,25 +14,25 @@ public abstract class Entity
 	/// The Display Name
 	/// </summary>
 	[DataMember(Name = "DisplayName")]
-	public string DisplayName { get; set; }
+	public string DisplayName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The Description
 	/// </summary>
 	[DataMember(Name = "Description")]
-	public string Description { get; set; }
+	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The InstanceType
 	/// </summary>
 	[DataMember(Name = "InstanceType")]
-	public string InstanceType { get; set; }
+	public string InstanceType { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The URI
 	/// </summary>
 	[DataMember(Name = "Uri")]
-	public string Uri { get; set; }
+	public string Uri { get; set; } = string.Empty;
 
 	/// <summary>
 	/// The InstanceSiteId
@@ -49,8 +50,8 @@ public abstract class Entity
 		}
 		// Failed.  Guess.
 
-		var singular = typeof(T).FullName.Replace("SolarWinds.Api.", "");
-		return singular.EndsWith("y")
+		var singular = typeof(T).FullName?.Replace("SolarWinds.Api.", "", StringComparison.Ordinal) ?? string.Empty;
+		return singular.EndsWith('y')
 			? singular
 			: singular + "s";
 	}

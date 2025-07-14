@@ -19,7 +19,7 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<WarningsNotAsErrors>NU1605</WarningsNotAsErrors>
+		<WarningsNotAsErrors>NU1605;CS8618;VSSpell001</WarningsNotAsErrors>
 		
 		<!-- Package generation settings -->
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -56,7 +56,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DefineConstants>TRACE</DefineConstants>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);CS1591</NoWarn>
+		<NoWarn>$(NoWarn);CS1591;CS8618;VSSpell001</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

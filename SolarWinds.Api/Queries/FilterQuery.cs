@@ -5,23 +5,23 @@ namespace SolarWinds.Api.Queries;
 
 public class FilterQuery<T> where T : Entity
 {
-	public string OrderBy { get; set; }
+	public string OrderBy { get; set; } = string.Empty;
 
 	public int Skip { get; set; }
 
 	public int Take { get; set; } = int.MaxValue;
 
-	public List<Constraint> Constraints { get; set; }
+	public List<Constraint> Constraints { get; set; } = [];
 
 	public string ConstraintsString => Constraints == null || Constraints.Count == 0
 		? string.Empty
 		: " WHERE " + string.Join(" AND ", Constraints.Select(c => c.SqlSnippet));
 
-	public string OrderByString => OrderBy == null
+	public string OrderByString => string.IsNullOrEmpty(OrderBy)
 		? string.Empty
 		: " ORDER BY " + OrderBy;
 
-	private IEnumerable<string> PropertyNames => typeof(T).GetProperties().Select(p => p.Name);
+	private static IEnumerable<string> PropertyNames => typeof(T).GetProperties().Select(static p => p.Name);
 
 	public SqlQuery GetSqlQuery()
 	{

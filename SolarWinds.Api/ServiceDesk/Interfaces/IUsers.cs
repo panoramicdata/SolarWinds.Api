@@ -1,7 +1,7 @@
-using Refit;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Refit;
 using SolarWinds.Api.ServiceDesk.Models;
 
 namespace SolarWinds.Api.ServiceDesk.Interfaces;
@@ -17,7 +17,7 @@ public interface IUsers
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of users.</returns>
 	[Get("/api/v2/users.json")]
-	Task<List<User>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<User>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific user by ID.
@@ -26,16 +26,16 @@ public interface IUsers
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The user.</returns>
 	[Get("/api/v2/users/{id}.json")]
-	Task<User> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<User> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new user.
 	/// </summary>
 	/// <param name="user">The user to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The created user.</n		/// </returns>
+	/// <returns>The created user.</returns>
 	[Post("/api/v2/users.json")]
-	Task<User> CreateAsync([Body] User user, CancellationToken cancellationToken);
+	public Task<User> CreateAsync([Body] User user, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing user.
