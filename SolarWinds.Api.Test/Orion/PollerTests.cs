@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using System.Threading;
 using AwesomeAssertions;
 
 namespace SolarWinds.Api.Test.Orion;
@@ -24,7 +25,7 @@ public class PollerTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(i
 			{
 				{ "p", 0 }
 			}
-		});
+		}, cancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}
@@ -40,7 +41,7 @@ public class PollerTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(i
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,
 			Take = 3,
-		});
+		}, cancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}

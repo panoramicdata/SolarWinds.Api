@@ -1,25 +1,18 @@
-# This script will publish to nuget using the api key in nuget-api-key.txt in the same folder.
-# The api key issued by nuget.org should ideally only have permissions to update a single package
-# with new versions.
+param([string]$Configuration = "Release")
 
-$apiKeyFilename = "nuget-api-key.txt";
-if(-not (Test-Path($apiKeyFilename))){
-	Write-Host "$apiKeyFilename does not exist"
-	exit 1;
+Write-Host "Reading NuGet API key..."
+try {
+    $nugetKey = Get-Content -Path "nuget.key" -Raw
 }
-$apiKey = Get-Content $apiKeyFilename;
-
-# Build and test
-dotnet build -c Release
-dotnet build ..\SolarWinds.Api.Test -c Release
-dotnet test ..\SolarWinds.Api.Test -c Release
-if ($lastexitcode -ne 0) {
-	Write-Error "One or more tests failed. Aborting..."
-	exit 1;
+catch {
+    Write-Error "Failed to read nuget.key. Please create this file with your NuGet API key.";
+    exit 1
 }
 
-dotnet pack -c Release
+Write-Host "Packing NuGet package..."
+dotnet pack SolarWinds.Api.csproj -c $Configuration --no-build --output "."
 
-$mostRecentPackage = Get-ChildItem bin\Release\*.nupkg | Sort-Object LastWriteTime | Select-Object -last 1
-Write-Host "Publishing $mostRecentPackage..."
-.\nuget.exe push -Source https://api.nuget.org/v3/index.json -ApiKey $apiKey "$mostRecentPackage"
+Write-Host "Pushing NuGet package..."
+Get-ChildItem *.nupkg | ForEach-Object {
+    dotnet nuget push $_.FullName -s https://api.nuget.org/v3/index.json -k $nugetKey --skip-duplicate
+}

@@ -17,9 +17,7 @@ public interface IOtherAssets
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of other assets.</returns>
 	[Get("/api/v2/other_assets.json")]
-	public Task<List<Asset>> GetAllAsync(
-		CancellationToken cancellationToken,
-		[Query("layout")] string layout = null);
+	public Task<List<Asset>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific other asset by ID.
@@ -28,10 +26,7 @@ public interface IOtherAssets
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The other asset.</returns>
 	[Get("/api/v2/other_assets/{id}.json")]
-	public Task<Asset> GetAsync(
-		int id,
-		CancellationToken cancellationToken,
-		[Query("layout")] string layout = null);
+	public Task<Asset> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new other asset.

@@ -56,7 +56,7 @@ public abstract class TestWithOutput
 				config = (Config)serializer.Deserialize(file, typeof(Config));
 			}
 
-			return _client = new SolarWindsClient(config.Hostname, config.Username, config.Password, ignoreSslCertificateErrors: config.IgnoreSslCertificateErrors);
+			return _client = new SolarWindsClient(config.Hostname, config.Username, config.Password, config.Port, config.IgnoreSslCertificateErrors);
 		}
 	}
 

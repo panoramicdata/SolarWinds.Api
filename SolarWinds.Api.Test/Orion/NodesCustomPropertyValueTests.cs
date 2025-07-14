@@ -3,6 +3,7 @@ using SolarWinds.Api.Queries;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using System.Threading;
 using AwesomeAssertions;
 
 namespace SolarWinds.Api.Test.Orion;
@@ -19,7 +20,7 @@ public class NodesCustomPropertyTests(ITestOutputHelper iTestOutputHelper) : Tes
 		var queryResponse = await Client.SqlQueryAsync<NodesCustomProperty>(new SqlQuery
 		{
 			Sql = "SELECT DisplayName FROM Orion.NodesCustomProperties ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
-		});
+		}, cancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}
@@ -35,7 +36,7 @@ public class NodesCustomPropertyTests(ITestOutputHelper iTestOutputHelper) : Tes
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,
 			Take = 3,
-		});
+		}, cancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}

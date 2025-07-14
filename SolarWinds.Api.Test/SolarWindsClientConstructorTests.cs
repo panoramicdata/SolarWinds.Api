@@ -19,7 +19,7 @@ public class SolarWindsClientConstructorTests(ITestOutputHelper iTestOutputHelpe
 	[InlineData("hostname", null, "password")]
 	[InlineData("hostname", "username", null)]
 	public void MissingParameters_Throws_ArgumentNullException(string hostname, string username, string password)
-		=> ((Action)(() => new SolarWindsClient(hostname, username, password))).Should().Throw<ArgumentNullException>();
+		=> ((Action)(() => new SolarWindsClient(hostname, username, password, 17778, false))).Should().Throw<ArgumentNullException>();
 
 	/// <summary>
 	/// Empty parameters should throw an appropriate exception
@@ -32,5 +32,5 @@ public class SolarWindsClientConstructorTests(ITestOutputHelper iTestOutputHelpe
 	[InlineData("hostname", "", "password")]
 	[InlineData("hostname", "username", "")]
 	public void EmptyParameters_Throws_ArgumentOutOfRangeException(string hostname, string username, string password)
-		=> ((Action)(() => new SolarWindsClient(hostname, username, password))).Should().Throw<ArgumentOutOfRangeException>();
+		=> ((Action)(() => new SolarWindsClient(hostname, username, password, 17778, false))).Should().Throw<ArgumentOutOfRangeException>();
 }

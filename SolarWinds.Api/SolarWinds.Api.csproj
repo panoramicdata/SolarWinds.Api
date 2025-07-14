@@ -8,30 +8,30 @@
 		<Description>A .NET API for SolarWinds</Description>
 		<Copyright>Copyright © Panoramic Data Limited 2019</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>http://www.panoramicdata.com/solarwinds-nuget-package/</PackageProjectUrl>
-		<PackageIcon>SolarWindsLogo.jpg</PackageIcon>
-        <PackageTags>solarwinds api</PackageTags>
-        <PackageReleaseNotes>First release</PackageReleaseNotes>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
+		<PackageProjectUrl>https://github.com/panoramicdata/SolarWinds.Api.git</PackageProjectUrl>
+		<PackageIcon>SolarWindsLogo.png</PackageIcon>
+		<PackageTags>solarwinds api</PackageTags>
+		<PackageReleaseNotes>First release</PackageReleaseNotes>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <None Include="..\SolarWindsLogo.jpg" Pack="true" PackagePath="\" />
-    </ItemGroup>
+	<ItemGroup>
+		<None Include="..\SolarWindsLogo.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Refit" Version="8.0.0" />
-        <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Refit" Version="8.0.0" />
+		<PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
+	</ItemGroup>
 
 </Project>

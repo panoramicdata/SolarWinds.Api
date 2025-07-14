@@ -4,6 +4,7 @@ using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
 using Xunit;
 using Xunit.Abstractions;
+using System.Threading;
 
 namespace SolarWinds.Api.Test.Orion;
 
@@ -19,7 +20,7 @@ public class CredentialTests(ITestOutputHelper iTestOutputHelper) : TestWithOutp
 		var queryResponse = await Client.SqlQueryAsync<Node>(new SqlQuery
 		{
 			Sql = "SELECT Description, Uri, InstanceType FROM Orion.Nodes ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
-		});
+		}, CancellationToken.None);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}
@@ -35,7 +36,7 @@ public class CredentialTests(ITestOutputHelper iTestOutputHelper) : TestWithOutp
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,
 			Take = 3,
-		});
+		}, CancellationToken.None);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}

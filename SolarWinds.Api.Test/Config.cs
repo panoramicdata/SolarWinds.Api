@@ -27,6 +27,12 @@ public class Config
 	public string Password { get; internal set; }
 
 	/// <summary>
+	/// The port
+	/// </summary>
+	[DataMember(Name = "Port")]
+	public int Port { get; internal set; }
+
+	/// <summary>
 	/// Whether to ignore SSL Certificate Errors
 	/// </summary>
 	[DataMember(Name = "IgnoreSslCertificateErrors")]

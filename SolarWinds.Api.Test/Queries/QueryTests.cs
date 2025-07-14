@@ -5,6 +5,7 @@ using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
 using Xunit;
 using Xunit.Abstractions;
+using System.Threading;
 
 namespace SolarWinds.Api.Test.Queries;
 
@@ -16,14 +17,14 @@ public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iT
 	/// </summary>
 	[Fact]
 	public void Null_Throws_ArgumentNullException()
-		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(null))).Should().ThrowAsync<ArgumentNullException>();
+		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(null, CancellationToken.None))).Should().ThrowAsync<ArgumentNullException>();
 
 	/// <summary>
 	/// Query with null query should throw an appropriate exception
 	/// </summary>
 	[Fact]
 	public void QueryNull_Throws_ArgumentException()
-		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(new SqlQuery()))).Should().ThrowAsync<ArgumentException>();
+		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(new SqlQuery(), CancellationToken.None))).Should().ThrowAsync<ArgumentException>();
 
 	/// <summary>
 	/// Valid SQL query returns items
@@ -34,7 +35,7 @@ public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iT
 		var queryResponse = await Client.SqlJObjectQueryAsync(new SqlQuery
 		{
 			Sql = "SELECT TOP 1 [Caption] FROM Orion.Nodes"
-		});
+		}, CancellationToken.None);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}

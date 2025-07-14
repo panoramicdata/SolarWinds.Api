@@ -54,7 +54,7 @@ public interface ISolutions
 	/// <param name="id">The ID of the solution to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/api/v2/solutions/{id}.json")]
-	public ServiceTask DeleteAsync(
+	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);
 }
