@@ -1,10 +1,9 @@
+using System.Threading.Tasks;
+using AwesomeAssertions;
 using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
-using System.Threading;
-using AwesomeAssertions;
 
 namespace SolarWinds.Api.Test.Orion;
 
@@ -20,7 +19,7 @@ public class CustomPropertyTests(ITestOutputHelper iTestOutputHelper) : TestWith
 		var queryResponse = await Client.SqlQueryAsync<CustomProperty>(new SqlQuery
 		{
 			Sql = "SELECT Table, Description, Field, DataType, Default, DisplayName FROM Orion.CustomProperty ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS",
-		}, cancellationToken);
+		}, CancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}
@@ -36,7 +35,7 @@ public class CustomPropertyTests(ITestOutputHelper iTestOutputHelper) : TestWith
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,
 			Take = 3,
-		}, cancellationToken);
+		}, CancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}

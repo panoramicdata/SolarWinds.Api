@@ -1,11 +1,10 @@
-using SolarWinds.Api.Orion;
-using SolarWinds.Api.Queries;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AwesomeAssertions;
+using SolarWinds.Api.Orion;
+using SolarWinds.Api.Queries;
 using Xunit;
 using Xunit.Abstractions;
-using System.Threading;
-using AwesomeAssertions;
 
 namespace SolarWinds.Api.Test.Orion;
 
@@ -25,7 +24,7 @@ public class PollerTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(i
 			{
 				{ "p", 0 }
 			}
-		}, cancellationToken);
+		}, CancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}
@@ -41,7 +40,7 @@ public class PollerTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(i
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,
 			Take = 3,
-		}, cancellationToken);
+		}, CancellationToken);
 		queryResponse.Should().NotBeNull();
 		queryResponse.Results.Should().NotBeEmpty();
 	}

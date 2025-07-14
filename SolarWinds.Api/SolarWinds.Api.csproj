@@ -1,30 +1,66 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ApplicationIcon>SolarWinds.ico</ApplicationIcon>
 		<Authors>Panoramic Data Limited</Authors>
 		<Company>Panoramic Data Limited</Company>
-		<Description>A .NET API for SolarWinds</Description>
-		<Copyright>Copyright © Panoramic Data Limited 2019</Copyright>
+		<Product>SolarWinds.Api</Product>
+		<Description>A .NET API client for SolarWinds Orion and Service Desk</Description>
+		<Copyright>Copyright © Panoramic Data Limited 2025</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/panoramicdata/SolarWinds.Api.git</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/panoramicdata/SolarWinds.Api</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/panoramicdata/SolarWinds.Api</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 		<PackageIcon>SolarWindsLogo.png</PackageIcon>
-		<PackageTags>solarwinds api</PackageTags>
-		<PackageReleaseNotes>First release</PackageReleaseNotes>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>solarwinds;api;orion;service-desk;monitoring;network</PackageTags>
+		<PackageReleaseNotes>See CHANGELOG.md for release notes</PackageReleaseNotes>
 		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsNotAsErrors>NU1605</WarningsNotAsErrors>
+		
+		<!-- Package generation settings -->
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)../artifacts</PackageOutputPath>
+		
+		<!-- Symbol package generation with current best practices -->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		
+		<!-- Deterministic builds -->
+		<Deterministic>true</Deterministic>
+		<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+		
+		<!-- Code analysis -->
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\SolarWindsLogo.png" Pack="true" PackagePath="\" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE</DefineConstants>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

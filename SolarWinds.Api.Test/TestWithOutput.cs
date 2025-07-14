@@ -1,12 +1,12 @@
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using SolarWinds.Api.Test.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using SolarWinds.Api.Test.Logging;
 using Xunit;
 using Xunit.Abstractions;
-using AwesomeAssertions;
 
 namespace SolarWinds.Api.Test;
 
@@ -15,6 +15,8 @@ public abstract class TestWithOutput
 	private SolarWindsClient _client;
 
 	protected ILogger Logger { get; }
+
+	protected static CancellationToken CancellationToken => default;
 
 	protected TestWithOutput(ITestOutputHelper iTestOutputHelper)
 	{
