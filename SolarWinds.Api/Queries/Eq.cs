@@ -1,11 +1,6 @@
-namespace SolarWinds.Api.Queries
-{
-	public class Eq : Constraint
-	{
-		public Eq(string table, object value) : base(table, value)
-		{
-		}
+namespace SolarWinds.Api.Queries;
 
-		public override string SqlSnippet => $"{Table}={Value}";
-	}
+public class Eq(string table, object value) : Constraint(table, value)
+{
+	public override string SqlSnippet => $"{Table}={Value}";
 }

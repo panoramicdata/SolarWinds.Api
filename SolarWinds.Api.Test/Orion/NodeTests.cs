@@ -3,43 +3,40 @@ using SolarWinds.Api.Queries;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using AwesomeAssertions;
 
-namespace SolarWinds.Api.Test.Orion
+namespace SolarWinds.Api.Test.Orion;
+
+public class NodeTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
-	public class NodeTests : TestWithOutput
+
+	/// <summary>
+	/// Valid sql query returns items
+	/// </summary>
+	[Fact]
+	public async Task Valid_SqlQuery_ReturnsItems()
 	{
-		public NodeTests(ITestOutputHelper iTestOutputHelper) : base(iTestOutputHelper)
+		var queryResponse = await Client.SqlQueryAsync<Node>(new SqlQuery
 		{
-		}
+			Sql = "SELECT Description, Uri, InstanceType FROM Orion.Nodes ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
+		});
+		queryResponse.Should().NotBeNull();
+		queryResponse.Results.Should().NotBeEmpty();
+	}
 
-		/// <summary>
-		/// Valid sql query returns items
-		/// </summary>
-		[Fact]
-		public async Task Valid_SqlQuery_ReturnsItems()
+	/// <summary>
+	/// Valid filtered query returns items
+	/// </summary>
+	[Fact]
+	public async Task Valid_FilterQuery_ReturnsItems()
+	{
+		var queryResponse = await Client.FilterQueryAsync(new FilterQuery<Node>
 		{
-			var queryResponse = await Client.SqlQueryAsync<Node>(new SqlQuery
-			{
-				Sql = "SELECT Description, Uri, InstanceType FROM Orion.Nodes ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
-			}).ConfigureAwait(false);
-			Assert.NotNull(queryResponse);
-			Assert.NotEmpty(queryResponse.Results);
-		}
-
-		/// <summary>
-		/// Valid filtered query returns items
-		/// </summary>
-		[Fact]
-		public async Task Valid_FilterQuery_ReturnsItems()
-		{
-			var queryResponse = await Client.FilterQueryAsync(new FilterQuery<Node>
-			{
-				OrderBy = nameof(Entity.Uri),
-				Skip = 0,
-				Take = 3,
-			}).ConfigureAwait(false);
-			Assert.NotNull(queryResponse);
-			Assert.NotEmpty(queryResponse.Results);
-		}
+			OrderBy = nameof(Entity.Uri),
+			Skip = 0,
+			Take = 3,
+		});
+		queryResponse.Should().NotBeNull();
+		queryResponse.Results.Should().NotBeEmpty();
 	}
 }

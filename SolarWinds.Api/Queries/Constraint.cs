@@ -1,27 +1,26 @@
-namespace SolarWinds.Api.Queries
+namespace SolarWinds.Api.Queries;
+
+/// <summary>
+/// A constraint
+/// </summary>
+public abstract class Constraint
 {
-	/// <summary>
-	/// A constraint
-	/// </summary>
-	public abstract class Constraint
+	protected Constraint(string table, object value)
 	{
-		protected Constraint(string table, object value)
+		Table = table;
+
+
+		if(value is string stringObject)
 		{
-			Table = table;
-
-
-			if(value is string stringObject)
-			{
-				Value = $"'{value}'";
-			}
-			else
-			{
-				Value = $"{value}";
-			}
+			Value = $"'{value}'";
 		}
-
-		public abstract string SqlSnippet { get; }
-		public string Table { get; }
-		public string Value { get; }
+		else
+		{
+			Value = $"{value}";
+		}
 	}
+
+	public abstract string SqlSnippet { get; }
+	public string Table { get; }
+	public string Value { get; }
 }

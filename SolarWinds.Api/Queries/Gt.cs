@@ -1,11 +1,6 @@
-﻿namespace SolarWinds.Api.Queries
-{
-	public class Gt : Constraint
-	{
-		public Gt(string table, string value) : base(table, value)
-		{
-		}
+namespace SolarWinds.Api.Queries;
 
-		public override string SqlSnippet => $"{Table}>{Value}";
-	}
+public class Gt(string table, string value) : Constraint(table, value)
+{
+	public override string SqlSnippet => $"{Table}>{Value}";
 }

@@ -4,47 +4,44 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using AwesomeAssertions;
 
-namespace SolarWinds.Api.Test.Orion
+namespace SolarWinds.Api.Test.Orion;
+
+public class CustomPropertyValueTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
-	public class CustomPropertyValueTests : TestWithOutput
+
+	/// <summary>
+	/// Valid SQL query returns items
+	/// </summary>
+	[Fact]
+	public async Task Valid_SqlQuery_ReturnsItems()
 	{
-		public CustomPropertyValueTests(ITestOutputHelper iTestOutputHelper) : base(iTestOutputHelper)
+		var queryResponse = await Client.SqlQueryAsync<CustomPropertyValue>(new SqlQuery
 		{
-		}
+			Sql = "SELECT DisplayName FROM Orion.CustomPropertyValues ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
+		});
+		queryResponse.Should().NotBeNull();
+		queryResponse.Results.Should().NotBeEmpty();
+	}
 
-		/// <summary>
-		/// Valid SQL query returns items
-		/// </summary>
-		[Fact]
-		public async Task Valid_SqlQuery_ReturnsItems()
+	/// <summary>
+	/// Valid filtered query returns items
+	/// </summary>
+	[Fact]
+	public async Task Valid_FilterQuery_ReturnsItems()
+	{
+		var queryResponse = await Client.FilterQueryAsync(new FilterQuery<CustomPropertyValue>
 		{
-			var queryResponse = await Client.SqlQueryAsync<CustomPropertyValue>(new SqlQuery
+			Constraints = new List<Constraint>
 			{
-				Sql = "SELECT DisplayName FROM Orion.CustomPropertyValues ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
-			}).ConfigureAwait(false);
-			Assert.NotNull(queryResponse);
-			Assert.NotEmpty(queryResponse.Results);
-		}
-
-		/// <summary>
-		/// Valid filtered query returns items
-		/// </summary>
-		[Fact]
-		public async Task Valid_FilterQuery_ReturnsItems()
-		{
-			var queryResponse = await Client.FilterQueryAsync(new FilterQuery<CustomPropertyValue>
-			{
-				Constraints = new List<Constraint>
-				{
-					new Eq(nameof(CustomPropertyValue.Value), "VMware vCenter")
-				},
-				OrderBy = nameof(Entity.Uri),
-				Skip = 0,
-				Take = 3,
-			}).ConfigureAwait(false);
-			Assert.NotNull(queryResponse);
-			Assert.NotEmpty(queryResponse.Results);
-		}
+				new Eq(nameof(CustomPropertyValue.Value), "VMware vCenter")
+			},
+			OrderBy = nameof(Entity.Uri),
+			Skip = 0,
+			Take = 3,
+		});
+		queryResponse.Should().NotBeNull();
+		queryResponse.Results.Should().NotBeEmpty();
 	}
 }

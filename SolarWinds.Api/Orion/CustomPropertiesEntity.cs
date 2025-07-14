@@ -1,9 +1,8 @@
-namespace SolarWinds.Api.Orion
+namespace SolarWinds.Api.Orion;
+
+/// <summary>
+/// A CustomPropertiesEntity
+/// </summary>
+public abstract class CustomPropertiesEntity : Entity
 {
-	/// <summary>
-	/// A CustomPropertiesEntity
-	/// </summary>
-	public abstract class CustomPropertiesEntity : Entity
-	{
-	}
 }

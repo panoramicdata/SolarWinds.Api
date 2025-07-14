@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace SolarWinds.Api.Orion
-{
+namespace SolarWinds.Api.Orion;
 
 	/// <summary>
 	/// A Credential
@@ -33,4 +32,3 @@ namespace SolarWinds.Api.Orion
 		[DataMember(Name = "CredentialOwner")]
 		public string CredentialOwner { get; set; }
 	}
-}

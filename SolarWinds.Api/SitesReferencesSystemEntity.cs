@@ -1,12 +1,11 @@
 using System.Runtime.Serialization;
 
-namespace SolarWinds.Api
+namespace SolarWinds.Api;
+
+/// <summary>
+/// A SitesReferencesSystemEntity
+/// </summary>
+[DataContract]
+public class SitesReferencesSystemEntity
 {
-	/// <summary>
-	/// A SitesReferencesSystemEntity
-	/// </summary>
-	[DataContract]
-	public class SitesReferencesSystemEntity
-	{
-	}
 }
