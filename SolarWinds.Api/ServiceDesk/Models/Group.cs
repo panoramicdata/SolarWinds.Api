@@ -1,23 +1,13 @@
-using System;
 using System.Collections.Generic;
+using SolarWinds.Api.ServiceDesk.Models.Base;
 
 namespace SolarWinds.Api.ServiceDesk.Models;
 
 /// <summary>
 /// Represents a Service Desk group.
 /// </summary>
-public class Group
+public class Group : NamedEntity
 {
-	/// <summary>
-	/// Gets or sets the group ID.
-	/// </summary>
-	public int Id { get; set; }
-
-	/// <summary>
-	/// Gets or sets the group name.
-	/// </summary>
-	public string Name { get; set; }
-
 	/// <summary>
 	/// Gets or sets whether the group is disabled.
 	/// </summary>
@@ -31,7 +21,7 @@ public class Group
 	/// <summary>
 	/// Gets or sets the group avatar URL.
 	/// </summary>
-	public string Avatar { get; set; }
+	public required string Avatar { get; set; }
 
 	/// <summary>
 	/// Gets or sets the reports to ID.
@@ -41,7 +31,7 @@ public class Group
 	/// <summary>
 	/// Gets or sets the group type.
 	/// </summary>
-	public string Type { get; set; }
+	public required string Type { get; set; }
 
 	/// <summary>
 	/// Gets or sets whether to send notifications to the group.
@@ -51,29 +41,14 @@ public class Group
 	/// <summary>
 	/// Gets or sets the group memberships.
 	/// </summary>
-	public List<Membership> Memberships { get; set; }
-
-	/// <summary>
-	/// Gets or sets the creation timestamp.
-	/// </summary>
-	public DateTime CreatedAt { get; set; }
-
-	/// <summary>
-	/// Gets or sets the update timestamp.
-	/// </summary>
-	public DateTime UpdatedAt { get; set; }
+	public required List<Membership> Memberships { get; set; }
 }
 
 /// <summary>
 /// Represents a group membership.
 /// </summary>
-public class Membership
+public class Membership : BaseEntity
 {
-	/// <summary>
-	/// Gets or sets the membership ID.
-	/// </summary>
-	public int Id { get; set; }
-
 	/// <summary>
 	/// Gets or sets the user ID.
 	/// </summary>

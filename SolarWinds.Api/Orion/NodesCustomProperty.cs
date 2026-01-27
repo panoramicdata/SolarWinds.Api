@@ -13,5 +13,5 @@ public class NodesCustomProperty : CustomPropertiesEntity
 	/// The NodeId
 	/// </summary>
 	[DataMember(Name = "NodeID")]
-	public string NodeId { get; set; }
+	public required string NodeId { get; set; }
 }

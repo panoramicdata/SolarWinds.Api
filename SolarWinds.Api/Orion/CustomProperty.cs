@@ -13,19 +13,19 @@ public class CustomProperty : Entity
 	/// The table
 	/// </summary>
 	[DataMember(Name = "Table")]
-	public string Table { get; set; }
+	public required string Table { get; set; }
 
 	/// <summary>
 	/// The Field
 	/// </summary>
 	[DataMember(Name = "Field")]
-	public string Field { get; set; }
+	public required string Field { get; set; }
 
 	/// <summary>
 	/// The DataType
 	/// </summary>
 	[DataMember(Name = "DataType")]
-	public string DataType { get; set; }
+	public required string DataType { get; set; }
 
 	/// <summary>
 	/// The max length
@@ -37,13 +37,13 @@ public class CustomProperty : Entity
 	/// The StorageMethod
 	/// </summary>
 	[DataMember(Name = "StorageMethod")]
-	public string StorageMethod { get; set; }
+	public required string StorageMethod { get; set; }
 
 	/// <summary>
 	/// The TargetEntity
 	/// </summary>
 	[DataMember(Name = "TargetEntity")]
-	public string TargetEntity { get; set; }
+	public required string TargetEntity { get; set; }
 
 	/// <summary>
 	/// Whether this is mandatory
@@ -55,5 +55,5 @@ public class CustomProperty : Entity
 	/// The Default
 	/// </summary>
 	[DataMember(Name = "Default")]
-	public string Default { get; set; }
+	public required string Default { get; set; }
 }

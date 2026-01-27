@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
@@ -18,17 +18,17 @@ namespace SolarWinds.Api.Orion;
 		/// Name
 		/// </summary>
 		[DataMember(Name = "Name")]
-		public string Name { get; set; }
+		public required string Name { get; set; }
 
 		/// <summary>
 		/// CredentialType
 		/// </summary>
 		[DataMember(Name = "CredentialType")]
-		public string CredentialType { get; set; }
+		public required string CredentialType { get; set; }
 
 		/// <summary>
 		/// CredentialOwner
 		/// </summary>
 		[DataMember(Name = "CredentialOwner")]
-		public string CredentialOwner { get; set; }
+		public required string CredentialOwner { get; set; }
 	}

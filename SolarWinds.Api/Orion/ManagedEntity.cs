@@ -20,13 +20,13 @@ public abstract class ManagedEntity : Entity
 	/// StatusLED
 	/// </summary>
 	[DataMember(Name = "StatusLED")]
-	public string StatusLED { get; set; }
+	public required string StatusLED { get; set; }
 
 	/// <summary>
 	/// StatusDescription
 	/// </summary>
 	[DataMember(Name = "StatusDescription")]
-	public string StatusDescription { get; set; }
+	public required string StatusDescription { get; set; }
 
 	/// <summary>
 	/// UnManaged
@@ -50,23 +50,23 @@ public abstract class ManagedEntity : Entity
 	/// Image
 	/// </summary>
 	[DataMember(Name = "Image")]
-	public string Image { get; set; }
+	public required string Image { get; set; }
 
 	/// <summary>
 	/// AncestorDisplayNames
 	/// </summary>
 	[DataMember(Name = "AncestorDisplayNames")]
-	public List<string> AncestorDisplayNames { get; set; }
+	public required List<string> AncestorDisplayNames { get; set; }
 
 	/// <summary>
 	/// AncestorDetailsUrls
 	/// </summary>
 	[DataMember(Name = "AncestorDetailsUrls")]
-	public List<string> AncestorDetailsUrls { get; set; }
+	public required List<string> AncestorDetailsUrls { get; set; }
 
 	/// <summary>
 	/// StatusIconHint
 	/// </summary>
 	[DataMember(Name = "StatusIconHint")]
-	public string StatusIconHint { get; set; }
+	public required string StatusIconHint { get; set; }
 }

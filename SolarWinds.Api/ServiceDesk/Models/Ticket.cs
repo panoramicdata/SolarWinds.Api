@@ -1,27 +1,24 @@
+using SolarWinds.Api.ServiceDesk.Models.Base;
+
 namespace SolarWinds.Api.ServiceDesk.Models;
 
 /// <summary>
 /// Represents a Service Desk ticket.
 /// </summary>
-public class Ticket
+public class Ticket : BaseEntity
 {
-	/// <summary>
-	/// Gets or sets the ticket ID.
-	/// </summary>
-	public int Id { get; set; }
-
 	/// <summary>
 	/// Gets or sets the ticket subject.
 	/// </summary>
-	public string Subject { get; set; }
+	public required string Subject { get; set; }
 
 	/// <summary>
 	/// Gets or sets the ticket description.
 	/// </summary>
-	public string Description { get; set; }
+	public required string Description { get; set; }
 
 	/// <summary>
 	/// Gets or sets the ticket status.
 	/// </summary>
-	public string Status { get; set; }
+	public required string Status { get; set; }
 }

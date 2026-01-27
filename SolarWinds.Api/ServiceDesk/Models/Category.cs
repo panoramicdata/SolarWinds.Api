@@ -1,26 +1,16 @@
-using System;
+using SolarWinds.Api.ServiceDesk.Models.Base;
 
 namespace SolarWinds.Api.ServiceDesk.Models;
 
 /// <summary>
 /// Represents a Service Desk category.
 /// </summary>
-public class Category
+public class Category : NamedEntity
 {
-	/// <summary>
-	/// Gets or sets the category ID.
-	/// </summary>
-	public int Id { get; set; }
-
-	/// <summary>
-	/// Gets or sets the category name.
-	/// </summary>
-	public string Name { get; set; }
-
 	/// <summary>
 	/// Gets or sets the default tags for the category.
 	/// </summary>
-	public string DefaultTags { get; set; }
+	public required string DefaultTags { get; set; }
 
 	/// <summary>
 	/// Gets or sets the parent category ID.
@@ -41,14 +31,4 @@ public class Category
 	/// Gets or sets whether the category is deleted.
 	/// </summary>
 	public bool Deleted { get; set; }
-
-	/// <summary>
-	/// Gets or sets the creation timestamp.
-	/// </summary>
-	public DateTime CreatedAt { get; set; }
-
-	/// <summary>
-	/// Gets or sets the update timestamp.
-	/// </summary>
-	public DateTime UpdatedAt { get; set; }
 }

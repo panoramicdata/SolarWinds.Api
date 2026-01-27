@@ -19,19 +19,19 @@ public class Node : ManagedEntity
 	/// ObjectSubType
 	/// </summary>
 	[DataMember(Name = "ObjectSubType")]
-	public string ObjectSubType { get; set; }
+	public required string ObjectSubType { get; set; }
 
 	/// <summary>
 	/// IPAddress
 	/// </summary>
 	[DataMember(Name = "IPAddress")]
-	public string IPAddress { get; set; }
+	public required string IPAddress { get; set; }
 
 	/// <summary>
 	/// IPAddressType
 	/// </summary>
 	[DataMember(Name = "IPAddressType")]
-	public string IPAddressType { get; set; }
+	public required string IPAddressType { get; set; }
 
 	/// <summary>
 	/// DynamicIP
@@ -43,61 +43,61 @@ public class Node : ManagedEntity
 	/// Caption
 	/// </summary>
 	[DataMember(Name = "Caption")]
-	public string Caption { get; set; }
+	public required string Caption { get; set; }
 
 	/// <summary>
 	/// NodeDescription
 	/// </summary>
 	[DataMember(Name = "NodeDescription")]
-	public string NodeDescription { get; set; }
+	public required string NodeDescription { get; set; }
 
 	/// <summary>
 	/// DNS
 	/// </summary>
 	[DataMember(Name = "DNS")]
-	public string DNS { get; set; }
+	public required string DNS { get; set; }
 
 	/// <summary>
 	/// SysName
 	/// </summary>
 	[DataMember(Name = "SysName")]
-	public string SysName { get; set; }
+	public required string SysName { get; set; }
 
 	/// <summary>
 	/// SysName
 	/// </summary>
 	[DataMember(Name = "Vendor")]
-	public string Vendor { get; set; }
+	public required string Vendor { get; set; }
 
 	/// <summary>
 	/// SysObjectID
 	/// </summary>
 	[DataMember(Name = "SysObjectID")]
-	public string SysObjectID { get; set; }
+	public required string SysObjectID { get; set; }
 
 	/// <summary>
 	/// Location
 	/// </summary>
 	[DataMember(Name = "Location")]
-	public string Location { get; set; }
+	public required string Location { get; set; }
 
 	/// <summary>
 	/// Contact
 	/// </summary>
 	[DataMember(Name = "Contact")]
-	public string Contact { get; set; }
+	public required string Contact { get; set; }
 
 	/// <summary>
 	/// VendorIcon
 	/// </summary>
 	[DataMember(Name = "VendorIcon")]
-	public string VendorIcon { get; set; }
+	public required string VendorIcon { get; set; }
 
 	/// <summary>
 	/// Icon
 	/// </summary>
 	[DataMember(Name = "Icon")]
-	public string Icon { get; set; }
+	public required string Icon { get; set; }
 
 	/// <summary>
 	/// CustomStatus
@@ -109,25 +109,25 @@ public class Node : ManagedEntity
 	/// IOSImage
 	/// </summary>
 	[DataMember(Name = "IOSImage")]
-	public string IOSImage { get; set; }
+	public required string IOSImage { get; set; }
 
 	/// <summary>
 	/// IOSVersion
 	/// </summary>
 	[DataMember(Name = "IOSVersion")]
-	public string IOSVersion { get; set; }
+	public required string IOSVersion { get; set; }
 
 	/// <summary>
 	/// GroupStatus
 	/// </summary>
 	[DataMember(Name = "GroupStatus")]
-	public string GroupStatus { get; set; }
+	public required string GroupStatus { get; set; }
 
 	/// <summary>
 	/// StatusIcon
 	/// </summary>
 	[DataMember(Name = "StatusIcon")]
-	public string StatusIcon { get; set; }
+	public required string StatusIcon { get; set; }
 
 	/// <summary>
 	/// LastBoot
@@ -236,7 +236,7 @@ public class Node : ManagedEntity
 	/// MachineType
 	/// </summary>
 	[DataMember(Name = "MachineType")]
-	public string MachineType { get; set; }
+	public required string MachineType { get; set; }
 
 	/// <summary>
 	/// IsServer
@@ -272,7 +272,7 @@ public class Node : ManagedEntity
 	/// AgentPort
 	/// </summary>
 	[DataMember(Name = "AgentPort")]
-	public string AgentPort { get; set; }
+	public required string AgentPort { get; set; }
 
 	/// <summary>
 	/// TotalMemory
@@ -350,25 +350,25 @@ public class Node : ManagedEntity
 	/// Community
 	/// </summary>
 	[DataMember(Name = "Community")]
-	public string Community { get; set; }
+	public required string Community { get; set; }
 
 	/// <summary>
 	/// RWCommunity
 	/// </summary>
 	[DataMember(Name = "RWCommunity")]
-	public string RWCommunity { get; set; }
+	public required string RWCommunity { get; set; }
 
 	/// <summary>
 	/// IP
 	/// </summary>
 	[DataMember(Name = "IP")]
-	public string IP { get; set; }
+	public required string IP { get; set; }
 
 	/// <summary>
 	/// IP_Address
 	/// </summary>
 	[DataMember(Name = "IP_Address")]
-	public string IP_Address { get; set; }
+	public required string IP_Address { get; set; }
 
 	/// <summary>
 	/// IPAddressGUID
@@ -380,7 +380,7 @@ public class Node : ManagedEntity
 	/// IPAddressGUID
 	/// </summary>
 	[DataMember(Name = "NodeName")]
-	public string NodeName { get; set; }
+	public required string NodeName { get; set; }
 
 	/// <summary>
 	/// BlockUntil
@@ -464,13 +464,13 @@ public class Node : ManagedEntity
 	/// OrionIdPrefix
 	/// </summary>
 	[DataMember(Name = "OrionIdPrefix")]
-	public string OrionIdPrefix { get; set; }
+	public required string OrionIdPrefix { get; set; }
 
 	/// <summary>
 	/// OrionIdColumn
 	/// </summary>
 	[DataMember(Name = "OrionIdColumn")]
-	public string OrionIdColumn { get; set; }
+	public required string OrionIdColumn { get; set; }
 
 	/// <summary>
 	/// SkippedPollingCycles
@@ -488,13 +488,13 @@ public class Node : ManagedEntity
 	/// EntityType
 	/// </summary>
 	[DataMember(Name = "EntityType")]
-	public string EntityType { get; set; }
+	public required string EntityType { get; set; }
 
 	/// <summary>
 	/// DetailsUrl
 	/// </summary>
 	[DataMember(Name = "DetailsUrl")]
-	public string DetailsUrl { get; set; }
+	public required string DetailsUrl { get; set; }
 
 	/// <summary>
 	/// Category

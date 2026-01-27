@@ -15,17 +15,17 @@ public class CustomPropertyValue : Entity
 	/// The Table
 	/// </summary>
 	[DataMember(Name = "Table")]
-	public string Table { get; set; }
+	public required string Table { get; set; }
 
 	/// <summary>
 	/// The Field
 	/// </summary>
 	[DataMember(Name = "Field")]
-	public string Field { get; set; }
+	public required string Field { get; set; }
 
 	/// <summary>
 	/// The Value
 	/// </summary>
 	[DataMember(Name = "Value")]
-	public string Value { get; set; }
+	public required string Value { get; set; }
 }

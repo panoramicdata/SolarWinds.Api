@@ -12,7 +12,7 @@ public class Service : Entity
 	/// ObjectSubType
 	/// </summary>
 	[DataMember(Name = "ServiceName")]
-	public string ServiceName { get; set; }
+	public required string ServiceName { get; set; }
 
 	/// <summary>
 	/// Memory
