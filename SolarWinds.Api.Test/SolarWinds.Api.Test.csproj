@@ -40,7 +40,9 @@
 	<ItemGroup>
 		<Content Include="appsettings.example.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Link>appsettings.json</Link>
+		</Content>
+		<Content Include="appsettings.json" Condition="Exists('appsettings.json')">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 

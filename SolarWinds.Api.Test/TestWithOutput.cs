@@ -51,11 +51,20 @@ public abstract class TestWithOutput
 			}
 			// No - create one
 			// Deserialize JSON directly from a file
+			if (!File.Exists("appsettings.json"))
+			{
+				throw new FileNotFoundException("Required test configuration file was not found.", "appsettings.json");
+			}
 			Config config;
 			using (var file = File.OpenText("appsettings.json"))
 			{
 				var serializer = new JsonSerializer();
 				config = (Config)serializer.Deserialize(file, typeof(Config));
+			}
+
+			if (config == null)
+			{
+				throw new InvalidDataException("Failed to deserialize appsettings.json into test configuration.");
 			}
 
 			return _client = new SolarWindsClient(config.Hostname, config.Username, config.Password, config.Port, config.IgnoreSslCertificateErrors);
