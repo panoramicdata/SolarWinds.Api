@@ -16,9 +16,9 @@ if ([string]::IsNullOrWhiteSpace($nugetKey)) {
 }
 
 Write-Host "Packing NuGet package..."
-dotnet pack SolarWinds.Api.csproj -c $Configuration --no-build --output "."
+dotnet pack SolarWinds.Api/SolarWinds.Api.csproj -c $Configuration --no-build --output "./artifacts"
 
 Write-Host "Pushing NuGet package..."
-Get-ChildItem *.nupkg | ForEach-Object {
+Get-ChildItem artifacts/*.nupkg | ForEach-Object {
     dotnet nuget push $_.FullName -s https://api.nuget.org/v3/index.json -k $nugetKey --skip-duplicate
 }

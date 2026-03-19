@@ -3,6 +3,8 @@
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
     <File Path="global.json" />
+    <File Path="nuget.key" />
+    <File Path="publish-nuget.ps1" />
     <File Path="README.md" />
     <File Path="SolarWinds.Api.dic" />
     <File Path="SolarWindsLogo.png" />
