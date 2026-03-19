@@ -11,6 +11,21 @@ namespace SolarWinds.Api.Test.Queries;
 
 public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
+	/// <summary>
+	/// Nodes custom properties query should include expected custom property fields
+	/// </summary>
+	[Fact]
+	public void NodesCustomProperty_FilterQuery_Includes_dvcOwner_and_dvcTypeTier()
+	{
+		var query = new FilterQuery<NodesCustomProperty>
+		{
+			Skip = 0,
+			Take = 1,
+		}.GetSqlQuery();
+
+		query.Sql.Should().Contain("cp_dvcOwner");
+		query.Sql.Should().Contain("cp_dvcTypeTier");
+	}
 
 	/// <summary>
 	/// Null query should throw an appropriate exception

@@ -9,10 +9,25 @@ public class SolarWindsApiHttpException : Exception
 	public HttpStatusCode StatusCode { get; }
 	public string Content { get; }
 
-	public SolarWindsApiHttpException(HttpResponseMessage httpResponseMessage) : base(httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult())
+	public SolarWindsApiHttpException(HttpResponseMessage httpResponseMessage)
+		: base(CreateMessage(httpResponseMessage, out var statusCode, out var content))
 	{
-		StatusCode = httpResponseMessage.StatusCode;
-		Content = httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+		StatusCode = statusCode;
+		Content = content;
+	}
+
+	private static string CreateMessage(HttpResponseMessage httpResponseMessage, out HttpStatusCode statusCode, out string content)
+	{
+		statusCode = httpResponseMessage.StatusCode;
+		content = httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+
+		var reasonPhrase = string.IsNullOrWhiteSpace(httpResponseMessage.ReasonPhrase)
+			? statusCode.ToString()
+			: httpResponseMessage.ReasonPhrase;
+
+		return string.IsNullOrWhiteSpace(content)
+			? $"SolarWinds HTTP Exception: {(int)statusCode} {reasonPhrase}"
+			: $"SolarWinds HTTP Exception: {(int)statusCode} {reasonPhrase}. Response: {content}";
 	}
 
 	public SolarWindsApiHttpException() : this("An HTTP error occurred.")

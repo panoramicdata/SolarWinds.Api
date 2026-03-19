@@ -2,11 +2,17 @@ param([string]$Configuration = "Release")
 
 Write-Host "Reading NuGet API key..."
 try {
-    $nugetKey = Get-Content -Path "nuget.key" -Raw
+    $nugetKey = Get-Content -Path "nuget.key" -Raw -ErrorAction Stop
 }
 catch {
     Write-Error "Failed to read nuget.key. Please create this file with your NuGet API key.";
-    exit 1
+    return
+}
+
+$nugetKey = $nugetKey.Trim()
+if ([string]::IsNullOrWhiteSpace($nugetKey)) {
+    Write-Error "nuget.key is empty. Please add a valid NuGet API key.";
+    return
 }
 
 Write-Host "Packing NuGet package..."
