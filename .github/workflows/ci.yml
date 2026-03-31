@@ -12,31 +12,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
 
-      - name: Restore
-        run: dotnet restore SolarWinds.Api.slnx
+    - name: Restore
+      run: dotnet restore SolarWinds.Api.slnx
 
-      - name: Build
-        run: dotnet build SolarWinds.Api.slnx --no-restore --configuration Release
+    - name: Build
+      run: dotnet build SolarWinds.Api.slnx --no-restore --configuration Release
 
-      - name: Pack
-        run: dotnet pack SolarWinds.Api/SolarWinds.Api.csproj --no-build --configuration Release --output ./artifacts
+    - name: Pack
+      run: dotnet pack SolarWinds.Api/SolarWinds.Api.csproj --no-build --configuration Release --output ./artifacts
 
-      - name: Upload NuGet artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: nuget
-          path: |
-            ./artifacts/*.nupkg
-            ./artifacts/*.snupkg
+    - name: Upload NuGet artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: nuget
+        path: |
+          ./artifacts/*.nupkg
+          ./artifacts/*.snupkg
 
   publish:
     needs: build
@@ -46,21 +46,21 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: nuget
-          path: ./artifacts
+    - uses: actions/download-artifact@v8
+      with:
+        name: nuget
+        path: ./artifacts
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
 
-      - name: NuGet login (Trusted Publishing)
-        uses: NuGet/login@v1
-        id: login
-        with:
-          user: david_n_m_bond
+    - name: NuGet Login (Trusted Publishing)
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: david_n_m_bond
 
-      - name: Publish to NuGet
-        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+    - name: Push to NuGet
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
