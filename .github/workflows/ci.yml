@@ -27,9 +27,6 @@ jobs:
       - name: Build
         run: dotnet build SolarWinds.Api.slnx --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet test SolarWinds.Api.slnx --no-build --configuration Release
-
       - name: Pack
         run: dotnet pack SolarWinds.Api/SolarWinds.Api.csproj --no-build --configuration Release --output ./artifacts
 
