@@ -18,8 +18,8 @@ public class SolarWindsClientConstructorTests(ITestOutputHelper iTestOutputHelpe
 	[InlineData(null, "username", "password")]
 	[InlineData("hostname", null, "password")]
 	[InlineData("hostname", "username", null)]
-	public void MissingParameters_Throws_ArgumentNullException(string hostname, string username, string password)
-		=> ((Action)(() => new SolarWindsClient(hostname, username, password, 17778, false))).Should().Throw<ArgumentNullException>();
+	public void MissingParameters_Throws_ArgumentNullException(string? hostname, string? username, string? password)
+		=> ((Action)(() => new SolarWindsClient(hostname!, username!, password!, 17778, false))).Should().Throw<ArgumentNullException>();
 
 	/// <summary>
 	/// Empty parameters should throw an appropriate exception

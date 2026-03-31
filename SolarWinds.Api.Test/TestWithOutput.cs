@@ -12,7 +12,7 @@ namespace SolarWinds.Api.Test;
 
 public abstract class TestWithOutput
 {
-	private SolarWindsClient _client;
+	private SolarWindsClient? _client;
 
 	protected ILogger Logger { get; }
 
@@ -55,11 +55,11 @@ public abstract class TestWithOutput
 			{
 				throw new FileNotFoundException("Required test configuration file was not found.", "appsettings.json");
 			}
-			Config config;
+			Config? config;
 			using (var file = File.OpenText("appsettings.json"))
 			{
 				var serializer = new JsonSerializer();
-				config = (Config)serializer.Deserialize(file, typeof(Config));
+				config = (Config?)serializer.Deserialize(file, typeof(Config));
 			}
 
 			if (config == null)

@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Api", "SolarWinds.Api\SolarWinds.Api.csproj", "{99AC399D-605D-B0A6-82EC-860EB34F6850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.Api.Test", "SolarWinds.Api.Test\SolarWinds.Api.Test.csproj", "{B34A84EC-7636-9145-5E37-E646C37409A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99AC399D-605D-B0A6-82EC-860EB34F6850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99AC399D-605D-B0A6-82EC-860EB34F6850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99AC399D-605D-B0A6-82EC-860EB34F6850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99AC399D-605D-B0A6-82EC-860EB34F6850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B34A84EC-7636-9145-5E37-E646C37409A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34A84EC-7636-9145-5E37-E646C37409A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B34A84EC-7636-9145-5E37-E646C37409A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B34A84EC-7636-9145-5E37-E646C37409A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D699E6C3-766F-44D3-BBB3-BE4FD9CA7707}
+	EndGlobalSection
+EndGlobal

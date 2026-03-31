@@ -12,5 +12,6 @@ public class XunitLoggerProvider(ITestOutputHelper output, LogLevel minLevel = L
 
 	public void Dispose()
 	{
+		// No resources to dispose; required by IDisposable interface
 	}
 }

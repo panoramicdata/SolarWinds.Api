@@ -2,10 +2,8 @@
 	"$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
 	"version": "2025.2",
 	"publicReleaseRefSpec": [
-		"^refs/heads/main",
-		"^refs/heads/master",
-		"^refs/heads/release/.*",
-		"^refs/heads/v\\d+(?:\\.\\d+)?$"
+		"^refs/heads/main$",
+		"^refs/tags/\\d+\\.\\d+\\.\\d+"
 	],
 	"nugetPackageVersion": {
 		"semVer": 1

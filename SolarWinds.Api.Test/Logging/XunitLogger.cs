@@ -14,7 +14,7 @@ public class XunitLogger(ITestOutputHelper output, string category, LogLevel min
 	private readonly ITestOutputHelper _output = output;
 
 	public void Log<TState>(
-		LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+		LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
 	{
 		if (!IsEnabled(logLevel))
 		{
@@ -71,7 +71,7 @@ public class XunitLogger(ITestOutputHelper output, string category, LogLevel min
 	public bool IsEnabled(LogLevel logLevel)
 		=> logLevel >= _minLogLevel;
 
-	public IDisposable BeginScope<TState>(TState state)
+	public IDisposable BeginScope<TState>(TState state) where TState : notnull
 		=> new NullScope();
 
 	private class NullScope : IDisposable

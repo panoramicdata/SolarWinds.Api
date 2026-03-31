@@ -12,19 +12,19 @@ public class Config
 	/// The hostname
 	/// </summary>
 	[DataMember(Name = "Hostname")]
-	public string Hostname { get; internal set; }
+	public string Hostname { get; internal set; } = string.Empty;
 
 	/// <summary>
 	/// The username
 	/// </summary>
 	[DataMember(Name = "Username")]
-	public string Username { get; internal set; }
+	public string Username { get; internal set; } = string.Empty;
 
 	/// <summary>
 	/// The password
 	/// </summary>
 	[DataMember(Name = "Password")]
-	public string Password { get; internal set; }
+	public string Password { get; internal set; } = string.Empty;
 
 	/// <summary>
 	/// The port

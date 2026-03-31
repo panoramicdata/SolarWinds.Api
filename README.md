@@ -1,6 +1,7 @@
 # SolarWinds.Api NuGet package
 
 [![Nuget](https://img.shields.io/nuget/v/SolarWinds.Api)](https://www.nuget.org/packages/SolarWinds.Api/)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/TODO)](https://app.codacy.com/gh/panoramicdata/SolarWinds.Api/dashboard)
 
 A .NET API client for SolarWinds Orion and Service Desk.
 

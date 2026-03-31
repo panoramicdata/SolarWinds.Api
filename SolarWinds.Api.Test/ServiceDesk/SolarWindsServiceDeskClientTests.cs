@@ -33,13 +33,13 @@ public class SolarWindsServiceDeskClientTests
 	[InlineData("https://api.samanage.com", null, "AccessToken must be provided. (Parameter 'accessToken')")]
 	[InlineData("https://api.samanage.com", "", "AccessToken must be provided. (Parameter 'accessToken')")]
 	public void Constructor_WithInvalidOptions_ThrowsArgumentException(
-		string baseUrl, string accessToken, string expectedErrorMessage)
+		string? baseUrl, string? accessToken, string expectedErrorMessage)
 	{
 		// Arrange
 		var options = new SolarWindsServiceDeskClientOptions
 		{
-			BaseUrl = baseUrl,
-			AccessToken = accessToken
+			BaseUrl = baseUrl!,
+			AccessToken = accessToken!
 		};
 
 		// Act & Assert
@@ -50,9 +50,9 @@ public class SolarWindsServiceDeskClientTests
 	public void Constructor_WithNullOptions_ThrowsArgumentNullException()
 	{
 		// Arrange
-		SolarWindsServiceDeskClientOptions options = null;
+		SolarWindsServiceDeskClientOptions? options = null;
 
 		// Act & Assert
-		((Action)(() => _ = new SolarWindsServiceDeskClient(options))).Should().Throw<ArgumentNullException>();
+		((Action)(() => _ = new SolarWindsServiceDeskClient(options!))).Should().Throw<ArgumentNullException>();
 	}
 }

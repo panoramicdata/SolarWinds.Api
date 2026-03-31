@@ -32,7 +32,7 @@ public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iT
 	/// </summary>
 	[Fact]
 	public void Null_Throws_ArgumentNullException()
-		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(null, CancellationToken.None))).Should().ThrowAsync<ArgumentNullException>();
+		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(null!, CancellationToken.None))).Should().ThrowAsync<ArgumentNullException>();
 
 	/// <summary>
 	/// Query with null query should throw an appropriate exception

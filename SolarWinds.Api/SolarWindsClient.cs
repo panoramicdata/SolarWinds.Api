@@ -90,7 +90,7 @@ public class SolarWindsClient
 #if DEBUG
 					MissingMemberHandling = MissingMemberHandling.Error,
 #endif
-					TypeNameHandling = TypeNameHandling.Auto
+					TypeNameHandling = TypeNameHandling.None
 				});
 		}
 		catch (Exception e)
