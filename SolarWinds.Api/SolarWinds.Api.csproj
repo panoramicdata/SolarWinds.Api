@@ -1,68 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-		<ApplicationIcon>SolarWinds.ico</ApplicationIcon>
-		<Product>SolarWinds.Api</Product>
-		<Description>A .NET API client for SolarWinds Orion and Service Desk</Description>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/panoramicdata/SolarWinds.Api</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/panoramicdata/SolarWinds.Api</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageIcon>SolarWindsLogo.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageTags>solarwinds;api;orion;service-desk;monitoring;network</PackageTags>
-		<PackageReleaseNotes>See CHANGELOG.md for release notes</PackageReleaseNotes>
-		<LangVersion>latest</LangVersion>
-		<WarningsNotAsErrors>NU1605;CS8618;VSSpell001</WarningsNotAsErrors>
-
-		<!-- Package generation settings -->
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)../artifacts</PackageOutputPath>
-
-		<!-- Symbol package generation with current best practices -->
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-
-		<!-- Deterministic builds -->
-		<Deterministic>true</Deterministic>
-		<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
-
-		<!-- Code analysis -->
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<AnalysisLevel>latest</AnalysisLevel>
-		<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="..\SolarWindsLogo.png" Pack="true" PackagePath="\" />
-		<None Include="..\README.md" Pack="true" PackagePath="\" />
-	</ItemGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DefineConstants>TRACE</DefineConstants>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);CS1591;CS8618;VSSpell001</NoWarn>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
-		<PackageReference Include="Nerdbank.GitVersioning">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="Refit" />
-		<PackageReference Include="Refit.HttpClientFactory" />
-	</ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ApplicationIcon>SolarWinds.ico</ApplicationIcon>
+    <Product>SolarWinds.Api</Product>
+    <Description>A .NET API client for SolarWinds Orion and Service Desk</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/panoramicdata/SolarWinds.Api</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/panoramicdata/SolarWinds.Api</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>SolarWindsLogo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>solarwinds;api;orion;service-desk;monitoring;network</PackageTags>
+    <PackageReleaseNotes>See CHANGELOG.md for release notes</PackageReleaseNotes>
+    <LangVersion>latest</LangVersion>
+    <WarningsNotAsErrors>NU1605;CS8618;VSSpell001</WarningsNotAsErrors>
+    <!-- Package generation settings -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)../artifacts</PackageOutputPath>
+    <!-- Symbol package generation with current best practices -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <!-- Deterministic builds -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <!-- Code analysis -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>SolarWinds.Api</PackageId>
+    <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\SolarWindsLogo.png" Pack="true" PackagePath="\" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS8618;VSSpell001</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Refit" />
+    <PackageReference Include="Refit.HttpClientFactory" />
+  </ItemGroup>
 </Project>

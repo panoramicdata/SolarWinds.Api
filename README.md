@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # SolarWinds.Api NuGet package
 
 [![Nuget](https://img.shields.io/nuget/v/SolarWinds.Api)](https://www.nuget.org/packages/SolarWinds.Api/)

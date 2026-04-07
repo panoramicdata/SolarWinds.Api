@@ -294,3 +294,4 @@ dotnet_naming_rule.interface_types_must_be_prefixed_with_i.style = prefix_interf
 spelling_languages = en-US
 spelling_excluded_words = SolarWinds.Api.dic
 spelling_suggestions = true
+csharp_style_namespace_declarations = file_scoped:error
