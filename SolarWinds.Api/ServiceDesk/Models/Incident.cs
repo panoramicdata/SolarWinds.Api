@@ -9,9 +9,9 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 public class Incident : WorkItemEntity
 {
 	/// <summary>
-	/// Gets or sets the incident number.
+	/// Gets or sets the incident number payload.
 	/// </summary>
-	public required string Number { get; set; }
+	public object? Number { get; set; }
 
 	/// <summary>
 	/// Gets or sets the incident state ID.
@@ -21,22 +21,22 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the incident priority.
 	/// </summary>
-	public required string Priority { get; set; }
+	public string Priority { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the incident category.
 	/// </summary>
-	public required string Category { get; set; }
+	public object? Category { get; set; }
 
 	/// <summary>
 	/// Gets or sets the incident subcategory.
 	/// </summary>
-	public required string Subcategory { get; set; }
+	public object? Subcategory { get; set; }
 
 	/// <summary>
 	/// Gets or sets the group assignee's name.
 	/// </summary>
-	public required string GroupAssignee { get; set; }
+	public string GroupAssignee { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the site ID.
@@ -56,5 +56,5 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the tag list.
 	/// </summary>
-	public required string TagList { get; set; }
+	public string TagList { get; set; } = string.Empty;
 }

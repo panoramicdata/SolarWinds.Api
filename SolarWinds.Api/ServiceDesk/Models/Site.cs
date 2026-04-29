@@ -10,12 +10,12 @@ public class Site : DescribedEntity
 	/// <summary>
 	/// Gets or sets the site location.
 	/// </summary>
-	public required string Location { get; set; }
+	public string Location { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the site time zone.
 	/// </summary>
-	public required string TimeZone { get; set; }
+	public string TimeZone { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the default assignee ID for the site.

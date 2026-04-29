@@ -16,7 +16,7 @@ public interface IChanges
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of changes.</returns>
-	[Get("/api/v2/changes.json")]
+	[Get("/changes.json")]
 	Task<List<Change>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IChanges
 	/// <param name="id">The ID of the change.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The change.</returns>
-	[Get("/api/v2/changes/{id}.json")]
+	[Get("/changes/{id}.json")]
 	Task<Change> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IChanges
 	/// <param name="change">The change to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created change.</returns>
-	[Post("/api/v2/changes.json")]
+	[Post("/changes.json")]
 	Task<Change> CreateAsync([Body] Change change, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IChanges
 	/// <param name="change">The change data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated change.</returns>
-	[Put("/api/v2/changes/{id}.json")]
+	[Put("/changes/{id}.json")]
 	Task<Change> UpdateAsync(int id, [Body] Change change, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IChanges
 	/// </summary>
 	/// <param name="id">The ID of the change to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/changes/{id}.json")]
+	[Delete("/changes/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

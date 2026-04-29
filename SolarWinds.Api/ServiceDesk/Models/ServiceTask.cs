@@ -11,7 +11,7 @@ public class ServiceTask : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the task status.
 	/// </summary>
-	public required string Status { get; set; }
+	public string Status { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the due date.

@@ -20,15 +20,15 @@ public class ServiceRequest : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the priority.
 	/// </summary>
-	public required string Priority { get; set; }
+	public string Priority { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the category.
 	/// </summary>
-	public required string Category { get; set; }
+	public object? Category { get; set; }
 
 	/// <summary>
 	/// Gets or sets the subcategory.
 	/// </summary>
-	public required string Subcategory { get; set; }
+	public object? Subcategory { get; set; }
 }

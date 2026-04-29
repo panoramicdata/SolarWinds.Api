@@ -10,20 +10,20 @@ public class Vendor : NamedEntity
 	/// <summary>
 	/// Gets or sets the vendor contact person.
 	/// </summary>
-	public required string ContactPerson { get; set; }
+	public string ContactPerson { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the vendor email.
 	/// </summary>
-	public required string Email { get; set; }
+	public string Email { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the vendor phone number.
 	/// </summary>
-	public required string Phone { get; set; }
+	public string Phone { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the vendor website.
 	/// </summary>
-	public required string Website { get; set; }
+	public string Website { get; set; } = string.Empty;
 }

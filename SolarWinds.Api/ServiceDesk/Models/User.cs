@@ -10,17 +10,17 @@ public class User : BaseEntity
 	/// <summary>
 	/// Gets or sets the user's name.
 	/// </summary>
-	public required string Name { get; set; }
+	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the user's email address.
 	/// </summary>
-	public required string Email { get; set; }
+	public string Email { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the user's role.
+	/// Gets or sets the user's role payload.
 	/// </summary>
-	public required string Role { get; set; }
+	public object? Role { get; set; }
 
 	/// <summary>
 	/// Gets or sets whether the user is active.

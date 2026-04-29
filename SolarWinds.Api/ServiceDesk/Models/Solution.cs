@@ -10,15 +10,15 @@ public class Solution : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the solution title.
 	/// </summary>
-	public required string Title { get; set; }
+	public string Title { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the solution content.
 	/// </summary>
-	public required string Content { get; set; }
+	public string Content { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the solution status.
 	/// </summary>
-	public required string Status { get; set; }
+	public string Status { get; set; } = string.Empty;
 }

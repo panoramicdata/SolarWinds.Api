@@ -2,8 +2,10 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SolarWinds.Api.ServiceDesk;
 using SolarWinds.Api.Test.Logging;
 using Xunit;
 using Xunit.Abstractions;
@@ -13,6 +15,7 @@ namespace SolarWinds.Api.Test;
 public abstract class TestWithOutput
 {
 	private SolarWindsClient? _client;
+	private SolarWindsServiceDeskClient? _serviceDeskClient;
 
 	protected ILogger Logger { get; }
 
@@ -21,7 +24,9 @@ public abstract class TestWithOutput
 	protected TestWithOutput(ITestOutputHelper iTestOutputHelper)
 	{
 		// Set up logger
-		Logger = LoggerFactory.Create(builder => builder.AddDebug())
+		Logger = LoggerFactory.Create(builder => builder
+			.SetMinimumLevel(LogLevel.Trace)
+			.AddDebug())
 			.AddXunit(iTestOutputHelper, LogLevel.Trace)
 			.CreateLogger<SolarWindsClient>();
 
@@ -72,4 +77,41 @@ public abstract class TestWithOutput
 	}
 
 	protected void AssertFast(int durationSeconds) => Assert.InRange(Stopwatch.ElapsedMilliseconds, 0, durationSeconds * 1000);
+
+	/// <summary>
+	/// Only construct this when it's needed. Reads ServiceDesk credentials from User Secrets
+	/// (key: ServiceDesk:BaseUrl, ServiceDesk:AccessToken).
+	/// </summary>
+	protected SolarWindsServiceDeskClient ServiceDeskClient
+	{
+		get
+		{
+			if (_serviceDeskClient != null)
+			{
+				return _serviceDeskClient;
+			}
+
+			var configuration = new ConfigurationBuilder()
+				.AddUserSecrets<TestWithOutput>()
+				.Build();
+
+			var baseUrl = configuration["ServiceDesk:BaseUrl"] ?? string.Empty;
+			var accessToken = configuration["ServiceDesk:AccessToken"] ?? string.Empty;
+
+			if (string.IsNullOrWhiteSpace(baseUrl) || string.IsNullOrWhiteSpace(accessToken))
+			{
+				throw new InvalidOperationException(
+					"ServiceDesk credentials not found in User Secrets. " +
+					"Run: dotnet user-secrets set \"ServiceDesk:BaseUrl\" \"https://api.samanage.com\" " +
+					"and: dotnet user-secrets set \"ServiceDesk:AccessToken\" \"<your-token>\"");
+			}
+
+			return _serviceDeskClient = new SolarWindsServiceDeskClient(new SolarWindsServiceDeskClientOptions
+			{
+				BaseUrl = baseUrl,
+				AccessToken = accessToken,
+				Logger = Logger,
+			});
+		}
+	}
 }

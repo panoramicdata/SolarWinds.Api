@@ -5,13 +5,13 @@ namespace SolarWinds.Api.ServiceDesk.Models.Base;
 /// </summary>
 public abstract class WorkItemEntity : DescribedEntity
 {
-	/// <summary>
-	/// Gets or sets the assignee's email.
-	/// </summary>
-	public required string Assignee { get; set; }
+/// <summary>
+/// Gets or sets the assignee payload.
+/// </summary>
+public object? Assignee { get; set; }
 
-	/// <summary>
-	/// Gets or sets the requester's email.
-	/// </summary>
-	public required string Requester { get; set; }
+/// <summary>
+/// Gets or sets the requester payload.
+/// </summary>
+public object? Requester { get; set; }
 }

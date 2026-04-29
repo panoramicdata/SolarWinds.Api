@@ -16,7 +16,7 @@ public interface IHardwares
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of hardware assets.</returns>
-	[Get("/api/v2/hardwares.json")]
+	[Get("/hardwares.json")]
 	Task<List<Hardware>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IHardwares
 	/// <param name="id">The ID of the hardware asset.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The hardware asset.</returns>
-	[Get("/api/v2/hardwares/{id}.json")]
+	[Get("/hardwares/{id}.json")]
 	Task<Hardware> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IHardwares
 	/// <param name="hardware">The hardware asset to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created hardware asset.</returns>
-	[Post("/api/v2/hardwares.json")]
+	[Post("/hardwares.json")]
 	Task<Hardware> CreateAsync([Body] Hardware hardware, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IHardwares
 	/// <param name="hardware">The hardware asset data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated hardware asset.</returns>
-	[Put("/api/v2/hardwares/{id}.json")]
+	[Put("/hardwares/{id}.json")]
 	Task<Hardware> UpdateAsync(int id, [Body] Hardware hardware, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IHardwares
 	/// </summary>
 	/// <param name="id">The ID of the hardware asset to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/hardwares/{id}.json")]
+	[Delete("/hardwares/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

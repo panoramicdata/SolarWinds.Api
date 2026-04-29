@@ -10,7 +10,7 @@ public class Category : NamedEntity
 	/// <summary>
 	/// Gets or sets the default tags for the category.
 	/// </summary>
-	public required string DefaultTags { get; set; }
+	public string DefaultTags { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the parent category ID.

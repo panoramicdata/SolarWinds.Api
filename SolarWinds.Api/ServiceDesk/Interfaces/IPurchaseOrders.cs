@@ -16,7 +16,7 @@ public interface IPurchaseOrders
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of purchase orders.</returns>
-	[Get("/api/v2/purchase_orders.json")]
+	[Get("/purchase_orders.json")]
 	Task<List<PurchaseOrder>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IPurchaseOrders
 	/// <param name="id">The ID of the purchase order.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The purchase order.</returns>
-	[Get("/api/v2/purchase_orders/{id}.json")]
+	[Get("/purchase_orders/{id}.json")]
 	Task<PurchaseOrder> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IPurchaseOrders
 	/// <param name="purchaseOrder">The purchase order to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created purchase order.</returns>
-	[Post("/api/v2/purchase_orders.json")]
+	[Post("/purchase_orders.json")]
 	Task<PurchaseOrder> CreateAsync([Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IPurchaseOrders
 	/// <param name="purchaseOrder">The purchase order data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated purchase order.</returns>
-	[Put("/api/v2/purchase_orders/{id}.json")]
+	[Put("/purchase_orders/{id}.json")]
 	Task<PurchaseOrder> UpdateAsync(int id, [Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IPurchaseOrders
 	/// </summary>
 	/// <param name="id">The ID of the purchase order to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/purchase_orders/{id}.json")]
+	[Delete("/purchase_orders/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

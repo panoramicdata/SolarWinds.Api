@@ -17,7 +17,7 @@ public interface ITasks
 	/// <param name="task">The task to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created task.</returns>
-	[Post("/api/v2/tasks.json")]
+	[Post("/tasks.json")]
 	Task<ServiceTask> CreateAsync([Body] ServiceTask task, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -27,7 +27,7 @@ public interface ITasks
 	/// <param name="task">The task data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated task.</returns>
-	[Put("/api/v2/tasks/{id}.json")]
+	[Put("/tasks/{id}.json")]
 	Task<ServiceTask> UpdateAsync(int id, [Body] ServiceTask task, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -35,7 +35,7 @@ public interface ITasks
 	/// </summary>
 	/// <param name="id">The ID of the task to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/tasks/{id}.json")]
+	[Delete("/tasks/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

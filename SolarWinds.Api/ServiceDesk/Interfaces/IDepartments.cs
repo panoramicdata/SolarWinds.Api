@@ -16,7 +16,7 @@ public interface IDepartments
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of departments.</returns>
-	[Get("/api/v2/departments.json")]
+	[Get("/departments.json")]
 	Task<List<Department>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IDepartments
 	/// <param name="id">The ID of the department.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The department.</returns>
-	[Get("/api/v2/departments/{id}.json")]
+	[Get("/departments/{id}.json")]
 	Task<Department> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IDepartments
 	/// <param name="department">The department to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created department.</returns>
-	[Post("/api/v2/departments.json")]
+	[Post("/departments.json")]
 	Task<Department> CreateAsync([Body] Department department, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IDepartments
 	/// <param name="department">The department data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated department.</returns>
-	[Put("/api/v2/departments/{id}.json")]
+	[Put("/departments/{id}.json")]
 	Task<Department> UpdateAsync(int id, [Body] Department department, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IDepartments
 	/// </summary>
 	/// <param name="id">The ID of the department to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/departments/{id}.json")]
+	[Delete("/departments/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

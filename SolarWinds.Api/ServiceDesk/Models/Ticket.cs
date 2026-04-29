@@ -10,15 +10,15 @@ public class Ticket : BaseEntity
 	/// <summary>
 	/// Gets or sets the ticket subject.
 	/// </summary>
-	public required string Subject { get; set; }
+	public string Subject { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the ticket description.
 	/// </summary>
-	public required string Description { get; set; }
+	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the ticket status.
 	/// </summary>
-	public required string Status { get; set; }
+	public string Status { get; set; } = string.Empty;
 }

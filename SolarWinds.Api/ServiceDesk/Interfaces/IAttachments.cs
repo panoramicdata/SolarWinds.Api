@@ -16,7 +16,7 @@ public interface IAttachments
 	/// <param name="attachment">The attachment to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created attachment.</returns>
-	[Post("/api/v2/attachments.json")]
+	[Post("/attachments.json")]
 	public Task<Attachment> CreateAsync(
 		[Body] Attachment attachment,
 		CancellationToken cancellationToken);

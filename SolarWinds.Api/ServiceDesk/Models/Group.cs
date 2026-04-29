@@ -21,7 +21,7 @@ public class Group : NamedEntity
 	/// <summary>
 	/// Gets or sets the group avatar URL.
 	/// </summary>
-	public required string Avatar { get; set; }
+	public object? Avatar { get; set; }
 
 	/// <summary>
 	/// Gets or sets the reports to ID.
@@ -31,7 +31,7 @@ public class Group : NamedEntity
 	/// <summary>
 	/// Gets or sets the group type.
 	/// </summary>
-	public required string Type { get; set; }
+	public string Type { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets whether to send notifications to the group.
@@ -41,7 +41,7 @@ public class Group : NamedEntity
 	/// <summary>
 	/// Gets or sets the group memberships.
 	/// </summary>
-	public required List<Membership> Memberships { get; set; }
+	public List<Membership> Memberships { get; set; } = [];
 }
 
 /// <summary>

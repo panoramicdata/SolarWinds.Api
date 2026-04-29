@@ -8,5 +8,5 @@ public abstract class DescribedEntity : NamedEntity
 	/// <summary>
 	/// Gets or sets the entity description.
 	/// </summary>
-	public required string Description { get; set; }
+	public string Description { get; set; } = string.Empty;
 }

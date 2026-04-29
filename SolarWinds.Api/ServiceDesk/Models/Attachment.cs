@@ -10,12 +10,12 @@ public class Attachment : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the attachment file name.
 	/// </summary>
-	public required string FileName { get; set; }
+	public string FileName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the attachment content type.
 	/// </summary>
-	public required string ContentType { get; set; }
+	public string ContentType { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the attachment file size.
@@ -30,5 +30,5 @@ public class Attachment : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the type of the attachable entity (e.g., "Incident", "Problem").
 	/// </summary>
-	public required string AttachableType { get; set; }
+	public string AttachableType { get; set; } = string.Empty;
 }

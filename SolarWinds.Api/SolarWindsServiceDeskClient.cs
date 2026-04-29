@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using Refit;
+using SolarWinds.Api.Http;
 using SolarWinds.Api.ServiceDesk.Interfaces;
 
 namespace SolarWinds.Api;
@@ -120,7 +121,7 @@ public class SolarWindsServiceDeskClient
 	/// <summary>
 	/// Gets the Service Desk Purchase Orders API.
 	/// </summary>
-	public IPurchases PurchaseOrders { get; private set; }
+	public IPurchaseOrders PurchaseOrders { get; private set; }
 
 	/// <summary>
 	/// Gets the Service Desk Vendors API.
@@ -183,12 +184,20 @@ public class SolarWindsServiceDeskClient
 			throw new ArgumentException("AccessToken must be provided.", nameof(options.AccessToken));
 		}
 
-		_httpClient = new HttpClient()
+		HttpMessageHandler handler = new HttpClientHandler();
+		handler = options.Logger is { } logger
+			? new LoggingDelegatingHandler(logger) { InnerHandler = handler }
+			: handler;
+		handler = new SolarWindsServiceDeskBackingOffHandler(options) { InnerHandler = handler };
+
+		_httpClient = new HttpClient(handler)
 		{
 			BaseAddress = new Uri(options.BaseUrl)
 		};
+		_httpClient.Timeout = options.HttpClientTimeout;
 
 		_httpClient.DefaultRequestHeaders.Add("X-Samanage-Authorization", "Bearer " + options.AccessToken);
+		_httpClient.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.samanage.v2.1+json");
 
 		Tickets = RestService.For<ITickets>(_httpClient);
 		Users = RestService.For<IUsers>(_httpClient);
@@ -211,7 +220,7 @@ public class SolarWindsServiceDeskClient
 		Softwares = RestService.For<ISoftwares>(_httpClient);
 		Printers = RestService.For<IPrinters>(_httpClient);
 		Contracts = RestService.For<IContracts>(_httpClient);
-		PurchaseOrders = RestService.For<IPurchases>(_httpClient);
+		PurchaseOrders = RestService.For<IPurchaseOrders>(_httpClient);
 		Vendors = RestService.For<IVendors>(_httpClient);
 		Tasks = RestService.For<ITasks>(_httpClient);
 		Comments = RestService.For<IComments>(_httpClient);

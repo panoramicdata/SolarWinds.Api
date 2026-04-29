@@ -17,7 +17,7 @@ public interface IRisks
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of risk records.</returns>
-	[Get("/api/v2/risks.json")]
+	[Get("/risks.json")]
 	Task<List<Risk>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -26,7 +26,7 @@ public interface IRisks
 	/// <param name="id">The ID of the risk record.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The risk record.</returns>
-	[Get("/api/v2/risks/{id}.json")]
+	[Get("/risks/{id}.json")]
 	public Task<Risk> GetAsync(
 		int id,
 		CancellationToken cancellationToken);

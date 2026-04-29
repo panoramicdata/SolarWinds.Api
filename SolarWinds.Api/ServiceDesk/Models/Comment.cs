@@ -10,12 +10,12 @@ public class Comment : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the comment body.
 	/// </summary>
-	public required string Body { get; set; }
+	public string Body { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the type of the commentable entity (e.g., "Incident").
 	/// </summary>
-	public required string CommentableType { get; set; }
+	public string CommentableType { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the ID of the commentable entity.

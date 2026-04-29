@@ -17,7 +17,7 @@ public interface ISolutions
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of solutions.</returns>
-	[Get("/api/v2/solutions.json")]
+	[Get("/solutions.json")]
 	Task<List<Solution>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -26,7 +26,7 @@ public interface ISolutions
 	/// <param name="id">The ID of the solution.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The solution.</returns>
-	[Get("/api/v2/solutions/{id}.json")]
+	[Get("/solutions/{id}.json")]
 	Task<Solution> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -35,7 +35,7 @@ public interface ISolutions
 	/// <param name="solution">The solution to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created solution.</returns>
-	[Post("/api/v2/solutions.json")]
+	[Post("/solutions.json")]
 	Task<Solution> CreateAsync([Body] Solution solution, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -45,7 +45,7 @@ public interface ISolutions
 	/// <param name="solution">The solution data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated solution.</returns>
-	[Put("/api/v2/solutions/{id}.json")]
+	[Put("/solutions/{id}.json")]
 	Task<Solution> UpdateAsync(int id, [Body] Solution solution, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -53,7 +53,7 @@ public interface ISolutions
 	/// </summary>
 	/// <param name="id">The ID of the solution to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/solutions/{id}.json")]
+	[Delete("/solutions/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

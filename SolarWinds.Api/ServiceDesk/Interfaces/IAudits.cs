@@ -16,7 +16,7 @@ public interface IAudits
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of audit records.</returns>
-	[Get("/api/v2/audits.json")]
+	[Get("/audits.json")]
 	public Task<List<Audit>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IAudits
 	/// <param name="id">The ID of the audit record.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The audit record.</returns>
-	[Get("/api/v2/audits/{id}.json")]
+	[Get("/audits/{id}.json")]
 	public Task<Audit> GetAsync(
 		int id,
 		CancellationToken cancellationToken);

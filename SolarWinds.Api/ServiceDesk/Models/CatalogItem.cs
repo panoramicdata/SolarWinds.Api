@@ -8,7 +8,7 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 public class CatalogItem : DescribedEntity
 {
 	/// <summary>
-	/// Gets or sets the catalog item category.
+	/// Gets or sets the catalog item category payload.
 	/// </summary>
-	public required string Category { get; set; }
+	public object? Category { get; set; }
 }

@@ -10,10 +10,10 @@ public class Software : NamedEntity
 	/// <summary>
 	/// Gets or sets the software version.
 	/// </summary>
-	public required string Version { get; set; }
+	public string Version { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the software license key.
 	/// </summary>
-	public required string LicenseKey { get; set; }
+	public string LicenseKey { get; set; } = string.Empty;
 }

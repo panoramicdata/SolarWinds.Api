@@ -10,25 +10,25 @@ public class Problem : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the problem state.
 	/// </summary>
-	public required string State { get; set; }
+	public string State { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the root cause.
 	/// </summary>
-	public required string RootCause { get; set; }
+	public string RootCause { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the symptoms.
 	/// </summary>
-	public required string Symptoms { get; set; }
+	public string Symptoms { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the workaround.
 	/// </summary>
-	public required string Workaround { get; set; }
+	public string Workaround { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the problem priority.
 	/// </summary>
-	public required string Priority { get; set; }
+	public string Priority { get; set; } = string.Empty;
 }

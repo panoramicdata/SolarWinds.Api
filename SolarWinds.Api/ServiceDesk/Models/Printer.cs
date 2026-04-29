@@ -10,10 +10,10 @@ public class Printer : NamedEntity
 	/// <summary>
 	/// Gets or sets the asset tag.
 	/// </summary>
-	public required string AssetTag { get; set; }
+	public string AssetTag { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the IP address.
 	/// </summary>
-	public required string IpAddress { get; set; }
+	public string IpAddress { get; set; } = string.Empty;
 }

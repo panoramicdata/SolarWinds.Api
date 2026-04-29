@@ -28,7 +28,7 @@ This library expects an `appsettings.json` file in your project's output directo
 }
 ```
 
-For the SolarWinds Service Desk API, you will provide options directly in code.
+For the SolarWinds Service Desk API, see [API documentation](https://apidoc.samanage.com/#section/General-Concepts) and the configuration below.
 
 ## Usage
 
@@ -60,7 +60,11 @@ using SolarWinds.Api.ServiceDesk;
 
 var serviceDeskOptions = new SolarWindsServiceDeskClientOptions
 {
-    BaseUrl = "https://YOUR_SERVICEDESK_URL.samanage.com",
+    // Regional base URLs:
+    //   US:  https://api.samanage.com
+    //   EU:  https://apieu.samanage.com
+    //   APJ: https://apiau.samanage.com
+    BaseUrl = "https://api.samanage.com",
     AccessToken = "YOUR_SERVICEDESK_ACCESS_TOKEN"
 };
 
@@ -218,6 +222,28 @@ catch (Exception ex)
 {
     Console.WriteLine($"An unexpected error occurred: {ex.Message}");
 }
+```
+
+## SolarWinds Service Desk API Reference
+
+- [API Documentation](https://apidoc.samanage.com/#section/General-Concepts)
+- Authentication header: `X-Samanage-Authorization: Bearer <token>`
+- Accept header: `application/vnd.samanage.v2.1+json`
+- Regional base URLs:
+  | Region | Base URL |
+  |--------|----------|
+  | US     | `https://api.samanage.com` |
+  | EU     | `https://apieu.samanage.com` |
+  | APJ    | `https://apiau.samanage.com` |
+
+### Test Credentials
+
+The test project uses [.NET User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) to store credentials. To run the ServiceDesk integration tests:
+
+```bash
+cd SolarWinds.Api.Test
+dotnet user-secrets set "ServiceDesk:BaseUrl" "https://api.samanage.com"
+dotnet user-secrets set "ServiceDesk:AccessToken" "<your-token>"
 ```
 
 ## Contributing

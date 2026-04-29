@@ -17,7 +17,7 @@ public interface ISoftwares
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of software records.</returns>
-	[Get("/api/v2/softwares.json")]
+	[Get("/softwares.json")]
 	Task<List<Software>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -26,7 +26,7 @@ public interface ISoftwares
 	/// <param name="id">The ID of the software record.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The software record.</returns>
-	[Get("/api/v2/softwares/{id}.json")]
+	[Get("/softwares/{id}.json")]
 	public Task<Software> GetAsync(
 		int id,
 		CancellationToken cancellationToken);

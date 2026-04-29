@@ -16,7 +16,7 @@ public interface IReleases
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of releases.</returns>
-	[Get("/api/v2/releases.json")]
+	[Get("/releases.json")]
 	Task<List<Release>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IReleases
 	/// <param name="id">The ID of the release.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The release.</returns>
-	[Get("/api/v2/releases/{id}.json")]
+	[Get("/releases/{id}.json")]
 	Task<Release> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IReleases
 	/// <param name="release">The release to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created release.</returns>
-	[Post("/api/v2/releases.json")]
+	[Post("/releases.json")]
 	Task<Release> CreateAsync([Body] Release release, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IReleases
 	/// <param name="release">The release data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated release.</returns>
-	[Put("/api/v2/releases/{id}.json")]
+	[Put("/releases/{id}.json")]
 	Task<Release> UpdateAsync(int id, [Body] Release release, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IReleases
 	/// </summary>
 	/// <param name="id">The ID of the release to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/releases/{id}.json")]
+	[Delete("/releases/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

@@ -16,7 +16,7 @@ public interface IMobileDevices
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of mobile devices.</returns>
-	[Get("/api/v2/mobiles.json")]
+	[Get("/mobiles.json")]
 	Task<List<MobileDevice>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IMobileDevices
 	/// <param name="id">The ID of the mobile device.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The mobile device.</returns>
-	[Get("/api/v2/mobiles/{id}.json")]
+	[Get("/mobiles/{id}.json")]
 	Task<MobileDevice> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IMobileDevices
 	/// <param name="mobileDevice">The mobile device to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created mobile device.</returns>
-	[Post("/api/v2/mobiles.json")]
+	[Post("/mobiles.json")]
 	Task<MobileDevice> CreateAsync([Body] MobileDevice mobileDevice, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IMobileDevices
 	/// <param name="mobileDevice">The mobile device data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated mobile device.</returns>
-	[Put("/api/v2/mobiles/{id}.json")]
+	[Put("/mobiles/{id}.json")]
 	Task<MobileDevice> UpdateAsync(int id, [Body] MobileDevice mobileDevice, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IMobileDevices
 	/// </summary>
 	/// <param name="id">The ID of the mobile device to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/mobiles/{id}.json")]
+	[Delete("/mobiles/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

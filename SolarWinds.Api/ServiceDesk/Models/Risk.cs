@@ -10,5 +10,5 @@ public class Risk : DescribedEntity
 	/// <summary>
 	/// Gets or sets the risk level.
 	/// </summary>
-	public required string Level { get; set; }
+	public string Level { get; set; } = string.Empty;
 }

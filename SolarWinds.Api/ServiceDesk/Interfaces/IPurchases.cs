@@ -16,7 +16,7 @@ public interface IPurchases
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of purchases.</returns>
-	[Get("/api/v2/purchases.json")]
+	[Get("/purchases.json")]
 	Task<List<Purchase>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IPurchases
 	/// <param name="id">The ID of the purchase.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The purchase.</returns>
-	[Get("/api/v2/purchases/{id}.json")]
+	[Get("/purchases/{id}.json")]
 	Task<Purchase> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IPurchases
 	/// <param name="purchase">The purchase to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created purchase.</returns>
-	[Post("/api/v2/purchases.json")]
+	[Post("/purchases.json")]
 	Task<Purchase> CreateAsync([Body] Purchase purchase, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IPurchases
 	/// <param name="purchase">The purchase data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated purchase.</returns>
-	[Put("/api/v2/purchases/{id}.json")]
+	[Put("/purchases/{id}.json")]
 	Task<Purchase> UpdateAsync(int id, [Body] Purchase purchase, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IPurchases
 	/// </summary>
 	/// <param name="id">The ID of the purchase to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/purchases/{id}.json")]
+	[Delete("/purchases/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

@@ -16,7 +16,7 @@ public interface IOtherAssets
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of other assets.</returns>
-	[Get("/api/v2/other_assets.json")]
+	[Get("/other_assets.json")]
 	public Task<List<Asset>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IOtherAssets
 	/// <param name="id">The ID of the other asset.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The other asset.</returns>
-	[Get("/api/v2/other_assets/{id}.json")]
+	[Get("/other_assets/{id}.json")]
 	public Task<Asset> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IOtherAssets
 	/// <param name="asset">The other asset to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created other asset.</returns>
-	[Post("/api/v2/other_assets.json")]
+	[Post("/other_assets.json")]
 	public Task<Asset> CreateAsync(
 		[Body] Asset asset,
 		CancellationToken cancellationToken);
@@ -46,7 +46,7 @@ public interface IOtherAssets
 	/// <param name="asset">The other asset data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated other asset.</returns>
-	[Put("/api/v2/other_assets/{id}.json")]
+	[Put("/other_assets/{id}.json")]
 	public Task<Asset> UpdateAsync(
 		int id,
 		[Body] Asset asset,
@@ -57,7 +57,7 @@ public interface IOtherAssets
 	/// </summary>
 	/// <param name="id">The ID of the other asset to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/other_assets/{id}.json")]
+	[Delete("/other_assets/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

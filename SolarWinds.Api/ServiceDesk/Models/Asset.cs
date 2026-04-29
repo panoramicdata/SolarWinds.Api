@@ -10,15 +10,15 @@ public class Asset : BaseEntity
 	/// <summary>
 	/// Gets or sets the asset name.
 	/// </summary>
-	public required string Name { get; set; }
+	public string Name { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the asset tag/identifier.
 	/// </summary>
-	public required string AssetId { get; set; }
+	public string AssetId { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the asset type (e.g., "Other Asset", "Hardware", "Mobile Device").
 	/// </summary>
-	public required string Type { get; set; }
+	public object? Type { get; set; }
 }

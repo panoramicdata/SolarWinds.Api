@@ -8,27 +8,27 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 public class Release : WorkItemEntity
 {
 	/// <summary>
-	/// Gets or sets the release number.
+	/// Gets or sets the release number payload.
 	/// </summary>
-	public required string Number { get; set; }
+	public object? Number { get; set; }
 
 	/// <summary>
 	/// Gets or sets the release state.
 	/// </summary>
-	public required string State { get; set; }
+	public string State { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the site.
 	/// </summary>
-	public required string Site { get; set; }
+	public object? Site { get; set; }
 
 	/// <summary>
 	/// Gets or sets the department.
 	/// </summary>
-	public required string Department { get; set; }
+	public object? Department { get; set; }
 
 	/// <summary>
 	/// Gets or sets the group assignee's name.
 	/// </summary>
-	public required string GroupAssignee { get; set; }
+	public string GroupAssignee { get; set; } = string.Empty;
 }

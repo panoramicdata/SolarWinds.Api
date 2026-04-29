@@ -10,15 +10,15 @@ public class Change : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the change state.
 	/// </summary>
-	public required string State { get; set; }
+	public string State { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the change priority.
 	/// </summary>
-	public required string Priority { get; set; }
+	public string Priority { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the group assignee's name.
 	/// </summary>
-	public required string GroupAssignee { get; set; }
+	public string GroupAssignee { get; set; } = string.Empty;
 }

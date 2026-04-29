@@ -18,7 +18,7 @@ public interface IServiceRequests
 	/// <param name="serviceRequest">The service request to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created service request.</returns>
-	[Post("/api/v2/service_requests.json")]
+	[Post("/service_requests.json")]
 	public Task<ServiceRequest> CreateAsync(
 		[Body] ServiceRequest serviceRequest,
 		CancellationToken cancellationToken);

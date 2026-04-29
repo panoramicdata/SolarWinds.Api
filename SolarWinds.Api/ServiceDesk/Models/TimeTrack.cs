@@ -15,7 +15,7 @@ public class TimeTrack : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the description of the time track.
 	/// </summary>
-	public required string Description { get; set; }
+	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the ID of the associated incident, problem, or change.
@@ -25,5 +25,5 @@ public class TimeTrack : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the type of the associated entity (e.g., "Incident", "Problem", "Change").
 	/// </summary>
-	public required string CommentableType { get; set; }
+	public string CommentableType { get; set; } = string.Empty;
 }

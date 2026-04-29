@@ -10,22 +10,22 @@ public class MobileDevice : NamedEntity
 	/// <summary>
 	/// Gets or sets the IMEI.
 	/// </summary>
-	public required string Imei { get; set; }
+	public string Imei { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the serial number.
 	/// </summary>
-	public required string SerialNumber { get; set; }
+	public string SerialNumber { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the operating system.
 	/// </summary>
-	public required string Os { get; set; }
+	public string Os { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the phone number.
 	/// </summary>
-	public required string PhoneNumber { get; set; }
+	public string PhoneNumber { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the site ID.

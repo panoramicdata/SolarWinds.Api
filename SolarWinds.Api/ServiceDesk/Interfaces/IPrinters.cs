@@ -17,7 +17,7 @@ public interface IPrinters
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of printers.</returns>
-	[Get("/api/v2/printers.json")]
+	[Get("/printers.json")]
 	Task<List<Printer>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -26,7 +26,7 @@ public interface IPrinters
 	/// <param name="id">The ID of the printer.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The printer.</returns>
-	[Get("/api/v2/printers/{id}.json")]
+	[Get("/printers/{id}.json")]
 	Task<Printer> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -36,7 +36,7 @@ public interface IPrinters
 	/// <param name="printer">The printer data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated printer.</returns>
-	[Put("/api/v2/printers/{id}.json")]
+	[Put("/printers/{id}.json")]
 	public Task<Printer> UpdateAsync(
 		int id,
 		[Body] Printer printer,

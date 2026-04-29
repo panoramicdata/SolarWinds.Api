@@ -8,5 +8,5 @@ public abstract class NamedEntity : TimestampedEntity
 	/// <summary>
 	/// Gets or sets the entity name.
 	/// </summary>
-	public required string Name { get; set; }
+	public string Name { get; set; } = string.Empty;
 }

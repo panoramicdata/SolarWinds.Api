@@ -16,7 +16,7 @@ public interface IIncidents
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of incidents.</returns>
-	[Get("/api/v2/incidents.json")]
+	[Get("/incidents.json")]
 	Task<List<Incident>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
@@ -25,7 +25,7 @@ public interface IIncidents
 	/// <param name="id">The ID of the incident.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The incident.</returns>
-	[Get("/api/v2/incidents/{id}.json")]
+	[Get("/incidents/{id}.json")]
 	Task<Incident> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -34,7 +34,7 @@ public interface IIncidents
 	/// <param name="incident">The incident to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created incident.</returns>
-	[Post("/api/v2/incidents.json")]
+	[Post("/incidents.json")]
 	Task<Incident> CreateAsync([Body] Incident incident, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -44,7 +44,7 @@ public interface IIncidents
 	/// <param name="incident">The incident data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated incident.</returns>
-	[Put("/api/v2/incidents/{id}.json")]
+	[Put("/incidents/{id}.json")]
 	Task<Incident> UpdateAsync(int id, [Body] Incident incident, CancellationToken cancellationToken);
 
 	/// <summary>
@@ -52,7 +52,7 @@ public interface IIncidents
 	/// </summary>
 	/// <param name="id">The ID of the incident to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/api/v2/incidents/{id}.json")]
+	[Delete("/incidents/{id}.json")]
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);

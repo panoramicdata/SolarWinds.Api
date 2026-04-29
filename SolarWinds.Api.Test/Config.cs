@@ -37,4 +37,29 @@ public class Config
 	/// </summary>
 	[DataMember(Name = "IgnoreSslCertificateErrors")]
 	public bool IgnoreSslCertificateErrors { get; set; }
+
+	/// <summary>
+	/// Configuration for the SolarWinds Service Desk API
+	/// </summary>
+	[DataMember(Name = "ServiceDesk")]
+	public ServiceDeskConfig ServiceDesk { get; internal set; } = new();
+}
+
+/// <summary>
+/// Service Desk API configuration
+/// </summary>
+[DataContract]
+public class ServiceDeskConfig
+{
+	/// <summary>
+	/// The base URL for the Service Desk API (e.g. https://api.samanage.com)
+	/// </summary>
+	[DataMember(Name = "BaseUrl")]
+	public string BaseUrl { get; internal set; } = string.Empty;
+
+	/// <summary>
+	/// The bearer access token for the Service Desk API
+	/// </summary>
+	[DataMember(Name = "AccessToken")]
+	public string AccessToken { get; internal set; } = string.Empty;
 }

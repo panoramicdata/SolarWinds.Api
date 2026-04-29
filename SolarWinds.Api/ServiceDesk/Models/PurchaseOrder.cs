@@ -10,5 +10,5 @@ public class PurchaseOrder : DescribedEntity
 	/// <summary>
 	/// Gets or sets the purchase order status.
 	/// </summary>
-	public required string Status { get; set; }
+	public string Status { get; set; } = string.Empty;
 }
