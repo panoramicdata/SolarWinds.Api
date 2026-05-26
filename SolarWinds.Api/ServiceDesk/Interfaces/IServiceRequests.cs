@@ -1,6 +1,4 @@
 using Refit;
-using System.Threading;
-using System.Threading.Tasks;
 using SolarWinds.Api.ServiceDesk.Models;
 
 namespace SolarWinds.Api.ServiceDesk.Interfaces;

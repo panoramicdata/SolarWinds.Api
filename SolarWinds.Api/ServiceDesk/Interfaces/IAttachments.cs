@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Refit;
 using SolarWinds.Api.ServiceDesk.Models;
 

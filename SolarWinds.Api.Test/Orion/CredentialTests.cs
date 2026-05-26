@@ -1,10 +1,8 @@
-using System.Threading.Tasks;
 using AwesomeAssertions;
 using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
 using Xunit;
 using Xunit.Abstractions;
-using System.Threading;
 
 namespace SolarWinds.Api.Test.Orion;
 

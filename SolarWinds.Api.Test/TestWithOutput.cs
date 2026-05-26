@@ -1,11 +1,7 @@
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using SolarWinds.Api.ServiceDesk;
 using SolarWinds.Api.Test.Logging;
 using Xunit;
 using Xunit.Abstractions;

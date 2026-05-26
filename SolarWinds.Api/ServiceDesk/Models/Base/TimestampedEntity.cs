@@ -1,5 +1,3 @@
-using System;
-
 namespace SolarWinds.Api.ServiceDesk.Models.Base;
 
 /// <summary>

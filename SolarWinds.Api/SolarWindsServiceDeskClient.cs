@@ -1,5 +1,3 @@
-using System;
-using System.Net.Http;
 using Refit;
 using SolarWinds.Api.Http;
 using SolarWinds.Api.ServiceDesk.Interfaces;

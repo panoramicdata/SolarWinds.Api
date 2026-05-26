@@ -1,5 +1,3 @@
-using System;
-
 namespace SolarWinds.Api.Exceptions;
 
 public class SolarWindsApiDeserializationException : Exception

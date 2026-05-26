@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using AwesomeAssertions;
 using Microsoft.Extensions.Configuration;
 using Xunit;

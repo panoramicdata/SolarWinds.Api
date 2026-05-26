@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Refit;
 using SolarWinds.Api.ServiceDesk.Models;
-using ServiceTask = SolarWinds.Api.ServiceDesk.Models.ServiceTask;
 
 namespace SolarWinds.Api.ServiceDesk.Interfaces;
 

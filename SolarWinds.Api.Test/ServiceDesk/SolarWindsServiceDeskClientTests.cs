@@ -1,4 +1,3 @@
-using System;
 using AwesomeAssertions;
 using Xunit;
 

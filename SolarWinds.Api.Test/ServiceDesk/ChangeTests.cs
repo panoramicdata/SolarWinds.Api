@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using SolarWinds.Api.Test;
 using Xunit;
 using Xunit.Abstractions;
 using AwesomeAssertions;

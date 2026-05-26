@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using AwesomeAssertions;
 using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;

@@ -1,5 +1,3 @@
-using System;
-
 namespace SolarWinds.Api;
 
 [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
