@@ -14,7 +14,17 @@ public interface IIncidents
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of incidents.</returns>
 	[Get("/incidents.json")]
-	Task<List<Incident>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Incident>> GetAllAsync(CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a page of incidents.
+	/// </summary>
+	/// <param name="page">The page number (1-based).</param>
+	/// <param name="perPage">The number of items per page.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of incidents.</returns>
+	[Get("/incidents.json")]
+	public Task<List<Incident>> GetPageAsync([AliasAs("page")] int page, [AliasAs("per_page")] int perPage, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific incident by ID.
@@ -23,7 +33,7 @@ public interface IIncidents
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The incident.</returns>
 	[Get("/incidents/{id}.json")]
-	Task<Incident> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Incident> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new incident.
@@ -32,7 +42,7 @@ public interface IIncidents
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created incident.</returns>
 	[Post("/incidents.json")]
-	Task<Incident> CreateAsync([Body] Incident incident, CancellationToken cancellationToken);
+	public Task<Incident> CreateAsync([Body] Incident incident, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing incident.
@@ -42,7 +52,7 @@ public interface IIncidents
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated incident.</returns>
 	[Put("/incidents/{id}.json")]
-	Task<Incident> UpdateAsync(int id, [Body] Incident incident, CancellationToken cancellationToken);
+	public Task<Incident> UpdateAsync(int id, [Body] Incident incident, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes an incident.
@@ -50,7 +60,7 @@ public interface IIncidents
 	/// <param name="id">The ID of the incident to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/incidents/{id}.json")]
-	public Task DeleteAsync(
+	public public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);
 }
