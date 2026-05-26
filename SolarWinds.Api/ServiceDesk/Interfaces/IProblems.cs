@@ -14,7 +14,7 @@ public interface IProblems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of problems.</returns>
 	[Get("/problems.json")]
-	Task<List<Problem>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Problem>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific problem by ID.
@@ -23,7 +23,7 @@ public interface IProblems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The problem.</returns>
 	[Get("/problems/{id}.json")]
-	Task<Problem> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Problem> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new problem.
@@ -32,7 +32,7 @@ public interface IProblems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created problem.</returns>
 	[Post("/problems.json")]
-	Task<Problem> CreateAsync([Body] Problem problem, CancellationToken cancellationToken);
+	public Task<Problem> CreateAsync([Body] Problem problem, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing problem.
@@ -42,7 +42,7 @@ public interface IProblems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated problem.</returns>
 	[Put("/problems/{id}.json")]
-	Task<Problem> UpdateAsync(int id, [Body] Problem problem, CancellationToken cancellationToken);
+	public Task<Problem> UpdateAsync(int id, [Body] Problem problem, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a problem.

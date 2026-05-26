@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Refit;
 using SolarWinds.Api.Http;
 using SolarWinds.Api.ServiceDesk.Interfaces;
@@ -10,6 +11,12 @@ namespace SolarWinds.Api;
 public class SolarWindsServiceDeskClient
 {
 	private readonly HttpClient _httpClient;
+
+	private static readonly RefitSettings _refitSettings = new(
+		new SystemTextJsonContentSerializer(new JsonSerializerOptions
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+		}));
 
 	/// <summary>
 	/// Gets the Service Desk Tickets API.
@@ -197,35 +204,35 @@ public class SolarWindsServiceDeskClient
 		_httpClient.DefaultRequestHeaders.Add("X-Samanage-Authorization", "Bearer " + options.AccessToken);
 		_httpClient.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.samanage.v2.1+json");
 
-		Tickets = RestService.For<ITickets>(_httpClient);
-		Users = RestService.For<IUsers>(_httpClient);
-		Incidents = RestService.For<IIncidents>(_httpClient);
-		OtherAssets = RestService.For<IOtherAssets>(_httpClient);
-		ConfigurationItems = RestService.For<IConfigurationItems>(_httpClient);
-		Problems = RestService.For<IProblems>(_httpClient);
-		Changes = RestService.For<IChanges>(_httpClient);
-		Releases = RestService.For<IReleases>(_httpClient);
-		Solutions = RestService.For<ISolutions>(_httpClient);
-		CatalogItems = RestService.For<ICatalogItems>(_httpClient);
-		ServiceRequests = RestService.For<IServiceRequests>(_httpClient);
-		Sites = RestService.For<ISites>(_httpClient);
-		Departments = RestService.For<IDepartments>(_httpClient);
-		Roles = RestService.For<IRoles>(_httpClient);
-		Groups = RestService.For<IGroups>(_httpClient);
-		Categories = RestService.For<ICategories>(_httpClient);
-		Hardwares = RestService.For<IHardwares>(_httpClient);
-		MobileDevices = RestService.For<IMobileDevices>(_httpClient);
-		Softwares = RestService.For<ISoftwares>(_httpClient);
-		Printers = RestService.For<IPrinters>(_httpClient);
-		Contracts = RestService.For<IContracts>(_httpClient);
-		PurchaseOrders = RestService.For<IPurchaseOrders>(_httpClient);
-		Vendors = RestService.For<IVendors>(_httpClient);
-		Tasks = RestService.For<ITasks>(_httpClient);
-		Comments = RestService.For<IComments>(_httpClient);
-		TimeTracks = RestService.For<ITimeTracks>(_httpClient);
-		Purchases = RestService.For<IPurchases>(_httpClient);
-		Audits = RestService.For<IAudits>(_httpClient);
-		Risks = RestService.For<IRisks>(_httpClient);
-		Attachments = RestService.For<IAttachments>(_httpClient);
+		Tickets = RestService.For<ITickets>(_httpClient, _refitSettings);
+		Users = RestService.For<IUsers>(_httpClient, _refitSettings);
+		Incidents = RestService.For<IIncidents>(_httpClient, _refitSettings);
+		OtherAssets = RestService.For<IOtherAssets>(_httpClient, _refitSettings);
+		ConfigurationItems = RestService.For<IConfigurationItems>(_httpClient, _refitSettings);
+		Problems = RestService.For<IProblems>(_httpClient, _refitSettings);
+		Changes = RestService.For<IChanges>(_httpClient, _refitSettings);
+		Releases = RestService.For<IReleases>(_httpClient, _refitSettings);
+		Solutions = RestService.For<ISolutions>(_httpClient, _refitSettings);
+		CatalogItems = RestService.For<ICatalogItems>(_httpClient, _refitSettings);
+		ServiceRequests = RestService.For<IServiceRequests>(_httpClient, _refitSettings);
+		Sites = RestService.For<ISites>(_httpClient, _refitSettings);
+		Departments = RestService.For<IDepartments>(_httpClient, _refitSettings);
+		Roles = RestService.For<IRoles>(_httpClient, _refitSettings);
+		Groups = RestService.For<IGroups>(_httpClient, _refitSettings);
+		Categories = RestService.For<ICategories>(_httpClient, _refitSettings);
+		Hardwares = RestService.For<IHardwares>(_httpClient, _refitSettings);
+		MobileDevices = RestService.For<IMobileDevices>(_httpClient, _refitSettings);
+		Softwares = RestService.For<ISoftwares>(_httpClient, _refitSettings);
+		Printers = RestService.For<IPrinters>(_httpClient, _refitSettings);
+		Contracts = RestService.For<IContracts>(_httpClient, _refitSettings);
+		PurchaseOrders = RestService.For<IPurchaseOrders>(_httpClient, _refitSettings);
+		Vendors = RestService.For<IVendors>(_httpClient, _refitSettings);
+		Tasks = RestService.For<ITasks>(_httpClient, _refitSettings);
+		Comments = RestService.For<IComments>(_httpClient, _refitSettings);
+		TimeTracks = RestService.For<ITimeTracks>(_httpClient, _refitSettings);
+		Purchases = RestService.For<IPurchases>(_httpClient, _refitSettings);
+		Audits = RestService.For<IAudits>(_httpClient, _refitSettings);
+		Risks = RestService.For<IRisks>(_httpClient, _refitSettings);
+		Attachments = RestService.For<IAttachments>(_httpClient, _refitSettings);
 	}
 }

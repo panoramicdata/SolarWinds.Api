@@ -14,7 +14,7 @@ public interface ICategories
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of categories.</returns>
 	[Get("/categories.json")]
-	Task<List<Category>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Category>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific category by ID.
@@ -23,7 +23,7 @@ public interface ICategories
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The category.</returns>
 	[Get("/categories/{id}.json")]
-	Task<Category> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Category> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new category.
@@ -32,7 +32,7 @@ public interface ICategories
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created category.</returns>
 	[Post("/categories.json")]
-	Task<Category> CreateAsync([Body] Category category, CancellationToken cancellationToken);
+	public Task<Category> CreateAsync([Body] Category category, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing category.
@@ -42,7 +42,7 @@ public interface ICategories
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated category.</returns>
 	[Put("/categories/{id}.json")]
-	Task<Category> UpdateAsync(int id, [Body] Category category, CancellationToken cancellationToken);
+	public Task<Category> UpdateAsync(int id, [Body] Category category, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a category.

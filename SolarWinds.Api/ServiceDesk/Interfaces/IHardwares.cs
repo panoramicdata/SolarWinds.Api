@@ -14,7 +14,7 @@ public interface IHardwares
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of hardware assets.</returns>
 	[Get("/hardwares.json")]
-	Task<List<Hardware>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Hardware>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific hardware asset by ID.
@@ -23,7 +23,7 @@ public interface IHardwares
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The hardware asset.</returns>
 	[Get("/hardwares/{id}.json")]
-	Task<Hardware> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Hardware> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new hardware asset.
@@ -32,7 +32,7 @@ public interface IHardwares
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created hardware asset.</returns>
 	[Post("/hardwares.json")]
-	Task<Hardware> CreateAsync([Body] Hardware hardware, CancellationToken cancellationToken);
+	public Task<Hardware> CreateAsync([Body] Hardware hardware, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing hardware asset.
@@ -42,7 +42,7 @@ public interface IHardwares
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated hardware asset.</returns>
 	[Put("/hardwares/{id}.json")]
-	Task<Hardware> UpdateAsync(int id, [Body] Hardware hardware, CancellationToken cancellationToken);
+	public Task<Hardware> UpdateAsync(int id, [Body] Hardware hardware, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a hardware asset.

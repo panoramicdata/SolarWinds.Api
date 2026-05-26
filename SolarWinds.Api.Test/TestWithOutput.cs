@@ -10,9 +10,6 @@ namespace SolarWinds.Api.Test;
 
 public abstract class TestWithOutput
 {
-	private SolarWindsClient? _client;
-	private SolarWindsServiceDeskClient? _serviceDeskClient;
-
 	protected ILogger Logger { get; }
 
 	protected static CancellationToken CancellationToken => default;
@@ -45,10 +42,10 @@ public abstract class TestWithOutput
 		get
 		{
 			// Do we have one already?
-			if (_client != null)
+			if (field != null)
 			{
 				// Yes - return that.
-				return _client;
+				return field;
 			}
 			// No - create one
 			// Deserialize JSON directly from a file
@@ -56,6 +53,7 @@ public abstract class TestWithOutput
 			{
 				throw new FileNotFoundException("Required test configuration file was not found.", "appsettings.json");
 			}
+
 			Config? config;
 			using (var file = File.OpenText("appsettings.json"))
 			{
@@ -68,7 +66,7 @@ public abstract class TestWithOutput
 				throw new InvalidDataException("Failed to deserialize appsettings.json into test configuration.");
 			}
 
-			return _client = new SolarWindsClient(config.Hostname, config.Username, config.Password, config.Port, config.IgnoreSslCertificateErrors);
+			return field = new SolarWindsClient(config.Hostname, config.Username, config.Password, config.Port, config.IgnoreSslCertificateErrors);
 		}
 	}
 
@@ -82,9 +80,9 @@ public abstract class TestWithOutput
 	{
 		get
 		{
-			if (_serviceDeskClient != null)
+			if (field != null)
 			{
-				return _serviceDeskClient;
+				return field;
 			}
 
 			var configuration = new ConfigurationBuilder()
@@ -102,7 +100,7 @@ public abstract class TestWithOutput
 					"and: dotnet user-secrets set \"ServiceDesk:AccessToken\" \"<your-token>\"");
 			}
 
-			return _serviceDeskClient = new SolarWindsServiceDeskClient(new SolarWindsServiceDeskClientOptions
+			return field = new SolarWindsServiceDeskClient(new SolarWindsServiceDeskClientOptions
 			{
 				BaseUrl = baseUrl,
 				AccessToken = accessToken,

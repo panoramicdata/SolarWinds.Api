@@ -14,7 +14,7 @@ public interface IRoles
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of roles.</returns>
 	[Get("/roles.json")]
-	Task<List<Role>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Role>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific role by ID.
@@ -23,7 +23,7 @@ public interface IRoles
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The role.</returns>
 	[Get("/roles/{id}.json")]
-	Task<Role> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Role> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new role.
@@ -32,7 +32,7 @@ public interface IRoles
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created role.</returns>
 	[Post("/roles.json")]
-	Task<Role> CreateAsync([Body] Role role, CancellationToken cancellationToken);
+	public Task<Role> CreateAsync([Body] Role role, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing role.
@@ -42,7 +42,7 @@ public interface IRoles
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated role.</returns>
 	[Put("/roles/{id}.json")]
-	Task<Role> UpdateAsync(int id, [Body] Role role, CancellationToken cancellationToken);
+	public Task<Role> UpdateAsync(int id, [Body] Role role, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a role.

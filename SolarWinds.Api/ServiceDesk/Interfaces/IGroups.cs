@@ -14,7 +14,7 @@ public interface IGroups
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of groups.</returns>
 	[Get("/groups.json")]
-	Task<List<Group>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Group>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific group by ID.
@@ -23,7 +23,7 @@ public interface IGroups
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The group.</returns>
 	[Get("/groups/{id}.json")]
-	Task<Group> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Group> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new group.
@@ -32,7 +32,7 @@ public interface IGroups
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created group.</returns>
 	[Post("/groups.json")]
-	Task<Group> CreateAsync([Body] Group group, CancellationToken cancellationToken);
+	public Task<Group> CreateAsync([Body] Group group, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing group.
@@ -42,7 +42,7 @@ public interface IGroups
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated group.</returns>
 	[Put("/groups/{id}.json")]
-	Task<Group> UpdateAsync(int id, [Body] Group group, CancellationToken cancellationToken);
+	public Task<Group> UpdateAsync(int id, [Body] Group group, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a group.

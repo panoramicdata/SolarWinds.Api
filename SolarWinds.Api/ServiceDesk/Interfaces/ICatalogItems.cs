@@ -14,7 +14,7 @@ public interface ICatalogItems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of catalog items.</returns>
 	[Get("/catalog_items.json")]
-	Task<List<CatalogItem>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<CatalogItem>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific catalog item by ID.
@@ -23,7 +23,7 @@ public interface ICatalogItems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The catalog item.</returns>
 	[Get("/catalog_items/{id}.json")]
-	Task<CatalogItem> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<CatalogItem> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new catalog item.
@@ -32,7 +32,7 @@ public interface ICatalogItems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created catalog item.</returns>
 	[Post("/catalog_items.json")]
-	Task<CatalogItem> CreateAsync([Body] CatalogItem catalogItem, CancellationToken cancellationToken);
+	public Task<CatalogItem> CreateAsync([Body] CatalogItem catalogItem, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing catalog item.
@@ -42,7 +42,7 @@ public interface ICatalogItems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated catalog item.</returns>
 	[Put("/catalog_items/{id}.json")]
-	Task<CatalogItem> UpdateAsync(int id, [Body] CatalogItem catalogItem, CancellationToken cancellationToken);
+	public Task<CatalogItem> UpdateAsync(int id, [Body] CatalogItem catalogItem, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a catalog item.

@@ -14,7 +14,7 @@ public interface IPurchaseOrdersApi
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of purchase orders.</returns>
 	[Get("/purchase_orders.json")]
-	Task<List<PurchaseOrder>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<PurchaseOrder>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific purchase order by ID.
@@ -23,7 +23,7 @@ public interface IPurchaseOrdersApi
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The purchase order.</returns>
 	[Get("/purchase_orders/{id}.json")]
-	Task<PurchaseOrder> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<PurchaseOrder> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new purchase order.
@@ -32,7 +32,7 @@ public interface IPurchaseOrdersApi
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created purchase order.</returns>
 	[Post("/purchase_orders.json")]
-	Task<PurchaseOrder> CreateAsync([Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
+	public Task<PurchaseOrder> CreateAsync([Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing purchase order.
@@ -42,7 +42,7 @@ public interface IPurchaseOrdersApi
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated purchase order.</returns>
 	[Put("/purchase_orders/{id}.json")]
-	Task<PurchaseOrder> UpdateAsync(int id, [Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
+	public Task<PurchaseOrder> UpdateAsync(int id, [Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a purchase order.

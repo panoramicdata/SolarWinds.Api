@@ -16,7 +16,7 @@ public interface IComments
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created comment.</returns>
 	[Post("/comments.json")]
-	Task<Comment> CreateAsync([Body] Comment comment, CancellationToken cancellationToken);
+	public Task<Comment> CreateAsync([Body] Comment comment, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing comment.
@@ -26,7 +26,7 @@ public interface IComments
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated comment.</returns>
 	[Put("/comments/{id}.json")]
-	Task<Comment> UpdateAsync(int id, [Body] Comment comment, CancellationToken cancellationToken);
+	public Task<Comment> UpdateAsync(int id, [Body] Comment comment, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a comment.

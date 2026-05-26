@@ -14,7 +14,7 @@ public interface ISolutions
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of solutions.</returns>
 	[Get("/solutions.json")]
-	Task<List<Solution>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Solution>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific solution by ID.
@@ -23,7 +23,7 @@ public interface ISolutions
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The solution.</returns>
 	[Get("/solutions/{id}.json")]
-	Task<Solution> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Solution> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new solution.
@@ -32,7 +32,7 @@ public interface ISolutions
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created solution.</returns>
 	[Post("/solutions.json")]
-	Task<Solution> CreateAsync([Body] Solution solution, CancellationToken cancellationToken);
+	public Task<Solution> CreateAsync([Body] Solution solution, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing solution.
@@ -42,7 +42,7 @@ public interface ISolutions
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated solution.</returns>
 	[Put("/solutions/{id}.json")]
-	Task<Solution> UpdateAsync(int id, [Body] Solution solution, CancellationToken cancellationToken);
+	public Task<Solution> UpdateAsync(int id, [Body] Solution solution, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a solution.

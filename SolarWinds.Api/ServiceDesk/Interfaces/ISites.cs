@@ -14,7 +14,7 @@ public interface ISites
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of sites.</returns>
 	[Get("/sites.json")]
-	Task<List<Site>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Site>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific site by ID.
@@ -23,7 +23,7 @@ public interface ISites
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The site.</returns>
 	[Get("/sites/{id}.json")]
-	Task<Site> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Site> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new site.
@@ -32,7 +32,7 @@ public interface ISites
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created site.</returns>
 	[Post("/sites.json")]
-	Task<Site> CreateAsync([Body] Site site, CancellationToken cancellationToken);
+	public Task<Site> CreateAsync([Body] Site site, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing site.
@@ -42,7 +42,7 @@ public interface ISites
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated site.</returns>
 	[Put("/sites/{id}.json")]
-	Task<Site> UpdateAsync(int id, [Body] Site site, CancellationToken cancellationToken);
+	public Task<Site> UpdateAsync(int id, [Body] Site site, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a site.

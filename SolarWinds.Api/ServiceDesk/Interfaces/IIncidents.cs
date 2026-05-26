@@ -60,7 +60,7 @@ public interface IIncidents
 	/// <param name="id">The ID of the incident to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/incidents/{id}.json")]
-	public public Task DeleteAsync(
+	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);
 }

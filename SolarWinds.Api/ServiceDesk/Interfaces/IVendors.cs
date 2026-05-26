@@ -14,7 +14,7 @@ public interface IVendors
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of vendors.</returns>
 	[Get("/vendors.json")]
-	Task<List<Vendor>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Vendor>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific vendor by ID.
@@ -23,7 +23,7 @@ public interface IVendors
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The vendor.</returns>
 	[Get("/vendors/{id}.json")]
-	Task<Vendor> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Vendor> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new vendor.
@@ -32,7 +32,7 @@ public interface IVendors
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created vendor.</returns>
 	[Post("/vendors.json")]
-	Task<Vendor> CreateAsync([Body] Vendor vendor, CancellationToken cancellationToken);
+	public Task<Vendor> CreateAsync([Body] Vendor vendor, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing vendor.
@@ -42,7 +42,7 @@ public interface IVendors
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated vendor.</returns>
 	[Put("/vendors/{id}.json")]
-	Task<Vendor> UpdateAsync(int id, [Body] Vendor vendor, CancellationToken cancellationToken);
+	public Task<Vendor> UpdateAsync(int id, [Body] Vendor vendor, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a vendor.
