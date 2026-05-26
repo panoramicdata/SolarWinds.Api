@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using SolarWinds.Api.ServiceDesk.Models.Base;
 
 namespace SolarWinds.Api.ServiceDesk.Models;
@@ -15,7 +16,8 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the incident state ID.
 	/// </summary>
-	public int StateId { get; set; }
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+	public int? StateId { get; set; }
 
 	/// <summary>
 	/// Gets or sets the incident state name.
