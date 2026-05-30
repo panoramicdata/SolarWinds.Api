@@ -108,6 +108,11 @@ public class SolarWindsServiceDeskClient
 	public IGroups Groups { get; private set; }
 
 	/// <summary>
+	/// Gets the Service Desk Memberships API.
+	/// </summary>
+	public IMemberships Memberships { get; private set; }
+
+	/// <summary>
 	/// Gets the Service Desk Categories API.
 	/// </summary>
 	public ICategories Categories { get; private set; }
@@ -232,6 +237,7 @@ public class SolarWindsServiceDeskClient
 		Departments = RestService.For<IDepartments>(_httpClient, RefitSettings);
 		Roles = RestService.For<IRoles>(_httpClient, RefitSettings);
 		Groups = RestService.For<IGroups>(_httpClient, RefitSettings);
+		Memberships = RestService.For<IMemberships>(_httpClient, RefitSettings);
 		Categories = RestService.For<ICategories>(_httpClient, RefitSettings);
 		Hardwares = RestService.For<IHardwares>(_httpClient, RefitSettings);
 		MobileDevices = RestService.For<IMobileDevices>(_httpClient, RefitSettings);

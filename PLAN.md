@@ -121,7 +121,7 @@ Goal: Align object-type scoped endpoints and remove unsupported shortcuts.
   - `/{object_type}/{id}/purchases`
   - `/{object_type}/{id}/audits`
 - [x] Replace/retire non-doc singular shortcuts (`/comments/{id}`, `/tasks/{id}`, etc.) unless intentionally retained with explicit compatibility notes.
-- [ ] Align membership/service request/change request endpoints with documented routes and payload wrappers.
+- [x] Align membership/service request/change request endpoints with documented routes and payload wrappers.
 - [x] Add GET unit tests for any query-bearing GET endpoints introduced or changed.
 - [x] No write-query unit tests.
 - [ ] Commit phase completion.
@@ -251,12 +251,19 @@ Use this section to append progress notes as each phase is completed.
     - `dotnet build` for test project succeeded.
     - Targeted unit tests succeeded: `20 passed, 0 failed`.
 
+- 2026-05-30: Membership endpoint parity added.
+  - Added `IMemberships` with docs-aligned endpoints:
+    - `POST /memberships.json` using query parameters `group_id` and `user_ids`
+    - `DELETE /memberships/{id}.json`
+  - Exposed memberships API in `SolarWindsServiceDeskClient`.
+  - This closes the remaining membership alignment item in Phase 6.
+
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.
 - [x] Phase 4 completed.
 - [ ] Phase 5 completed.
-- [ ] Phase 6 completed.
+- [x] Phase 6 completed.
 - [ ] Phase 7 completed.
 - [ ] Phase 8 completed.
 - [ ] Phase 9 completed.
