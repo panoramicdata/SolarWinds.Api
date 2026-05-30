@@ -47,4 +47,4 @@ Write-Host "Tagging as $version ..." -ForegroundColor Cyan
 git tag $version
 git push origin $version
 
-Write-Host "✅ Published tag $version — CI will build and push to NuGet." -ForegroundColor Green
+Write-Host "Published tag $version. CI will build and push to NuGet." -ForegroundColor Green
