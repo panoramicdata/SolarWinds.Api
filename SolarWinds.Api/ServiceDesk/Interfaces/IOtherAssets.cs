@@ -35,14 +35,14 @@ public interface IOtherAssets
 	public Task<Asset> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific other asset by ID with query options.
+	/// Gets a specific other asset by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the other asset.</param>
-	/// <param name="request">The query request.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The other asset.</returns>
 	[Get("/other_assets/{id}.json")]
-	public Task<Asset> GetAsync(int id, [Query] GetOtherAssetsRequest request, CancellationToken cancellationToken);
+	public Task<Asset> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new other asset.

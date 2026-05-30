@@ -35,14 +35,14 @@ public interface IHardwares
 	public Task<Hardware> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific hardware asset by ID with query options.
+	/// Gets a specific hardware asset by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the hardware asset.</param>
-	/// <param name="request">The query request.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The hardware asset.</returns>
 	[Get("/hardwares/{id}.json")]
-	public Task<Hardware> GetAsync(int id, [Query] GetHardwaresRequest request, CancellationToken cancellationToken);
+	public Task<Hardware> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new hardware asset.

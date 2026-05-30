@@ -9,12 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IConfigurationItems
 {
 	/// <summary>
-	/// Gets a list of configuration items.
+	/// Gets a list of configuration items with query options.
 	/// </summary>
+	/// <param name="request">The query request.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of configuration items.</returns>
 	[Get("/configuration_items.json")]
-	public Task<List<ConfigurationItem>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<ConfigurationItem>> GetAsync([Query] GetConfigurationItemsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific configuration item by ID.
@@ -24,6 +25,16 @@ public interface IConfigurationItems
 	/// <returns>The configuration item.</returns>
 	[Get("/configuration_items/{id}.json")]
 	public Task<ConfigurationItem> GetAsync(int id, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a specific configuration item by ID with layout option.
+	/// </summary>
+	/// <param name="id">The ID of the configuration item.</param>
+	/// <param name="layout">The response layout.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>The configuration item.</returns>
+	[Get("/configuration_items/{id}.json")]
+	public Task<ConfigurationItem> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new configuration item.

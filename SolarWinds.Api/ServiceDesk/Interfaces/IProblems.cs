@@ -35,14 +35,14 @@ public interface IProblems
 	public Task<Problem> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific problem by ID using query parameters.
+	/// Gets a specific problem by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the problem.</param>
-	/// <param name="request">The query parameters.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The problem.</returns>
 	[Get("/problems/{id}.json")]
-	public Task<Problem> GetAsync(int id, [Query] GetProblemsRequest request, CancellationToken cancellationToken);
+	public Task<Problem> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new problem.

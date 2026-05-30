@@ -12,6 +12,96 @@ namespace SolarWinds.Api.Test.ServiceDesk;
 public class CoreDomainQueryRequestTests
 {
 	[Fact]
+	public async Task Categories_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateClient(capture);
+		var api = CreateApi<ICategories>(client);
+
+		await api.GetAsync(new GetCategoriesRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/categories.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task Categories_GetById_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler("{}");
+		using var client = CreateClient(capture);
+		var api = CreateApi<ICategories>(client);
+
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/categories/123.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task CatalogItems_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateClient(capture);
+		var api = CreateApi<ICatalogItems>(client);
+
+		await api.GetAsync(new GetCatalogItemsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/catalog_items.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task CatalogItems_GetById_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler("{}");
+		using var client = CreateClient(capture);
+		var api = CreateApi<ICatalogItems>(client);
+
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/catalog_items/123.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task ConfigurationItems_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateClient(capture);
+		var api = CreateApi<IConfigurationItems>(client);
+
+		await api.GetAsync(new GetConfigurationItemsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/configuration_items.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task ConfigurationItems_GetById_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler("{}");
+		using var client = CreateClient(capture);
+		var api = CreateApi<IConfigurationItems>(client);
+
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/configuration_items/123.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
 	public async Task Contracts_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
 		var capture = new CaptureHandler();
@@ -33,7 +123,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IContracts>(client);
 
-		await api.GetAsync(123, new GetContractsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/contracts/123.json");
@@ -63,7 +153,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IHardwares>(client);
 
-		await api.GetAsync(123, new GetHardwaresRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/hardwares/123.json");
@@ -93,7 +183,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IOtherAssets>(client);
 
-		await api.GetAsync(123, new GetOtherAssetsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/other_assets/123.json");
@@ -123,7 +213,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IProblems>(client);
 
-		await api.GetAsync(123, new GetProblemsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/problems/123.json");
@@ -153,7 +243,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IChanges>(client);
 
-		await api.GetAsync(123, new GetChangesRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/changes/123.json");
@@ -183,7 +273,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<ISolutions>(client);
 
-		await api.GetAsync(123, new GetSolutionsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/solutions/123.json");

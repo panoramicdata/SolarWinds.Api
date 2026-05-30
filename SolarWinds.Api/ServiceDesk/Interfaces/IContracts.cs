@@ -35,14 +35,14 @@ public interface IContracts
 	public Task<Contract> GetAsync(int id, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific contract by ID with query options.
+	/// Gets a specific contract by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the contract.</param>
-	/// <param name="request">The query request.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The contract.</returns>
 	[Get("/contracts/{id}.json")]
-	public Task<Contract> GetAsync(int id, [Query] GetContractsRequest request, CancellationToken cancellationToken);
+	public Task<Contract> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new contract.

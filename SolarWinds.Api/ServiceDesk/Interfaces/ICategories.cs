@@ -9,12 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface ICategories
 {
 	/// <summary>
-	/// Gets a list of categories.
+	/// Gets a list of categories with query options.
 	/// </summary>
+	/// <param name="request">The query request.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of categories.</returns>
 	[Get("/categories.json")]
-	public Task<List<Category>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Category>> GetAsync([Query] GetCategoriesRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific category by ID.
@@ -24,6 +25,16 @@ public interface ICategories
 	/// <returns>The category.</returns>
 	[Get("/categories/{id}.json")]
 	public Task<Category> GetAsync(int id, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a specific category by ID with layout option.
+	/// </summary>
+	/// <param name="id">The ID of the category.</param>
+	/// <param name="layout">The response layout.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>The category.</returns>
+	[Get("/categories/{id}.json")]
+	public Task<Category> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new category.

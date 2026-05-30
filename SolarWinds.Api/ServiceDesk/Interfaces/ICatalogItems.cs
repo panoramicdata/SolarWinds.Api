@@ -9,12 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface ICatalogItems
 {
 	/// <summary>
-	/// Gets a list of catalog items.
+	/// Gets a list of catalog items with query options.
 	/// </summary>
+	/// <param name="request">The query request.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of catalog items.</returns>
 	[Get("/catalog_items.json")]
-	public Task<List<CatalogItem>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<CatalogItem>> GetAsync([Query] GetCatalogItemsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific catalog item by ID.
@@ -24,6 +25,16 @@ public interface ICatalogItems
 	/// <returns>The catalog item.</returns>
 	[Get("/catalog_items/{id}.json")]
 	public Task<CatalogItem> GetAsync(int id, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a specific catalog item by ID with layout option.
+	/// </summary>
+	/// <param name="id">The ID of the catalog item.</param>
+	/// <param name="layout">The response layout.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>The catalog item.</returns>
+	[Get("/catalog_items/{id}.json")]
+	public Task<CatalogItem> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new catalog item.

@@ -159,6 +159,23 @@ Goal: Produce a stable, documented, docs-aligned client.
 - [ ] Mark completed phases and tasks in this file.
 - [ ] Commit final phase completion.
 
+## Phase 10: Interface Signature Simplification Pattern
+
+Goal: Apply the clean `IIncidents` signature style consistently across all Service Desk interfaces.
+
+- [x] Define and document the target interface pattern:
+  - queryable list endpoint: `GetAsync([Query] <Type>Request request, CancellationToken)`
+  - by-id endpoints:
+    - `GetAsync(int id, CancellationToken)`
+    - `GetAsync(int id, ResponseLayout? layout, CancellationToken)`
+  - remove convenience/legacy aliases like `GetAllAsync` and `GetPageAsync`
+- [ ] Inventory all interfaces still using legacy list/signature variants.
+- [ ] Migrate interfaces one domain at a time to the clean pattern, preserving docs-aligned paths and request wrappers.
+- [ ] Update impacted tests to use the clean signatures; remove tests that only validate removed convenience aliases.
+- [ ] Confirm no write-query unit tests are added while performing this migration.
+- [ ] Run focused compile + test gates after each domain migration slice.
+- [ ] Commit each completed migration slice with explicit phase references.
+
 ## Progress Log
 
 Use this section to append progress notes as each phase is completed.
@@ -322,6 +339,37 @@ Use this section to append progress notes as each phase is completed.
     - Build succeeded.
     - Targeted tests succeeded: `26 passed, 0 failed`.
 
+- 2026-05-30: Expanded GET query coverage for category/catalog/configuration-item domains.
+
+- 2026-05-30: Phase 10 by-id layout signature rollout (in progress).
+  - Replaced by-id query-request overloads with explicit `ResponseLayout? layout` overloads in:
+    - `ICategories`
+    - `ICatalogItems`
+    - `IConfigurationItems`
+    - `IContracts`
+    - `IHardwares`
+    - `IOtherAssets`
+    - `IProblems`
+    - `IChanges`
+    - `ISolutions`
+  - Updated query serialization unit tests to use the new by-id layout overload pattern.
+  - Validation run:
+    - Build succeeded.
+    - Targeted tests succeeded: `26 passed, 0 failed`.
+  - Added typed query request models:
+    - `GetCategoriesRequest`
+    - `GetCatalogItemsRequest`
+    - `GetConfigurationItemsRequest`
+  - Added query overloads for list/by-id endpoints in:
+    - `ICategories`
+    - `ICatalogItems`
+    - `IConfigurationItems`
+  - Expanded `CoreDomainQueryRequestTests` to validate `layout=long` serialization for all six new list/by-id query overloads.
+  - Restored compatibility methods in `IIncidents` used by existing tests (`GetAllAsync`, `GetPageAsync`) while retaining typed-query migration.
+  - Validation run:
+    - Build succeeded.
+    - Targeted tests succeeded: `32 passed, 0 failed`.
+
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.
@@ -331,3 +379,4 @@ Use this section to append progress notes as each phase is completed.
 - [ ] Phase 7 completed.
 - [ ] Phase 8 completed.
 - [ ] Phase 9 completed.
+- [ ] Phase 10 completed.

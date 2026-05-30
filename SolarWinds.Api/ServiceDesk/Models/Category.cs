@@ -15,7 +15,7 @@ public class Category : NamedEntity
 	/// <summary>
 	/// Gets or sets the parent category ID.
 	/// </summary>
-	public int ParentId { get; set; }
+	public int? ParentId { get; set; }
 
 	/// <summary>
 	/// Gets or sets the default assignee ID for the category.
