@@ -20,6 +20,22 @@ public class UiSurfaceRequestTests
 		_ = await api.GetMetadataAsync("incidents", new UiCustomViewMetadataRequest { ReportId = 8992193, IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/custom_views/incidents/metadata.json");
+
+		_ = await api.GetViewAsync("users", new UiCustomViewRequest
+		{
+			PageParametersController = "users",
+			PageParametersAction = "index",
+			PageParametersEnabled = 1,
+			PageParametersReportId = 8992244,
+			ReportId = 8992244,
+			IsPortalMode = false,
+		}, CancellationToken.None);
+		capture.LastRequest.Should().NotBeNull();
+		var advancedQuery = ParseQuery(capture.LastRequest!.RequestUri!);
+		advancedQuery["page_parameters[controller]"].Should().Be("users");
+		advancedQuery["page_parameters[action]"].Should().Be("index");
+		advancedQuery["page_parameters[enabled]"].Should().Be("1");
+		advancedQuery["page_parameters[report_id]"].Should().Be("8992244");
 	}
 
 	[Fact]
@@ -86,6 +102,14 @@ public class UiSurfaceRequestTests
 		rawQuery.Should().Contain("userIds[]=14959623");
 		rawQuery.Should().Contain("userIds[]=14959585");
 		rawQuery.Should().Contain("is_portal_mode=False");
+
+		_ = await usersApi.GetAsync(new GetUsersRequest { Enabled = 1, ReportId = 8992244, IsPortalMode = false }, CancellationToken.None);
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/users.json");
+		var usersQuery = ParseQuery(capture.LastRequest.RequestUri);
+		usersQuery["enabled"].Should().Be("1");
+		usersQuery["report_id"].Should().Be("8992244");
+		usersQuery["is_portal_mode"].Should().Be("False");
 
 		var ccApi = CreateApi<IChangeCatalogs>(client);
 		_ = await ccApi.GetAsync(new GetChangeCatalogsRequest { Type = "tree", NewButton = true, State = 3, IsPortalMode = false }, CancellationToken.None);

@@ -104,7 +104,7 @@ public class UiSurfaceIntegrationTests(ITestOutputHelper output) : TestWithOutpu
 				CancellationToken);
 			setupTemplates.Should().NotBeNull();
 		}
-		catch (Refit.ApiException ex) when ((int)ex.StatusCode == 401)
+		catch (ApiException ex) when ((int)ex.StatusCode == 401)
 		{
 			// Some UI infrastructure endpoints can require additional web-session context.
 			return;
@@ -121,6 +121,15 @@ public class UiSurfaceIntegrationTests(ITestOutputHelper output) : TestWithOutpu
 
 		var users = await ServiceDeskClient.Users.GetAsync(CancellationToken);
 		users.Should().NotBeNull();
+
+		var filteredUsers = await ServiceDeskClient.Users.GetAsync(new GetUsersRequest
+		{
+			Enabled = 1,
+			ReportId = 8992244,
+			IsPortalMode = false,
+		}, CancellationToken);
+		filteredUsers.Should().NotBeNull();
+
 		if (users.Count > 0)
 		{
 			var sampleIds = users.Take(2).Select(u => u.Id).Where(i => i > 0).ToArray();

@@ -55,7 +55,7 @@ public abstract class TestWithOutput
 			Config? config;
 			using (var file = File.OpenText("appsettings.json"))
 			{
-				var serializer = new JsonSerializer();
+				var serializer = new Newtonsoft.Json.JsonSerializer();
 				config = (Config?)serializer.Deserialize(file, typeof(Config));
 			}
 

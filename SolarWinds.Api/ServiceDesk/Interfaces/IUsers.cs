@@ -18,6 +18,12 @@ public interface IUsers
 	public Task<List<User>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
+	/// Gets a list of users with optional UI/portal query filters.
+	/// </summary>
+	[Get("/users.json")]
+	public Task<List<User>> GetAsync([Query] Models.GetUsersRequest request, CancellationToken cancellationToken);
+
+	/// <summary>
 	/// Gets a specific user by ID.
 	/// </summary>
 	/// <param name="id">The ID of the user.</param>

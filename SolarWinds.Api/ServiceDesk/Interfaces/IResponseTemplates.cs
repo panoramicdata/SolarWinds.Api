@@ -21,7 +21,7 @@ public interface IResponseTemplates
 	/// Gets response templates setup list payload.
 	/// </summary>
 	[Get("/setup/response_templates.json")]
-	public Task<JsonElement> GetSetupListAsync([Query] SolarWinds.Api.ServiceDesk.Models.PortalModeRequest request, CancellationToken cancellationToken);
+	public Task<JsonElement> GetSetupListAsync([Query] PortalModeRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets the total count of personal response templates for the current user.
