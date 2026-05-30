@@ -34,7 +34,7 @@ This plan drives a docs-first, breaking-change migration so the client matches t
 
 Goal: Produce explicit method-by-method migration map from current repo contracts to OpenAPI contracts.
 
-- [ ] Create mapping matrix file at `temp/docs/migration-matrix.csv` with columns:
+- [x] Create mapping matrix file at `temp/docs/migration-matrix.csv` with columns:
   - `Tag`
   - `Method`
   - `Path`
@@ -44,17 +44,17 @@ Goal: Produce explicit method-by-method migration map from current repo contract
   - `TargetMethodSignature`
   - `RequestWrapperKey`
   - `Status` (`no-change`, `signature-change`, `new-endpoint`, `remove-or-rework`)
-- [ ] Identify all endpoints currently marked as missing in repo and classify as:
+- [x] Identify all endpoints currently marked as missing in repo and classify as:
   - `must-add`
   - `optional-followup`
   - `intentionally-out-of-scope` (with justification)
-- [ ] Identify all extra repo endpoints and classify as:
+- [x] Identify all extra repo endpoints and classify as:
   - `align-with-docs`
   - `legacy-compat` (only if deliberately retained)
   - `remove`
-- [ ] For each write endpoint, define dedicated request model names and wrapper keys.
-- [ ] For each GET endpoint, define query request model names and query parameter typing expectations.
-- [ ] Commit phase completion.
+- [x] For each write endpoint, define dedicated request model names and wrapper keys.
+- [x] For each GET endpoint, define query request model names and query parameter typing expectations.
+- [x] Commit phase completion.
 
 ## Phase 2: Shared Request/Response Infrastructure
 
@@ -163,7 +163,16 @@ Goal: Produce a stable, documented, docs-aligned client.
 
 Use this section to append progress notes as each phase is completed.
 
-- [ ] Phase 1 completed.
+- 2026-05-30: Phase 1 mapping artifacts generated.
+  - `temp/docs/migration-matrix.csv` produced with 135 OpenAPI operations and statuses:
+    - `new-endpoint=32`
+    - `signature-change=40`
+    - `no-change=63`
+  - Missing endpoint classification file created at `temp/docs/missing-endpoints-classification.csv` (32 rows).
+  - Extra endpoint classification file created at `temp/docs/extra-endpoints-classification.csv` (29 rows).
+  - Migration matrix includes OpenAPI tag/operation id, current interface/signature hints, target signature proposal, request wrapper key, and status.
+
+- [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.
 - [ ] Phase 4 completed.
