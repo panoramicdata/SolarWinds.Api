@@ -12,6 +12,96 @@ namespace SolarWinds.Api.Test.ServiceDesk;
 public class CoreDomainQueryRequestTests
 {
 	[Fact]
+	public async Task Contracts_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateClient(capture);
+		var api = CreateApi<IContracts>(client);
+
+		await api.GetAllAsync(new GetContractsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/contracts.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task Contracts_GetById_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler("{}");
+		using var client = CreateClient(capture);
+		var api = CreateApi<IContracts>(client);
+
+		await api.GetAsync(123, new GetContractsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/contracts/123.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task Hardwares_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateClient(capture);
+		var api = CreateApi<IHardwares>(client);
+
+		await api.GetAllAsync(new GetHardwaresRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/hardwares.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task Hardwares_GetById_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler("{}");
+		using var client = CreateClient(capture);
+		var api = CreateApi<IHardwares>(client);
+
+		await api.GetAsync(123, new GetHardwaresRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/hardwares/123.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task OtherAssets_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateClient(capture);
+		var api = CreateApi<IOtherAssets>(client);
+
+		await api.GetAllAsync(new GetOtherAssetsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/other_assets.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
+	public async Task OtherAssets_GetById_WithLayoutLong_UsesExpectedQueryParameters()
+	{
+		var capture = new CaptureHandler("{}");
+		using var client = CreateClient(capture);
+		var api = CreateApi<IOtherAssets>(client);
+
+		await api.GetAsync(123, new GetOtherAssetsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/other_assets/123.json");
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query["layout"].Should().Be("long");
+	}
+
+	[Fact]
 	public async Task Problems_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
 		var capture = new CaptureHandler();

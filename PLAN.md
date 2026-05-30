@@ -258,6 +258,20 @@ Use this section to append progress notes as each phase is completed.
   - Exposed memberships API in `SolarWindsServiceDeskClient`.
   - This closes the remaining membership alignment item in Phase 6.
 
+- 2026-05-30: Expanded GET query coverage for asset/contract domains.
+  - Added typed query request models:
+    - `GetContractsRequest`
+    - `GetHardwaresRequest`
+    - `GetOtherAssetsRequest`
+  - Added query overloads for list/by-id endpoints in:
+    - `IContracts`
+    - `IHardwares`
+    - `IOtherAssets`
+  - Expanded `CoreDomainQueryRequestTests` to validate `layout=long` serialization for all six new list/by-id query overloads.
+  - Validation run:
+    - Build succeeded.
+    - Targeted tests succeeded: `26 passed, 0 failed`.
+
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.

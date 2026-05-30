@@ -17,6 +17,15 @@ public interface IContracts
 	public Task<List<Contract>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
+	/// Gets a list of contracts with query options.
+	/// </summary>
+	/// <param name="request">The query request.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of contracts.</returns>
+	[Get("/contracts.json")]
+	public Task<List<Contract>> GetAllAsync([Query] GetContractsRequest request, CancellationToken cancellationToken);
+
+	/// <summary>
 	/// Gets a specific contract by ID.
 	/// </summary>
 	/// <param name="id">The ID of the contract.</param>
@@ -24,6 +33,16 @@ public interface IContracts
 	/// <returns>The contract.</returns>
 	[Get("/contracts/{id}.json")]
 	public Task<Contract> GetAsync(int id, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a specific contract by ID with query options.
+	/// </summary>
+	/// <param name="id">The ID of the contract.</param>
+	/// <param name="request">The query request.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>The contract.</returns>
+	[Get("/contracts/{id}.json")]
+	public Task<Contract> GetAsync(int id, [Query] GetContractsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new contract.
