@@ -93,9 +93,9 @@ Goal: Apply same migration pattern to major ITSM entities.
   - `SolutionCreateRequest`, `SolutionUpdateRequest`
 - [x] Align interface signatures for each domain.
 - [x] Ensure wrapper keys match docs (`problem`, `change`, `release`, `solution`).
-- [ ] Add/expand GET query unit tests for all list/get query parameters in these domains.
+- [x] Add/expand GET query unit tests for all list/get query parameters in these domains.
 - [x] No write-query unit tests.
-- [ ] Commit phase completion.
+- [x] Commit phase completion.
 
 ## Phase 5: Asset and Catalog Domains
 
@@ -206,10 +206,24 @@ Use this section to append progress notes as each phase is completed.
     - `IncidentQueryRequestTests`, `ServiceDeskUrlParameterFormatterTests`, `IncidentQueryIntegrationTests`
     - `18 passed, 0 failed`, no compile errors.
 
+- 2026-05-30: Phase 4 GET query coverage expanded.
+  - Added typed GET query request models:
+    - `GetProblemsRequest`
+    - `GetChangesRequest`
+    - `GetSolutionsRequest`
+  - Added GET query overloads for list/by-id in:
+    - `IProblems`
+    - `IChanges`
+    - `ISolutions`
+  - Added unit tests in `CoreDomainQueryRequestTests` for layout query serialization across these domains.
+  - Validation run:
+    - `CoreDomainQueryRequestTests`, `IncidentQueryRequestTests`, `ServiceDeskUrlParameterFormatterTests`
+    - `14 passed, 0 failed`, no compile errors.
+
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.
-- [ ] Phase 4 completed.
+- [x] Phase 4 completed.
 - [ ] Phase 5 completed.
 - [ ] Phase 6 completed.
 - [ ] Phase 7 completed.

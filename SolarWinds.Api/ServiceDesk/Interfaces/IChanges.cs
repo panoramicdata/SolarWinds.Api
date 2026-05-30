@@ -17,6 +17,15 @@ public interface IChanges
 	public Task<List<Change>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
+	/// Gets a list of changes using query parameters.
+	/// </summary>
+	/// <param name="request">The query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of changes.</returns>
+	[Get("/changes.json")]
+	public Task<List<Change>> GetAllAsync([Query] GetChangesRequest request, CancellationToken cancellationToken);
+
+	/// <summary>
 	/// Gets a specific change by ID.
 	/// </summary>
 	/// <param name="id">The ID of the change.</param>
@@ -24,6 +33,16 @@ public interface IChanges
 	/// <returns>The change.</returns>
 	[Get("/changes/{id}.json")]
 	public Task<Change> GetAsync(int id, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a specific change by ID using query parameters.
+	/// </summary>
+	/// <param name="id">The ID of the change.</param>
+	/// <param name="request">The query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>The change.</returns>
+	[Get("/changes/{id}.json")]
+	public Task<Change> GetAsync(int id, [Query] GetChangesRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new change.
