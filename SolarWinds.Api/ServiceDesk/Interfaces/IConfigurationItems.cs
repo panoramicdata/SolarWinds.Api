@@ -28,21 +28,21 @@ public interface IConfigurationItems
 	/// <summary>
 	/// Creates a new configuration item.
 	/// </summary>
-	/// <param name="configurationItem">The configuration item to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created configuration item.</returns>
 	[Post("/configuration_items.json")]
-	public Task<ConfigurationItem> CreateAsync([Body] ConfigurationItem configurationItem, CancellationToken cancellationToken);
+	public Task<ConfigurationItem> CreateAsync([Body] ConfigurationItemCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing configuration item.
 	/// </summary>
 	/// <param name="id">The ID of the configuration item to update.</param>
-	/// <param name="configurationItem">The configuration item data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated configuration item.</returns>
 	[Put("/configuration_items/{id}.json")]
-	public Task<ConfigurationItem> UpdateAsync(int id, [Body] ConfigurationItem configurationItem, CancellationToken cancellationToken);
+	public Task<ConfigurationItem> UpdateAsync(int id, [Body] ConfigurationItemUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a configuration item.
@@ -56,20 +56,18 @@ public interface IConfigurationItems
 	/// Appends dependent assets to a configuration item.
 	/// </summary>
 	/// <param name="id">The ID of the configuration item.</param>
-	/// <param name="assetIds">The IDs of the assets to append.</param>
+	/// <param name="request">The append request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Put("/configuration_items/{id}/append_dependent_assets.json")]
-	public Task AppendDependentAssetsAsync(int id, [Body] IEnumerable<int> assetIds, CancellationToken cancellationToken);
+	[Put("/configuration_items/{id}/append_multiple_dependent_assets.json")]
+	public Task AppendDependentAssetsAsync(int id, [Body] AppendDependentAssetsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes an asset link from a configuration item.
 	/// </summary>
-	/// <param name="id">The ID of the configuration item.</param>
-	/// <param name="assetId">The ID of the asset link to delete.</param>
+	/// <param name="request">The delete asset link request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Put("/configuration_items/{id}/delete_asset_link.json")]
+	[Put("/asset_links/delete_asset_link_by_id.json")]
 	public Task DeleteAssetLinkAsync(
-		int id,
-		[Body] int assetId,
+		[Body] DeleteAssetLinkRequest request,
 		CancellationToken cancellationToken);
 }

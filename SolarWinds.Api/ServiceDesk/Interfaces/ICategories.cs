@@ -28,21 +28,21 @@ public interface ICategories
 	/// <summary>
 	/// Creates a new category.
 	/// </summary>
-	/// <param name="category">The category to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created category.</returns>
 	[Post("/categories.json")]
-	public Task<Category> CreateAsync([Body] Category category, CancellationToken cancellationToken);
+	public Task<Category> CreateAsync([Body] CategoryCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing category.
 	/// </summary>
 	/// <param name="id">The ID of the category to update.</param>
-	/// <param name="category">The category data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated category.</returns>
 	[Put("/categories/{id}.json")]
-	public Task<Category> UpdateAsync(int id, [Body] Category category, CancellationToken cancellationToken);
+	public Task<Category> UpdateAsync(int id, [Body] CategoryUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a category.

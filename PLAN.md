@@ -101,11 +101,11 @@ Goal: Apply same migration pattern to major ITSM entities.
 
 Goal: Migrate catalog/configuration/asset-style domains.
 
-- [ ] Catalog item request models and signature alignment (`catalog_item`).
-- [ ] Configuration item request models and signature alignment (`configuration_item`).
-- [ ] Other asset request models and signature alignment (`other_asset`).
+- [x] Catalog item request models and signature alignment (`catalog_item`).
+- [x] Configuration item request models and signature alignment (`configuration_item`).
+- [x] Other asset request models and signature alignment (`other_asset`).
 - [x] Hardware/mobile/printer/software/contract/purchase-order/vendor request model alignment where docs define write schemas.
-- [ ] Handle sub-resource endpoints (warranties, contract items, dependent assets, asset links) with documented paths and payload keys.
+- [x] Handle sub-resource endpoints (warranties, contract items, dependent assets, asset links) with documented paths and payload keys.
 - [ ] Add/expand GET query unit tests for all GET queryable endpoints in these domains.
 - [ ] No write-query unit tests.
 - [ ] Commit phase completion.
@@ -299,6 +299,25 @@ Use this section to append progress notes as each phase is completed.
     - `IPurchaseOrders`
     - `IPurchaseOrdersApi`
     - `IVendors`
+  - Validation run:
+    - Build succeeded.
+    - Targeted tests succeeded: `26 passed, 0 failed`.
+
+- 2026-05-30: Phase 5 write-wrapper migration for category/catalog/configuration-item.
+  - Added docs-aligned write wrapper models and payload roots:
+    - Categories: `CategoryCreateRequest`, `CategoryUpdateRequest`, `CategoryWriteFields` (`category`)
+    - Catalog items: `CatalogItemCreateRequest`, `CatalogItemUpdateRequest`, `CatalogItemWriteFields` (`catalog_item`)
+    - Configuration items: `ConfigurationItemCreateRequest`, `ConfigurationItemUpdateRequest`, `ConfigurationItemWriteFields` (`configuration_item`)
+  - Added subresource request models:
+    - `AppendDependentAssetsRequest`
+    - `DeleteAssetLinkRequest`
+  - Updated interfaces:
+    - `ICategories`
+    - `ICatalogItems`
+    - `IConfigurationItems`
+  - Aligned configuration item subresource paths to documented routes:
+    - `/configuration_items/{id}/append_multiple_dependent_assets.json`
+    - `/asset_links/delete_asset_link_by_id.json`
   - Validation run:
     - Build succeeded.
     - Targeted tests succeeded: `26 passed, 0 failed`.

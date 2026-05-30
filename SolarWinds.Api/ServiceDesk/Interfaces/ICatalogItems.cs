@@ -28,21 +28,21 @@ public interface ICatalogItems
 	/// <summary>
 	/// Creates a new catalog item.
 	/// </summary>
-	/// <param name="catalogItem">The catalog item to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created catalog item.</returns>
 	[Post("/catalog_items.json")]
-	public Task<CatalogItem> CreateAsync([Body] CatalogItem catalogItem, CancellationToken cancellationToken);
+	public Task<CatalogItem> CreateAsync([Body] CatalogItemCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing catalog item.
 	/// </summary>
 	/// <param name="id">The ID of the catalog item to update.</param>
-	/// <param name="catalogItem">The catalog item data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated catalog item.</returns>
 	[Put("/catalog_items/{id}.json")]
-	public Task<CatalogItem> UpdateAsync(int id, [Body] CatalogItem catalogItem, CancellationToken cancellationToken);
+	public Task<CatalogItem> UpdateAsync(int id, [Body] CatalogItemUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a catalog item.
