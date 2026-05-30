@@ -26,6 +26,6 @@ public class SolarWindsClientConstructorTests(ITestOutputHelper iTestOutputHelpe
 	[InlineData("", "username", "password")]
 	[InlineData("hostname", "", "password")]
 	[InlineData("hostname", "username", "")]
-	public void EmptyParameters_Throws_ArgumentOutOfRangeException(string hostname, string username, string password)
-		=> ((Action)(() => new SolarWindsClient(hostname, username, password, 17778, false))).Should().Throw<ArgumentOutOfRangeException>();
+	public void EmptyParameters_Throws_ArgumentException(string hostname, string username, string password)
+		=> ((Action)(() => new SolarWindsClient(hostname, username, password, 17778, false))).Should().Throw<ArgumentException>();
 }
