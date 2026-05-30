@@ -71,15 +71,15 @@ Goal: Introduce reusable primitives so endpoint models stay consistent.
 
 Goal: Fully align Incident endpoints and request bodies.
 
-- [ ] Introduce dedicated models:
+- [x] Introduce dedicated models:
   - `IncidentCreateRequest`
   - `IncidentUpdateRequest`
   - Any nested request DTOs required by docs samples/schema
-- [ ] Update [SolarWinds.Api/ServiceDesk/Interfaces/IIncidents.cs](SolarWinds.Api/ServiceDesk/Interfaces/IIncidents.cs) signatures to use dedicated request types.
-- [ ] Keep GET list/query support aligned with docs, including `layout` and updated/created filtering semantics.
-- [ ] Ensure request wrapper key is `incident` exactly where required.
-- [ ] Add or update GET query unit tests for incident list/get query options.
-- [ ] Do **not** add unit tests for incident create/update/delete write calls.
+- [x] Update [SolarWinds.Api/ServiceDesk/Interfaces/IIncidents.cs](SolarWinds.Api/ServiceDesk/Interfaces/IIncidents.cs) signatures to use dedicated request types.
+- [x] Keep GET list/query support aligned with docs, including `layout` and updated/created filtering semantics.
+- [x] Ensure request wrapper key is `incident` exactly where required.
+- [x] Add or update GET query unit tests for incident list/get query options.
+- [x] Do **not** add unit tests for incident create/update/delete write calls.
 - [ ] Commit phase completion.
 
 ## Phase 4: Problem, Change, Release, Solution Domains
@@ -171,6 +171,17 @@ Use this section to append progress notes as each phase is completed.
   - Missing endpoint classification file created at `temp/docs/missing-endpoints-classification.csv` (32 rows).
   - Extra endpoint classification file created at `temp/docs/extra-endpoints-classification.csv` (29 rows).
   - Migration matrix includes OpenAPI tag/operation id, current interface/signature hints, target signature proposal, request wrapper key, and status.
+
+- 2026-05-30: Phase 3 started with incident write-shape migration.
+  - Added dedicated request models:
+    - `IncidentCreateRequest`
+    - `IncidentUpdateRequest`
+    - `IncidentWriteFields`
+  - Updated incident write method signatures in `IIncidents` to consume request wrappers.
+  - Updated incident lifecycle integration test payload construction to new wrappers.
+  - Validation run (`IncidentQueryRequestTests`, `IncidentQueryIntegrationTests`, `IncidentLifecycleIntegrationTests`):
+    - 12 passed, 1 failed.
+    - Failure is live API behavior (`HTTP 500`) during incident lifecycle integration write call; no compile errors.
 
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.

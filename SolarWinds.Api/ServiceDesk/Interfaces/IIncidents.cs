@@ -47,21 +47,21 @@ public interface IIncidents
 	/// <summary>
 	/// Creates a new incident.
 	/// </summary>
-	/// <param name="incident">The incident to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created incident.</returns>
 	[Post("/incidents.json")]
-	public Task<Incident> CreateAsync([Body] Incident incident, CancellationToken cancellationToken);
+	public Task<Incident> CreateAsync([Body] IncidentCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing incident.
 	/// </summary>
 	/// <param name="id">The ID of the incident to update.</param>
-	/// <param name="incident">The incident data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated incident.</returns>
 	[Put("/incidents/{id}.json")]
-	public Task<Incident> UpdateAsync(int id, [Body] Incident incident, CancellationToken cancellationToken);
+	public Task<Incident> UpdateAsync(int id, [Body] IncidentUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes an incident.

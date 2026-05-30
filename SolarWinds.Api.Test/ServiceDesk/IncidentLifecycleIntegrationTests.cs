@@ -67,64 +67,82 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 
 		var config = LoadLifecycleConfig();
 
-		var incident = new SolarWinds.Api.ServiceDesk.Models.Incident
+		var createRequest = new SolarWinds.Api.ServiceDesk.Models.IncidentCreateRequest
 		{
-			Name = config.Name,
-			Description = config.Description,
-			DescriptionNoHtml = config.DescriptionNoHtml,
-			State = config.State,
-			Priority = config.Priority,
-			Category = new { id = config.CategoryId },
-			Subcategory = (object?)null,
-			Assignee = new { id = config.AssigneeId },
-			Requester = new { id = config.RequesterId },
-			IsServiceRequest = config.IsServiceRequest,
-			Origin = config.Origin,
-			CustomFieldsValues = new[]
+			Incident = new SolarWinds.Api.ServiceDesk.Models.IncidentWriteFields
 			{
-				new
+				Name = config.Name,
+				Description = config.Description,
+				DescriptionNoHtml = config.DescriptionNoHtml,
+				State = config.State,
+				Priority = config.Priority,
+				Category = new { id = config.CategoryId },
+				Subcategory = (object?)null,
+				Assignee = new { id = config.AssigneeId },
+				Requester = new { id = config.RequesterId },
+				IsServiceRequest = config.IsServiceRequest,
+				Origin = config.Origin,
+				CustomFieldsValues = new[]
 				{
-					id = config.CustomFieldValueId,
-					custom_field_id = config.CustomFieldId,
-					name = config.CustomFieldName,
-					value = config.CustomFieldValue,
-					attachment = (object?)null,
-					options = config.CustomFieldOptions,
-					type = config.CustomFieldType,
-					type_name = config.CustomFieldTypeName,
-					entity = (object?)null,
-					user = (object?)null
+					new
+					{
+						id = config.CustomFieldValueId,
+						custom_field_id = config.CustomFieldId,
+						name = config.CustomFieldName,
+						value = config.CustomFieldValue,
+						attachment = (object?)null,
+						options = config.CustomFieldOptions,
+						type = config.CustomFieldType,
+						type_name = config.CustomFieldTypeName,
+						entity = (object?)null,
+						user = (object?)null
+					}
 				}
 			}
 		};
 
 		var created = await ServiceDeskClient
 			.Incidents
-			.CreateAsync(incident, CancellationToken);
+			.CreateAsync(createRequest, CancellationToken);
 
 		created.Id.Should().BePositive("ticket creation should return a valid incident id");
 
 		try
 		{
 			// Step 2: Update the description.
-			created.Description = $"Updated by safe integration test at {DateTimeOffset.UtcNow:O}";
+			var updatedDescription = $"Updated by safe integration test at {DateTimeOffset.UtcNow:O}";
+			var updateRequest = new SolarWinds.Api.ServiceDesk.Models.IncidentUpdateRequest
+			{
+				Incident = new SolarWinds.Api.ServiceDesk.Models.IncidentWriteFields
+				{
+					Name = created.Name,
+					Description = updatedDescription,
+					Priority = created.Priority,
+					Category = new { id = config.CategoryId },
+					Assignee = new { id = config.AssigneeId },
+					Requester = new { id = config.RequesterId },
+				}
+			};
 			var updated = await ServiceDeskClient
 				.Incidents
-				.UpdateAsync(created.Id, created, CancellationToken);
+				.UpdateAsync(created.Id, updateRequest, CancellationToken);
 
 			updated.Description.Should().Contain("Updated by safe integration test");
 			var stateBeforeCloseAttempt = updated.State;
 
 			// Step 3: Request a state transition.
-			var closePayload = new SolarWinds.Api.ServiceDesk.Models.Incident
+			var closePayload = new SolarWinds.Api.ServiceDesk.Models.IncidentUpdateRequest
 			{
-				Name = updated.Name,
-				Description = updated.Description,
-				Priority = updated.Priority,
-				State = config.ClosedState,
-				Category = new { id = config.CategoryId },
-				Assignee = new { id = config.AssigneeId },
-				Requester = new { id = config.RequesterId },
+				Incident = new SolarWinds.Api.ServiceDesk.Models.IncidentWriteFields
+				{
+					Name = updated.Name,
+					Description = updated.Description,
+					Priority = updated.Priority,
+					State = config.ClosedState,
+					Category = new { id = config.CategoryId },
+					Assignee = new { id = config.AssigneeId },
+					Requester = new { id = config.RequesterId },
+				}
 			};
 			var closed = await ServiceDeskClient
 				.Incidents
