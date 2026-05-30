@@ -9,30 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IHardwares
 {
 	/// <summary>
-	/// Gets a list of hardware assets.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>A list of hardware assets.</returns>
-	[Get("/hardwares.json")]
-	public Task<List<Hardware>> GetAllAsync(CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a list of hardware assets with query options.
 	/// </summary>
 	/// <param name="request">The query request.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of hardware assets.</returns>
 	[Get("/hardwares.json")]
-	public Task<List<Hardware>> GetAllAsync([Query] GetHardwaresRequest request, CancellationToken cancellationToken);
-
-	/// <summary>
-	/// Gets a specific hardware asset by ID.
-	/// </summary>
-	/// <param name="id">The ID of the hardware asset.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The hardware asset.</returns>
-	[Get("/hardwares/{id}.json")]
-	public Task<Hardware> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<List<Hardware>> GetAsync([Query] GetHardwaresRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific hardware asset by ID with layout option.
@@ -42,7 +25,7 @@ public interface IHardwares
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The hardware asset.</returns>
 	[Get("/hardwares/{id}.json")]
-	public Task<Hardware> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<Hardware> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new hardware asset.

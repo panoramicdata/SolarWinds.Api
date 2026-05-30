@@ -251,6 +251,6 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 		}
 	}
 
-	private sealed class HeaderBag : System.Collections.Generic.List<(string Name, string[] Values)>;
-	private sealed class OptionBag : System.Collections.Generic.List<(string Key, object? Value)>;
+	private sealed class HeaderBag : List<(string Name, string[] Values)>;
+	private sealed class OptionBag : List<(string Key, object? Value)>;
 }

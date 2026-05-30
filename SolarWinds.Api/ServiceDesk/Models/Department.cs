@@ -10,10 +10,10 @@ public class Department : DescribedEntity
 	/// <summary>
 	/// Gets or sets the default assignee ID for the department.
 	/// </summary>
-	public int DefaultAssigneeId { get; set; }
+	public int? DefaultAssigneeId { get; set; }
 
 	/// <summary>
 	/// Gets or sets the default group assignee ID for the department.
 	/// </summary>
-	public int DefaultGroupAssigneeId { get; set; }
+	public int? DefaultGroupAssigneeId { get; set; }
 }

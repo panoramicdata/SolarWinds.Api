@@ -18,15 +18,6 @@ public interface ICatalogItems
 	public Task<List<CatalogItem>> GetAsync([Query] GetCatalogItemsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific catalog item by ID.
-	/// </summary>
-	/// <param name="id">The ID of the catalog item.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The catalog item.</returns>
-	[Get("/catalog_items/{id}.json")]
-	public Task<CatalogItem> GetAsync(int id, CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a specific catalog item by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the catalog item.</param>
@@ -34,7 +25,7 @@ public interface ICatalogItems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The catalog item.</returns>
 	[Get("/catalog_items/{id}.json")]
-	public Task<CatalogItem> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<CatalogItem> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new catalog item.

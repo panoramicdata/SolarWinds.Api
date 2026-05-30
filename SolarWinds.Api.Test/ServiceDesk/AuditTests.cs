@@ -9,7 +9,7 @@ public class AuditTests(ITestOutputHelper output) : TestWithOutput(output)
 	[Fact]
 	public async Task GetAll_ReturnsItems()
 	{
-		var items = await ServiceDeskClient.Audits.GetAllAsync(CancellationToken);
+		var items = await ServiceDeskClient.Audits.GetAsync(CancellationToken);
 		items.Should().NotBeNull();
 		items.Should().NotBeEmpty();
 	}

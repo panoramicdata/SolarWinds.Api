@@ -20,5 +20,5 @@ public class Change : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the group assignee's name.
 	/// </summary>
-	public string GroupAssignee { get; set; } = string.Empty;
+	public object? GroupAssignee { get; set; }
 }

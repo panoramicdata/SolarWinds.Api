@@ -18,15 +18,6 @@ public interface IConfigurationItems
 	public Task<List<ConfigurationItem>> GetAsync([Query] GetConfigurationItemsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific configuration item by ID.
-	/// </summary>
-	/// <param name="id">The ID of the configuration item.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The configuration item.</returns>
-	[Get("/configuration_items/{id}.json")]
-	public Task<ConfigurationItem> GetAsync(int id, CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a specific configuration item by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the configuration item.</param>
@@ -34,7 +25,7 @@ public interface IConfigurationItems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The configuration item.</returns>
 	[Get("/configuration_items/{id}.json")]
-	public Task<ConfigurationItem> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<ConfigurationItem> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new configuration item.

@@ -14,16 +14,17 @@ public interface IVendors
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of vendors.</returns>
 	[Get("/vendors.json")]
-	public Task<List<Vendor>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Vendor>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific vendor by ID.
 	/// </summary>
 	/// <param name="id">The ID of the vendor.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The vendor.</returns>
 	[Get("/vendors/{id}.json")]
-	public Task<Vendor> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Vendor> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new vendor.

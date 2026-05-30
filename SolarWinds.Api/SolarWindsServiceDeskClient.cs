@@ -188,6 +188,41 @@ public class SolarWindsServiceDeskClient
 	public IAttachments Attachments { get; private set; }
 
 	/// <summary>
+	/// Gets the Service Desk Notifications API.
+	/// </summary>
+	public INotifications Notifications { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk Incident Types API.
+	/// </summary>
+	public IIncidentTypes IncidentTypes { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk ITSM setup states API.
+	/// </summary>
+	public ISetupItsmStates SetupItsmStates { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk Custom Forms API.
+	/// </summary>
+	public ICustomForms CustomForms { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk Response Templates API.
+	/// </summary>
+	public IResponseTemplates ResponseTemplates { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk Workflow Approvers API.
+	/// </summary>
+	public IWorkflowApprovers WorkflowApprovers { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk Custom Fields API.
+	/// </summary>
+	public ICustomFields CustomFields { get; private set; }
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="SolarWindsServiceDeskClient"/> class.
 	/// </summary>
 	/// <param name="options">The client options.</param>
@@ -253,5 +288,12 @@ public class SolarWindsServiceDeskClient
 		Audits = RestService.For<IAudits>(_httpClient, RefitSettings);
 		Risks = RestService.For<IRisks>(_httpClient, RefitSettings);
 		Attachments = RestService.For<IAttachments>(_httpClient, RefitSettings);
+		Notifications = RestService.For<INotifications>(_httpClient, RefitSettings);
+		IncidentTypes = RestService.For<IIncidentTypes>(_httpClient, RefitSettings);
+		SetupItsmStates = RestService.For<ISetupItsmStates>(_httpClient, RefitSettings);
+		CustomForms = RestService.For<ICustomForms>(_httpClient, RefitSettings);
+		ResponseTemplates = RestService.For<IResponseTemplates>(_httpClient, RefitSettings);
+		WorkflowApprovers = RestService.For<IWorkflowApprovers>(_httpClient, RefitSettings);
+		CustomFields = RestService.For<ICustomFields>(_httpClient, RefitSettings);
 	}
 }

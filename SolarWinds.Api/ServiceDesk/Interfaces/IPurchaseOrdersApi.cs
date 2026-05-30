@@ -14,16 +14,17 @@ public interface IPurchaseOrdersApi
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of purchase orders.</returns>
 	[Get("/purchase_orders.json")]
-	public Task<List<PurchaseOrder>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<PurchaseOrder>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific purchase order by ID.
 	/// </summary>
 	/// <param name="id">The ID of the purchase order.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The purchase order.</returns>
 	[Get("/purchase_orders/{id}.json")]
-	public Task<PurchaseOrder> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<PurchaseOrder> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new purchase order.

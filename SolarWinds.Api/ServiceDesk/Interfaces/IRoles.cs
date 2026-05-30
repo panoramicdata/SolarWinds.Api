@@ -14,16 +14,17 @@ public interface IRoles
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of roles.</returns>
 	[Get("/roles.json")]
-	public Task<List<Role>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Role>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific role by ID.
 	/// </summary>
 	/// <param name="id">The ID of the role.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The role.</returns>
 	[Get("/roles/{id}.json")]
-	public Task<Role> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Role> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new role.

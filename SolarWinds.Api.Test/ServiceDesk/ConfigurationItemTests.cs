@@ -1,6 +1,7 @@
 using Xunit;
 using Xunit.Abstractions;
 using AwesomeAssertions;
+using SolarWinds.Api.ServiceDesk.Models;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
@@ -9,7 +10,7 @@ public class ConfigurationItemTests(ITestOutputHelper output) : TestWithOutput(o
 	[Fact]
 	public async Task GetAll_ReturnsItems()
 	{
-		var items = await ServiceDeskClient.ConfigurationItems.GetAllAsync(CancellationToken);
+		var items = await ServiceDeskClient.ConfigurationItems.GetAsync(new GetConfigurationItemsRequest(), CancellationToken);
 		items.Should().NotBeNull();
 		items.Should().NotBeEmpty();
 	}
@@ -17,11 +18,12 @@ public class ConfigurationItemTests(ITestOutputHelper output) : TestWithOutput(o
 	[Fact]
 	public async Task GetById_WithValidId_ReturnsItem()
 	{
-		var items = await ServiceDeskClient.ConfigurationItems.GetAllAsync(CancellationToken);
+		var items = await ServiceDeskClient.ConfigurationItems.GetAsync(new GetConfigurationItemsRequest(), CancellationToken);
 		items.Should().NotBeEmpty();
 		var id = items[0].Id;
-		var item = await ServiceDeskClient.ConfigurationItems.GetAsync(id, CancellationToken);
+		var item = await ServiceDeskClient.ConfigurationItems.GetAsync(id, ResponseLayout.Short, CancellationToken);
 		item.Should().NotBeNull();
 		item.Id.Should().Be(id);
 	}
 }
+

@@ -14,16 +14,17 @@ public interface IReleases
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of releases.</returns>
 	[Get("/releases.json")]
-	public Task<List<Release>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Release>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific release by ID.
 	/// </summary>
 	/// <param name="id">The ID of the release.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The release.</returns>
 	[Get("/releases/{id}.json")]
-	public Task<Release> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Release> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new release.

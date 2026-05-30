@@ -18,15 +18,6 @@ public interface ICategories
 	public Task<List<Category>> GetAsync([Query] GetCategoriesRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific category by ID.
-	/// </summary>
-	/// <param name="id">The ID of the category.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The category.</returns>
-	[Get("/categories/{id}.json")]
-	public Task<Category> GetAsync(int id, CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a specific category by ID with layout option.
 	/// </summary>
 	/// <param name="id">The ID of the category.</param>
@@ -34,7 +25,7 @@ public interface ICategories
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The category.</returns>
 	[Get("/categories/{id}.json")]
-	public Task<Category> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<Category> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new category.

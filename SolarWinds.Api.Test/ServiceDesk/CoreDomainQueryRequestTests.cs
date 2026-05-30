@@ -108,7 +108,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IContracts>(client);
 
-		await api.GetAllAsync(new GetContractsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(new GetContractsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/contracts.json");
@@ -138,7 +138,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IHardwares>(client);
 
-		await api.GetAllAsync(new GetHardwaresRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(new GetHardwaresRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/hardwares.json");
@@ -168,7 +168,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IOtherAssets>(client);
 
-		await api.GetAllAsync(new GetOtherAssetsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(new GetOtherAssetsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/other_assets.json");
@@ -198,7 +198,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IProblems>(client);
 
-		await api.GetAllAsync(new GetProblemsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(new GetProblemsRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/problems.json");
@@ -228,7 +228,7 @@ public class CoreDomainQueryRequestTests
 		using var client = CreateClient(capture);
 		var api = CreateApi<IChanges>(client);
 
-		await api.GetAllAsync(new GetChangesRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
+		await api.GetAsync(new GetChangesRequest { Layout = ResponseLayout.Long }, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/changes.json");
@@ -336,3 +336,4 @@ public class CoreDomainQueryRequestTests
 		}
 	}
 }
+

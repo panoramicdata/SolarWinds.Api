@@ -25,7 +25,7 @@ public class Group : NamedEntity
 	/// <summary>
 	/// Gets or sets the reports to ID.
 	/// </summary>
-	public int ReportsTo { get; set; }
+	public object? ReportsTo { get; set; }
 
 	/// <summary>
 	/// Gets or sets the group type.

@@ -14,17 +14,19 @@ public interface ITickets
 /// <param name="cancellationToken">The cancellation token.</param>
 /// <returns>A list of tickets.</returns>
 [Get("/tickets.json")]
-public Task<List<Ticket>> GetAllAsync(CancellationToken cancellationToken);
+public Task<List<Ticket>> GetAsync(CancellationToken cancellationToken);
 
 /// <summary>
 /// Gets a specific ticket by ID.
 /// </summary>
 /// <param name="id">The ID of the ticket.</param>
+/// <param name="layout">The response layout.</param>
 /// <param name="cancellationToken">The cancellation token.</param>
 /// <returns>The ticket.</returns>
 [Get("/tickets/{id}.json")]
 public Task<Ticket> GetAsync(
 int id,
+[AliasAs("layout")] ResponseLayout layout,
 CancellationToken cancellationToken);
 
 /// <summary>

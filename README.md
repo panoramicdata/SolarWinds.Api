@@ -125,11 +125,16 @@ var customPropertyValues = await client.GetAllAsync<CustomPropertyValue>();
 ```csharp
 using SolarWinds.Api.ServiceDesk.Models;
 
-// Get all incidents
-var allIncidents = await serviceDeskClient.Incidents.GetAllAsync();
+// Get incidents using a query request
+var allIncidents = await serviceDeskClient.Incidents.GetAsync(new GetIncidentsRequest
+{
+    Layout = ResponseLayout.Short,
+    Page = 1,
+    PerPage = 50
+}, CancellationToken.None);
 
-// Get a specific incident by ID
-var incident = await serviceDeskClient.Incidents.GetAsync(123);
+// Get a specific incident by ID (layout is required)
+var incident = await serviceDeskClient.Incidents.GetAsync(123, ResponseLayout.Long, CancellationToken.None);
 ```
 
 ##### Get Users
@@ -140,9 +145,115 @@ using SolarWinds.Api.ServiceDesk.Models;
 // Get all users
 var allUsers = await serviceDeskClient.Users.GetAllAsync();
 
-// Get a specific user by ID
-var user = await serviceDeskClient.Users.GetAsync(456);
+// Get a specific user by ID (layout is required)
+var user = await serviceDeskClient.Users.GetAsync(456, ResponseLayout.Short, CancellationToken.None);
 ```
+
+## Breaking Changes (Current Migration Wave)
+
+This release contains wide-reaching breaking changes across the Service Desk client to align with official API behavior and payload shapes.
+
+### What changed
+
+- GET-by-ID methods now require layout explicitly:
+    - `GetAsync(int id, ResponseLayout layout, CancellationToken cancellationToken)`
+- Object-scoped endpoints no longer take free-form strings for `objectType`:
+    - now use `ObjectType objectType` enum values (serialized via `EnumMember` string mappings).
+- Many write operations now require wrapper request payloads instead of raw entity bodies:
+    - examples: `IncidentCreateRequest`, `IncidentUpdateRequest`, `CategoryCreateRequest`, `ContractUpdateRequest`, and similar domain-specific request models.
+- List/query reads in migrated domains now use typed query request models:
+    - examples: `GetIncidentsRequest`, `GetChangesRequest`, `GetContractsRequest`.
+- Legacy convenience signatures are being removed as domains are migrated:
+    - examples: `GetAllAsync(...)`, `GetPageAsync(...)`.
+
+### Why this changed
+
+- To match Service Desk OpenAPI paths and payload roots.
+- To make request intent explicit and strongly typed.
+- To reduce ambiguous signatures and reduce runtime shape mismatches.
+
+## Service Desk Migration Guide
+
+Use this as a checklist when upgrading existing code.
+
+### 1) Update GET-by-ID calls to include layout
+
+Before:
+
+```csharp
+var category = await serviceDeskClient.Categories.GetAsync(categoryId, cancellationToken);
+```
+
+After:
+
+```csharp
+var category = await serviceDeskClient.Categories.GetAsync(categoryId, ResponseLayout.Short, cancellationToken);
+```
+
+### 2) Replace string objectType with ObjectType enum
+
+Before:
+
+```csharp
+var comment = await serviceDeskClient.Comments.CreateAsync("incidents", incidentId, request, cancellationToken);
+```
+
+After:
+
+```csharp
+var comment = await serviceDeskClient.Comments.CreateAsync(ObjectType.Incidents, incidentId, request, cancellationToken);
+```
+
+### 3) Replace raw write bodies with wrapper requests
+
+Before:
+
+```csharp
+var updated = await serviceDeskClient.Incidents.UpdateAsync(incidentId, incident, cancellationToken);
+```
+
+After:
+
+```csharp
+var updated = await serviceDeskClient.Incidents.UpdateAsync(
+        incidentId,
+        new IncidentUpdateRequest
+        {
+                Incident = new IncidentWriteFields
+                {
+                        Name = "Updated title"
+                }
+        },
+        cancellationToken);
+```
+
+### 4) Use typed query requests for list endpoints
+
+Before:
+
+```csharp
+var changes = await serviceDeskClient.Changes.GetAllAsync(cancellationToken);
+```
+
+After:
+
+```csharp
+var changes = await serviceDeskClient.Changes.GetAsync(new GetChangesRequest
+{
+        Layout = ResponseLayout.Long
+}, cancellationToken);
+```
+
+### 5) Confirm date and enum serialization assumptions
+
+- Date query values use `MMM d yyyy` formatting.
+- Enums are serialized using `EnumMember` values where present.
+
+### 6) Upgrade strategy for consumers
+
+- Compile and fix all Service Desk call sites by signature.
+- Start with read-path calls (`GetAsync`) then write-path wrappers.
+- Run integration tests against your tenant, especially workflows touching category/group/department payloads.
 
 ### Querying
 

@@ -10,6 +10,15 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface ITasks
 {
 	/// <summary>
+	/// Gets a list of tasks using query parameters.
+	/// </summary>
+	/// <param name="request">The task query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of tasks.</returns>
+	[Get("/tasks.json")]
+	public Task<List<ServiceTask>> GetAsync([Query(CollectionFormat.Multi)] GetTasksRequest request, CancellationToken cancellationToken);
+
+	/// <summary>
 	/// Creates a new task.
 	/// </summary>
 	/// <param name="objectType">The source object type (for example, incidents).</param>
@@ -18,7 +27,7 @@ public interface ITasks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created task.</returns>
 	[Post("/{objectType}/{id}/tasks.json")]
-	public Task<ServiceTask> CreateAsync(string objectType, int id, [Body] TaskCreateRequest request, CancellationToken cancellationToken);
+	public Task<ServiceTask> CreateAsync(ObjectType objectType, int id, [Body] TaskCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing task.
@@ -30,7 +39,7 @@ public interface ITasks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated task.</returns>
 	[Put("/{objectType}/{id}/tasks/{taskId}.json")]
-	public Task<ServiceTask> UpdateAsync(string objectType, int id, int taskId, [Body] TaskUpdateRequest request, CancellationToken cancellationToken);
+	public Task<ServiceTask> UpdateAsync(ObjectType objectType, int id, int taskId, [Body] TaskUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a task.
@@ -41,7 +50,7 @@ public interface ITasks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/{objectType}/{id}/tasks/{taskId}.json")]
 	public Task DeleteAsync(
-		string objectType,
+		ObjectType objectType,
 		int id,
 		int taskId,
 		CancellationToken cancellationToken);

@@ -14,16 +14,17 @@ public interface IMobileDevices
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of mobile devices.</returns>
 	[Get("/mobiles.json")]
-	public Task<List<MobileDevice>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<MobileDevice>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific mobile device by ID.
 	/// </summary>
 	/// <param name="id">The ID of the mobile device.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The mobile device.</returns>
 	[Get("/mobiles/{id}.json")]
-	public Task<MobileDevice> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<MobileDevice> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new mobile device.

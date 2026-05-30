@@ -9,14 +9,14 @@ public class HardwareTests(ITestOutputHelper output) : TestWithOutput(output)
 	[Fact]
 	public async Task GetAll_ReturnsCollection()
 	{
-		var items = await ServiceDeskClient.Hardwares.GetAllAsync(CancellationToken);
+		var items = await ServiceDeskClient.Hardwares.GetAsync(new GetHardwaresRequest(), CancellationToken);
 		items.Should().NotBeNull();
 	}
 
 	[Fact]
 	public async Task GetById_WhenItemsExist_ReturnsItem()
 	{
-		var items = await ServiceDeskClient.Hardwares.GetAllAsync(CancellationToken);
+		var items = await ServiceDeskClient.Hardwares.GetAsync(new GetHardwaresRequest(), CancellationToken);
 		items.Should().NotBeNull();
 		if (items.Count == 0)
 		{
@@ -24,8 +24,9 @@ public class HardwareTests(ITestOutputHelper output) : TestWithOutput(output)
 		}
 
 		var id = items[0].Id;
-		var item = await ServiceDeskClient.Hardwares.GetAsync(id, CancellationToken);
+		var item = await ServiceDeskClient.Hardwares.GetAsync(id, ResponseLayout.Short, CancellationToken);
 		item.Should().NotBeNull();
 		item.Id.Should().Be(id);
 	}
 }
+

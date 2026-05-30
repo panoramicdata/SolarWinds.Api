@@ -14,16 +14,17 @@ public interface IUsers
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of users.</returns>
 	[Get("/users.json")]
-	public Task<List<User>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<User>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific user by ID.
 	/// </summary>
 	/// <param name="id">The ID of the user.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The user.</returns>
 	[Get("/users/{id}.json")]
-	public Task<User> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<User> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new user.

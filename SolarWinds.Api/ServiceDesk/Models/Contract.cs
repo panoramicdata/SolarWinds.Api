@@ -10,12 +10,12 @@ public class Contract : DescribedEntity
 	/// <summary>
 	/// Gets or sets the contract start date.
 	/// </summary>
-	public DateTime StartDate { get; set; }
+	public DateTime? StartDate { get; set; }
 
 	/// <summary>
 	/// Gets or sets the contract end date.
 	/// </summary>
-	public DateTime EndDate { get; set; }
+	public DateTime? EndDate { get; set; }
 
 	/// <summary>
 	/// Gets or sets the vendor ID associated with the contract.

@@ -17,7 +17,7 @@ public interface IPurchases
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created purchase.</returns>
 	[Post("/{objectType}/{id}/purchases.json")]
-	public Task<Purchase> CreateAsync(string objectType, int id, [Body] PurchaseCreateRequest request, CancellationToken cancellationToken);
+	public Task<Purchase> CreateAsync(ObjectType objectType, int id, [Body] PurchaseCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing purchase.
@@ -29,7 +29,7 @@ public interface IPurchases
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated purchase.</returns>
 	[Put("/{objectType}/{id}/purchases/{purchaseId}.json")]
-	public Task<Purchase> UpdateAsync(string objectType, int id, int purchaseId, [Body] PurchaseUpdateRequest request, CancellationToken cancellationToken);
+	public Task<Purchase> UpdateAsync(ObjectType objectType, int id, int purchaseId, [Body] PurchaseUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a purchase.
@@ -40,7 +40,7 @@ public interface IPurchases
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/{objectType}/{id}/purchases/{purchaseId}.json")]
 	public Task DeleteAsync(
-		string objectType,
+		ObjectType objectType,
 		int id,
 		int purchaseId,
 		CancellationToken cancellationToken);

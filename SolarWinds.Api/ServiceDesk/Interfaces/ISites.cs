@@ -14,16 +14,17 @@ public interface ISites
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of sites.</returns>
 	[Get("/sites.json")]
-	public Task<List<Site>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Site>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific site by ID.
 	/// </summary>
 	/// <param name="id">The ID of the site.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The site.</returns>
 	[Get("/sites/{id}.json")]
-	public Task<Site> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Site> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new site.

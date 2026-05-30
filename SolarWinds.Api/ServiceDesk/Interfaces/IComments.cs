@@ -10,6 +10,16 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IComments
 {
 	/// <summary>
+	/// Gets a list of comments for a specific object.
+	/// </summary>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="unmasked">Whether to return unmasked (unredacted) comment bodies.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of comments.</returns>
+	[Get("/{objectType}/{id}/comments.json")]
+	public Task<List<Comment>> GetAsync(ObjectType objectType, int id, [AliasAs("unmasked")] bool unmasked, CancellationToken cancellationToken);
+	/// <summary>
 	/// Creates a new comment.
 	/// </summary>
 	/// <param name="objectType">The source object type (for example, incidents).</param>
@@ -18,7 +28,7 @@ public interface IComments
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created comment.</returns>
 	[Post("/{objectType}/{id}/comments.json")]
-	public Task<Comment> CreateAsync(string objectType, int id, [Body] CommentCreateRequest request, CancellationToken cancellationToken);
+	public Task<Comment> CreateAsync(ObjectType objectType, int id, [Body] CommentCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing comment.
@@ -30,7 +40,7 @@ public interface IComments
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated comment.</returns>
 	[Put("/{objectType}/{id}/comments/{commentId}.json")]
-	public Task<Comment> UpdateAsync(string objectType, int id, int commentId, [Body] CommentUpdateRequest request, CancellationToken cancellationToken);
+	public Task<Comment> UpdateAsync(ObjectType objectType, int id, int commentId, [Body] CommentUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a comment.
@@ -41,7 +51,7 @@ public interface IComments
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/{objectType}/{id}/comments/{commentId}.json")]
 	public Task DeleteAsync(
-		string objectType,
+		ObjectType objectType,
 		int id,
 		int commentId,
 		CancellationToken cancellationToken);

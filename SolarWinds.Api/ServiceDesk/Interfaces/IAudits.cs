@@ -14,7 +14,7 @@ public interface IAudits
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of audit records.</returns>
 	[Get("/audits.json")]
-	public Task<List<Audit>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Audit>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets audit records for a specific source object.
@@ -25,7 +25,7 @@ public interface IAudits
 	/// <returns>A list of audit records.</returns>
 	[Get("/{objectType}/{id}/audits.json")]
 	public Task<List<Audit>> GetByObjectAsync(
-		string objectType,
+		ObjectType objectType,
 		int id,
 		CancellationToken cancellationToken);
 }

@@ -15,16 +15,17 @@ public interface IPrinters
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of printers.</returns>
 	[Get("/printers.json")]
-	public Task<List<Printer>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Printer>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific printer by ID.
 	/// </summary>
 	/// <param name="id">The ID of the printer.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The printer.</returns>
 	[Get("/printers/{id}.json")]
-	public Task<Printer> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Printer> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing printer.

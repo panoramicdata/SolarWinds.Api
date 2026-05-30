@@ -15,16 +15,18 @@ public interface IRisks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of risk records.</returns>
 	[Get("/risks.json")]
-	public Task<List<Risk>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Risk>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific risk record by ID.
 	/// </summary>
 	/// <param name="id">The ID of the risk record.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The risk record.</returns>
 	[Get("/risks/{id}.json")]
 	public Task<Risk> GetAsync(
 		int id,
+		[AliasAs("layout")] ResponseLayout layout,
 		CancellationToken cancellationToken);
 }

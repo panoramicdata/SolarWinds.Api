@@ -9,30 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IProblems
 {
 	/// <summary>
-	/// Gets a list of problems.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>A list of problems.</returns>
-	[Get("/problems.json")]
-	public Task<List<Problem>> GetAllAsync(CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a list of problems using query parameters.
 	/// </summary>
 	/// <param name="request">The query parameters.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of problems.</returns>
 	[Get("/problems.json")]
-	public Task<List<Problem>> GetAllAsync([Query] GetProblemsRequest request, CancellationToken cancellationToken);
-
-	/// <summary>
-	/// Gets a specific problem by ID.
-	/// </summary>
-	/// <param name="id">The ID of the problem.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The problem.</returns>
-	[Get("/problems/{id}.json")]
-	public Task<Problem> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<List<Problem>> GetAsync([Query] GetProblemsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific problem by ID with layout option.
@@ -42,7 +25,7 @@ public interface IProblems
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The problem.</returns>
 	[Get("/problems/{id}.json")]
-	public Task<Problem> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<Problem> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new problem.

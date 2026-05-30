@@ -128,6 +128,6 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 
 		configure(request);
 
-		return await ServiceDeskClient.Incidents.GetAllAsync(request, CancellationToken);
+		return await ServiceDeskClient.Incidents.GetAsync(request, CancellationToken);
 	}
 }

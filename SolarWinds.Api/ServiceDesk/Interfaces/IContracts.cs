@@ -9,30 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IContracts
 {
 	/// <summary>
-	/// Gets a list of contracts.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>A list of contracts.</returns>
-	[Get("/contracts.json")]
-	public Task<List<Contract>> GetAllAsync(CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a list of contracts with query options.
 	/// </summary>
 	/// <param name="request">The query request.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of contracts.</returns>
 	[Get("/contracts.json")]
-	public Task<List<Contract>> GetAllAsync([Query] GetContractsRequest request, CancellationToken cancellationToken);
-
-	/// <summary>
-	/// Gets a specific contract by ID.
-	/// </summary>
-	/// <param name="id">The ID of the contract.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The contract.</returns>
-	[Get("/contracts/{id}.json")]
-	public Task<Contract> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<List<Contract>> GetAsync([Query] GetContractsRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific contract by ID with layout option.
@@ -42,7 +25,7 @@ public interface IContracts
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The contract.</returns>
 	[Get("/contracts/{id}.json")]
-	public Task<Contract> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<Contract> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new contract.

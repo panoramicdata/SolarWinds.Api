@@ -14,16 +14,17 @@ public interface IDepartments
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of departments.</returns>
 	[Get("/departments.json")]
-	public Task<List<Department>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Department>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific department by ID.
 	/// </summary>
 	/// <param name="id">The ID of the department.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The department.</returns>
 	[Get("/departments/{id}.json")]
-	public Task<Department> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Department> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new department.

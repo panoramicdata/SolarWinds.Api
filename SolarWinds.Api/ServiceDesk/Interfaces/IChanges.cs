@@ -9,30 +9,13 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IChanges
 {
 	/// <summary>
-	/// Gets a list of changes.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>A list of changes.</returns>
-	[Get("/changes.json")]
-	public Task<List<Change>> GetAllAsync(CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Gets a list of changes using query parameters.
 	/// </summary>
 	/// <param name="request">The query parameters.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of changes.</returns>
 	[Get("/changes.json")]
-	public Task<List<Change>> GetAllAsync([Query] GetChangesRequest request, CancellationToken cancellationToken);
-
-	/// <summary>
-	/// Gets a specific change by ID.
-	/// </summary>
-	/// <param name="id">The ID of the change.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The change.</returns>
-	[Get("/changes/{id}.json")]
-	public Task<Change> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<List<Change>> GetAsync([Query] GetChangesRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific change by ID with layout option.
@@ -42,7 +25,7 @@ public interface IChanges
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The change.</returns>
 	[Get("/changes/{id}.json")]
-	public Task<Change> GetAsync(int id, [AliasAs("layout")] ResponseLayout? layout, CancellationToken cancellationToken);
+	public Task<Change> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new change.

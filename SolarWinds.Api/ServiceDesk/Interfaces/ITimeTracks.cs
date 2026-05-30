@@ -16,7 +16,7 @@ public interface ITimeTracks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of time tracks.</returns>
 	[Get("/{objectType}/{id}/time_tracks.json")]
-	public Task<List<TimeTrack>> GetAllAsync(string objectType, int id, CancellationToken cancellationToken);
+	public Task<List<TimeTrack>> GetAsync(ObjectType objectType, int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new time track.
@@ -27,7 +27,7 @@ public interface ITimeTracks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created time track.</returns>
 	[Post("/{objectType}/{id}/time_tracks.json")]
-	public Task<TimeTrack> CreateAsync(string objectType, int id, [Body] TimeTrackCreateRequest request, CancellationToken cancellationToken);
+	public Task<TimeTrack> CreateAsync(ObjectType objectType, int id, [Body] TimeTrackCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing time track.
@@ -39,7 +39,7 @@ public interface ITimeTracks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated time track.</returns>
 	[Put("/{objectType}/{id}/time_tracks/{timeTrackId}.json")]
-	public Task<TimeTrack> UpdateAsync(string objectType, int id, int timeTrackId, [Body] TimeTrackUpdateRequest request, CancellationToken cancellationToken);
+	public Task<TimeTrack> UpdateAsync(ObjectType objectType, int id, int timeTrackId, [Body] TimeTrackUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a time track.
@@ -50,7 +50,7 @@ public interface ITimeTracks
 	/// <param name="cancellationToken">The cancellation token.</param>
 	[Delete("/{objectType}/{id}/time_tracks/{timeTrackId}.json")]
 	public Task DeleteAsync(
-		string objectType,
+		ObjectType objectType,
 		int id,
 		int timeTrackId,
 		CancellationToken cancellationToken);

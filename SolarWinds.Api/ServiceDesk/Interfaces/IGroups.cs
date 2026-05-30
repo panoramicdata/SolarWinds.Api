@@ -14,16 +14,17 @@ public interface IGroups
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of groups.</returns>
 	[Get("/groups.json")]
-	public Task<List<Group>> GetAllAsync(CancellationToken cancellationToken);
+	public Task<List<Group>> GetAsync(CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific group by ID.
 	/// </summary>
 	/// <param name="id">The ID of the group.</param>
+	/// <param name="layout">The response layout.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The group.</returns>
 	[Get("/groups/{id}.json")]
-	public Task<Group> GetAsync(int id, CancellationToken cancellationToken);
+	public Task<Group> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new group.
@@ -53,4 +54,14 @@ public interface IGroups
 	public Task DeleteAsync(
 		int id,
 		CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a filtered/paginated list of groups using the group_list endpoint.
+	/// Supports filtering by portal membership, queue membership, and name.
+	/// </summary>
+	/// <param name="request">The query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of groups matching the filter criteria.</returns>
+	[Get("/groups/group_list.json")]
+	public Task<List<Group>> GetGroupListAsync([Query] GetGroupListRequest request, CancellationToken cancellationToken);
 }
