@@ -17,6 +17,15 @@ public interface IIncidents
 	public Task<List<Incident>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
+	/// Gets a list of incidents using query parameters.
+	/// </summary>
+	/// <param name="request">The incident query parameters.</param>
+	/// <param name="cancellationToken">The cancellation token.</param>
+	/// <returns>A list of incidents.</returns>
+	[Get("/incidents.json")]
+	public Task<List<Incident>> GetAllAsync([Query] GetIncidentsRequest request, CancellationToken cancellationToken);
+
+	/// <summary>
 	/// Gets a page of incidents.
 	/// </summary>
 	/// <param name="page">The page number (1-based).</param>

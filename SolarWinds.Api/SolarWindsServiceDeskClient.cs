@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Refit;
 using SolarWinds.Api.Http;
+using SolarWinds.Api.ServiceDesk.Helpers;
 using SolarWinds.Api.ServiceDesk.Interfaces;
 
 namespace SolarWinds.Api;
@@ -16,7 +17,10 @@ public class SolarWindsServiceDeskClient
 		new SystemTextJsonContentSerializer(new JsonSerializerOptions
 		{
 			PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-		}));
+		}))
+	{
+		UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
+	};
 
 	/// <summary>
 	/// Gets the Service Desk Tickets API.
