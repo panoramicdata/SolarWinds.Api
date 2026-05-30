@@ -9,10 +9,21 @@ using SolarWinds.Api.Queries;
 
 namespace SolarWinds.Api;
 
+/// <summary>
+/// Client for querying the SolarWinds Information Service (SWIS) JSON endpoint.
+/// </summary>
 public class SolarWindsClient
 {
 	private readonly HttpClient _httpClient;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="SolarWindsClient"/> class.
+	/// </summary>
+	/// <param name="hostname">SolarWinds host name.</param>
+	/// <param name="username">Account user name.</param>
+	/// <param name="password">Account password.</param>
+	/// <param name="port">HTTPS port for the SWIS endpoint.</param>
+	/// <param name="ignoreSslCertificateErrors">Whether to ignore TLS certificate validation errors.</param>
 	public SolarWindsClient(
 		string hostname,
 		string username,
@@ -48,12 +59,32 @@ public class SolarWindsClient
 
 	private bool RelaxedCertificateCheck(HttpRequestMessage arg1, X509Certificate2? arg2, X509Chain? arg3, SslPolicyErrors arg4) => true;
 
+	/// <summary>
+	/// Executes a typed SWQL filter query.
+	/// </summary>
+	/// <typeparam name="T">Entity type returned by the query.</typeparam>
+	/// <param name="filterQuery">Query definition to execute.</param>
+	/// <param name="cancellationToken">Token used to cancel the request.</param>
+	/// <returns>The typed query response.</returns>
 	public Task<QueryResponse<T>> FilterQueryAsync<T>(FilterQuery<T> filterQuery, CancellationToken cancellationToken) where T : Entity
 		=> SqlQueryAsyncInternal<T>(filterQuery.GetSqlQuery(), cancellationToken);
 
+	/// <summary>
+	/// Executes a raw SWQL query and deserializes the result to a typed response.
+	/// </summary>
+	/// <typeparam name="T">Entity type returned by the query.</typeparam>
+	/// <param name="query">SQL query payload to execute.</param>
+	/// <param name="cancellationToken">Token used to cancel the request.</param>
+	/// <returns>The typed query response.</returns>
 	public Task<QueryResponse<T>> SqlQueryAsync<T>(SqlQuery query, CancellationToken cancellationToken) where T : Entity
 		=> SqlQueryAsyncInternal<T>(query, cancellationToken);
 
+	/// <summary>
+	/// Executes a raw SWQL query and returns the result as JSON objects.
+	/// </summary>
+	/// <param name="query">SQL query payload to execute.</param>
+	/// <param name="cancellationToken">Token used to cancel the request.</param>
+	/// <returns>The query response projected to <see cref="JObject"/> instances.</returns>
 	public Task<QueryResponse<JObject>> SqlJObjectQueryAsync(SqlQuery query, CancellationToken cancellationToken)
 		=> SqlQueryAsyncInternal<JObject>(query, cancellationToken);
 

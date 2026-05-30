@@ -5,5 +5,8 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// </summary>
 public sealed class ContractItemCreateRequest
 {
+	/// <summary>
+	/// Gets or sets the contract-item payload to create.
+	/// </summary>
 	public ContractItemWriteFields Item { get; set; } = new();
 }
