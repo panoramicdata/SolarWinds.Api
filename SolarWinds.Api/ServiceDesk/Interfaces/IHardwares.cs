@@ -47,21 +47,21 @@ public interface IHardwares
 	/// <summary>
 	/// Creates a new hardware asset.
 	/// </summary>
-	/// <param name="hardware">The hardware asset to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created hardware asset.</returns>
 	[Post("/hardwares.json")]
-	public Task<Hardware> CreateAsync([Body] Hardware hardware, CancellationToken cancellationToken);
+	public Task<Hardware> CreateAsync([Body] HardwareCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing hardware asset.
 	/// </summary>
 	/// <param name="id">The ID of the hardware asset to update.</param>
-	/// <param name="hardware">The hardware asset data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated hardware asset.</returns>
 	[Put("/hardwares/{id}.json")]
-	public Task<Hardware> UpdateAsync(int id, [Body] Hardware hardware, CancellationToken cancellationToken);
+	public Task<Hardware> UpdateAsync(int id, [Body] HardwareUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a hardware asset.
@@ -86,22 +86,22 @@ public interface IHardwares
 	/// Creates a warranty for a hardware asset.
 	/// </summary>
 	/// <param name="id">The hardware ID.</param>
-	/// <param name="warranty">The warranty payload.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created warranty.</returns>
 	[Post("/hardwares/{id}/warranties.json")]
-	public Task<Warranty> CreateWarrantyAsync(int id, [Body] Warranty warranty, CancellationToken cancellationToken);
+	public Task<Warranty> CreateWarrantyAsync(int id, [Body] WarrantyCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates a warranty for a hardware asset.
 	/// </summary>
 	/// <param name="hardwareId">The hardware ID.</param>
 	/// <param name="warrantyId">The warranty ID.</param>
-	/// <param name="warranty">The warranty payload.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated warranty.</returns>
 	[Put("/hardwares/{hardwareId}/warranties/{warrantyId}.json")]
-	public Task<Warranty> UpdateWarrantyAsync(int hardwareId, int warrantyId, [Body] Warranty warranty, CancellationToken cancellationToken);
+	public Task<Warranty> UpdateWarrantyAsync(int hardwareId, int warrantyId, [Body] WarrantyUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a warranty for a hardware asset.

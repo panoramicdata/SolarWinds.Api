@@ -47,25 +47,25 @@ public interface IOtherAssets
 	/// <summary>
 	/// Creates a new other asset.
 	/// </summary>
-	/// <param name="asset">The other asset to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created other asset.</returns>
 	[Post("/other_assets.json")]
 	public Task<Asset> CreateAsync(
-		[Body] Asset asset,
+		[Body] OtherAssetCreateRequest request,
 		CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing other asset.
 	/// </summary>
 	/// <param name="id">The ID of the other asset to update.</param>
-	/// <param name="asset">The other asset data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated other asset.</returns>
 	[Put("/other_assets/{id}.json")]
 	public Task<Asset> UpdateAsync(
 		int id,
-		[Body] Asset asset,
+		[Body] OtherAssetUpdateRequest request,
 		CancellationToken cancellationToken);
 
 	/// <summary>

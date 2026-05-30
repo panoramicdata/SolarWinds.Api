@@ -272,6 +272,21 @@ Use this section to append progress notes as each phase is completed.
     - Build succeeded.
     - Targeted tests succeeded: `26 passed, 0 failed`.
 
+- 2026-05-30: Phase 5 write-wrapper migration for contracts/hardwares/other assets.
+  - Added docs-aligned write wrapper models and payload roots:
+    - Contracts: `ContractCreateRequest`, `ContractUpdateRequest`, `ContractWriteFields` (`contract`)
+    - Contract items: `ContractItemCreateRequest`, `ContractItemUpdateRequest`, `ContractItemWriteFields` (`item`)
+    - Hardwares: `HardwareCreateRequest`, `HardwareUpdateRequest`, `HardwareWriteFields` (`hardware`)
+    - Warranties: `WarrantyCreateRequest`, `WarrantyUpdateRequest`, `WarrantyWriteFields` (`warranty`)
+    - Other assets: `OtherAssetCreateRequest`, `OtherAssetUpdateRequest`, `OtherAssetWriteFields` (`other_asset`)
+  - Updated interfaces to use wrapper request types:
+    - `IContracts` (contract + contract item write operations)
+    - `IHardwares` (hardware + warranty write operations)
+    - `IOtherAssets` (other asset write operations)
+  - Validation run:
+    - Build succeeded.
+    - Targeted tests succeeded: `26 passed, 0 failed`.
+
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.
