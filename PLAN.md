@@ -104,7 +104,7 @@ Goal: Migrate catalog/configuration/asset-style domains.
 - [ ] Catalog item request models and signature alignment (`catalog_item`).
 - [ ] Configuration item request models and signature alignment (`configuration_item`).
 - [ ] Other asset request models and signature alignment (`other_asset`).
-- [ ] Hardware/mobile/printer/software/contract/purchase-order/vendor request model alignment where docs define write schemas.
+- [x] Hardware/mobile/printer/software/contract/purchase-order/vendor request model alignment where docs define write schemas.
 - [ ] Handle sub-resource endpoints (warranties, contract items, dependent assets, asset links) with documented paths and payload keys.
 - [ ] Add/expand GET query unit tests for all GET queryable endpoints in these domains.
 - [ ] No write-query unit tests.
@@ -283,6 +283,22 @@ Use this section to append progress notes as each phase is completed.
     - `IContracts` (contract + contract item write operations)
     - `IHardwares` (hardware + warranty write operations)
     - `IOtherAssets` (other asset write operations)
+  - Validation run:
+    - Build succeeded.
+    - Targeted tests succeeded: `26 passed, 0 failed`.
+
+- 2026-05-30: Phase 5 write-wrapper migration for mobile/printer/purchase-order/vendor.
+  - Added docs-aligned write wrapper models and payload roots:
+    - Mobiles: `MobileDeviceCreateRequest`, `MobileDeviceUpdateRequest`, `MobileDeviceWriteFields` (`mobile`)
+    - Printers: `PrinterUpdateRequest`, `PrinterWriteFields` (`printer`)
+    - Purchase orders: `PurchaseOrderCreateRequest`, `PurchaseOrderUpdateRequest`, `PurchaseOrderWriteFields` (`purchase_order`)
+    - Vendors: `VendorCreateRequest`, `VendorUpdateRequest`, `VendorWriteFields` (`vendor`)
+  - Updated interfaces to use wrapper request types:
+    - `IMobileDevices`
+    - `IPrinters`
+    - `IPurchaseOrders`
+    - `IPurchaseOrdersApi`
+    - `IVendors`
   - Validation run:
     - Build succeeded.
     - Targeted tests succeeded: `26 passed, 0 failed`.

@@ -30,12 +30,12 @@ public interface IPrinters
 	/// Updates an existing printer.
 	/// </summary>
 	/// <param name="id">The ID of the printer to update.</param>
-	/// <param name="printer">The printer data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated printer.</returns>
 	[Put("/printers/{id}.json")]
 	public Task<Printer> UpdateAsync(
 		int id,
-		[Body] Printer printer,
+		[Body] PrinterUpdateRequest request,
 		CancellationToken cancellationToken);
 }

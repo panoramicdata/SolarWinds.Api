@@ -28,21 +28,21 @@ public interface IPurchaseOrdersApi
 	/// <summary>
 	/// Creates a new purchase order.
 	/// </summary>
-	/// <param name="purchaseOrder">The purchase order to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created purchase order.</returns>
 	[Post("/purchase_orders.json")]
-	public Task<PurchaseOrder> CreateAsync([Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
+	public Task<PurchaseOrder> CreateAsync([Body] PurchaseOrderCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing purchase order.
 	/// </summary>
 	/// <param name="id">The ID of the purchase order to update.</param>
-	/// <param name="purchaseOrder">The purchase order data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated purchase order.</returns>
 	[Put("/purchase_orders/{id}.json")]
-	public Task<PurchaseOrder> UpdateAsync(int id, [Body] PurchaseOrder purchaseOrder, CancellationToken cancellationToken);
+	public Task<PurchaseOrder> UpdateAsync(int id, [Body] PurchaseOrderUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a purchase order.

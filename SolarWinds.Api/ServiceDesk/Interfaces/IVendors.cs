@@ -28,21 +28,21 @@ public interface IVendors
 	/// <summary>
 	/// Creates a new vendor.
 	/// </summary>
-	/// <param name="vendor">The vendor to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created vendor.</returns>
 	[Post("/vendors.json")]
-	public Task<Vendor> CreateAsync([Body] Vendor vendor, CancellationToken cancellationToken);
+	public Task<Vendor> CreateAsync([Body] VendorCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing vendor.
 	/// </summary>
 	/// <param name="id">The ID of the vendor to update.</param>
-	/// <param name="vendor">The vendor data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated vendor.</returns>
 	[Put("/vendors/{id}.json")]
-	public Task<Vendor> UpdateAsync(int id, [Body] Vendor vendor, CancellationToken cancellationToken);
+	public Task<Vendor> UpdateAsync(int id, [Body] VendorUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a vendor.

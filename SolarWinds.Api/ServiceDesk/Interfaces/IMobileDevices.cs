@@ -28,21 +28,21 @@ public interface IMobileDevices
 	/// <summary>
 	/// Creates a new mobile device.
 	/// </summary>
-	/// <param name="mobileDevice">The mobile device to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created mobile device.</returns>
 	[Post("/mobiles.json")]
-	public Task<MobileDevice> CreateAsync([Body] MobileDevice mobileDevice, CancellationToken cancellationToken);
+	public Task<MobileDevice> CreateAsync([Body] MobileDeviceCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing mobile device.
 	/// </summary>
 	/// <param name="id">The ID of the mobile device to update.</param>
-	/// <param name="mobileDevice">The mobile device data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated mobile device.</returns>
 	[Put("/mobiles/{id}.json")]
-	public Task<MobileDevice> UpdateAsync(int id, [Body] MobileDevice mobileDevice, CancellationToken cancellationToken);
+	public Task<MobileDevice> UpdateAsync(int id, [Body] MobileDeviceUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a mobile device.
