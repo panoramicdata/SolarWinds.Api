@@ -135,7 +135,7 @@ Goal: Guarantee all GET query behavior is covered by unit tests.
 - [ ] Ensure each has omission/null behavior tests for optional params.
 - [ ] Ensure page/per_page and layout semantics are tested where documented.
 - [ ] Ensure customer-safe principle holds: no unit tests for write queries.
-- [ ] Generate a short test coverage checklist file at `temp/docs/get-query-test-matrix.md`.
+- [x] Generate a short test coverage checklist file at `temp/docs/get-query-test-matrix.md`.
 - [ ] Commit phase completion.
 
 ## Phase 8: Deprecation and Breaking-Change Documentation
@@ -182,6 +182,14 @@ Use this section to append progress notes as each phase is completed.
   - Validation run (`IncidentQueryRequestTests`, `IncidentQueryIntegrationTests`, `IncidentLifecycleIntegrationTests`):
     - 12 passed, 1 failed.
     - Failure is live API behavior (`HTTP 500`) during incident lifecycle integration write call; no compile errors.
+
+- 2026-05-30: Phase 7 groundwork artifact generated.
+  - Created `temp/docs/get-query-test-matrix.md` from OpenAPI GET query parameters.
+  - Heuristic status summary:
+    - `Covered=4`
+    - `Partial=8`
+    - `Missing=2`
+  - Priority missing area identified: `other_assets` GET query coverage.
 
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
