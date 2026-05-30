@@ -113,14 +113,9 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 				.UpdateAsync(created.Id, created, CancellationToken);
 
 			updated.Description.Should().Contain("Updated by safe integration test");
+			var stateBeforeCloseAttempt = updated.State;
 
 			// Step 3: Request a state transition.
-			// NOTE: This account's Service Desk has workflow automation rules that force every
-			// new incident into "Pending Assignment" and override the assignee to the
-			// Technology Support Queue (default_assignee_id on every category). The PUT is
-			// accepted by the API (HTTP 200) but the server may leave the ticket in
-			// "Pending Assignment" regardless of the requested state. We therefore verify
-			// only that the call succeeds and returns a non-null response.
 			var closePayload = new SolarWinds.Api.ServiceDesk.Models.Incident
 			{
 				Name = updated.Name,
@@ -135,22 +130,21 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 				.Incidents
 				.UpdateAsync(created.Id, closePayload, CancellationToken);
 
-			closed.Should().NotBeNull("the update API should return the incident even if workflow overrides the state");
-			closed.State.Should().NotBeNullOrWhiteSpace("the server should return a current state after the transition request");
-			closed.State.Should().BeOneOf(
-				config.ClosedState,
-				"Pending Assignment",
-				"workflow automation may override the requested close state");
+			closed.Should().NotBeNull("the update API should return the incident after transition request");
 
 			var refreshed = await ServiceDeskClient
 				.Incidents
 				.GetAsync(created.Id, CancellationToken);
 
-			refreshed.State.Should().NotBeNullOrWhiteSpace("the incident should remain readable after lifecycle updates");
-			refreshed.State.Should().BeOneOf(
+			refreshed.State.Should().Be(
 				config.ClosedState,
-				"Pending Assignment",
-				"persisted state should be either the requested close state or the known workflow override state");
+				"the persisted incident state should match the requested close state after refetch");
+			if (!string.IsNullOrWhiteSpace(stateBeforeCloseAttempt))
+			{
+				refreshed.State.Should().NotBe(
+					stateBeforeCloseAttempt,
+					"the close transition should result in a different persisted state when the previous state is known");
+			}
 		}
 		finally
 		{
