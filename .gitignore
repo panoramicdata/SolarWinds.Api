@@ -360,3 +360,5 @@ MigrationBackup/
 [Oo]bj/
 .vs/
 nuget-key.txt
+
+temp/
