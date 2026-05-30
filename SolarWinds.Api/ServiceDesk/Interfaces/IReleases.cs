@@ -28,21 +28,21 @@ public interface IReleases
 	/// <summary>
 	/// Creates a new release.
 	/// </summary>
-	/// <param name="release">The release to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created release.</returns>
 	[Post("/releases.json")]
-	public Task<Release> CreateAsync([Body] Release release, CancellationToken cancellationToken);
+	public Task<Release> CreateAsync([Body] ReleaseCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing release.
 	/// </summary>
 	/// <param name="id">The ID of the release to update.</param>
-	/// <param name="release">The release data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated release.</returns>
 	[Put("/releases/{id}.json")]
-	public Task<Release> UpdateAsync(int id, [Body] Release release, CancellationToken cancellationToken);
+	public Task<Release> UpdateAsync(int id, [Body] ReleaseUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a release.

@@ -28,21 +28,21 @@ public interface ISolutions
 	/// <summary>
 	/// Creates a new solution.
 	/// </summary>
-	/// <param name="solution">The solution to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created solution.</returns>
 	[Post("/solutions.json")]
-	public Task<Solution> CreateAsync([Body] Solution solution, CancellationToken cancellationToken);
+	public Task<Solution> CreateAsync([Body] SolutionCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing solution.
 	/// </summary>
 	/// <param name="id">The ID of the solution to update.</param>
-	/// <param name="solution">The solution data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated solution.</returns>
 	[Put("/solutions/{id}.json")]
-	public Task<Solution> UpdateAsync(int id, [Body] Solution solution, CancellationToken cancellationToken);
+	public Task<Solution> UpdateAsync(int id, [Body] SolutionUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a solution.

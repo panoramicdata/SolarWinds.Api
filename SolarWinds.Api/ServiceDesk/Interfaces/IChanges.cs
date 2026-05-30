@@ -28,21 +28,21 @@ public interface IChanges
 	/// <summary>
 	/// Creates a new change.
 	/// </summary>
-	/// <param name="change">The change to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created change.</returns>
 	[Post("/changes.json")]
-	public Task<Change> CreateAsync([Body] Change change, CancellationToken cancellationToken);
+	public Task<Change> CreateAsync([Body] ChangeCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing change.
 	/// </summary>
 	/// <param name="id">The ID of the change to update.</param>
-	/// <param name="change">The change data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated change.</returns>
 	[Put("/changes/{id}.json")]
-	public Task<Change> UpdateAsync(int id, [Body] Change change, CancellationToken cancellationToken);
+	public Task<Change> UpdateAsync(int id, [Body] ChangeUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a change.

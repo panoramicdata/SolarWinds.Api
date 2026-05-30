@@ -28,21 +28,21 @@ public interface IProblems
 	/// <summary>
 	/// Creates a new problem.
 	/// </summary>
-	/// <param name="problem">The problem to create.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created problem.</returns>
 	[Post("/problems.json")]
-	public Task<Problem> CreateAsync([Body] Problem problem, CancellationToken cancellationToken);
+	public Task<Problem> CreateAsync([Body] ProblemCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing problem.
 	/// </summary>
 	/// <param name="id">The ID of the problem to update.</param>
-	/// <param name="problem">The problem data to update.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated problem.</returns>
 	[Put("/problems/{id}.json")]
-	public Task<Problem> UpdateAsync(int id, [Body] Problem problem, CancellationToken cancellationToken);
+	public Task<Problem> UpdateAsync(int id, [Body] ProblemUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a problem.

@@ -86,15 +86,15 @@ Goal: Fully align Incident endpoints and request bodies.
 
 Goal: Apply same migration pattern to major ITSM entities.
 
-- [ ] Introduce dedicated create/update request models per domain:
+- [x] Introduce dedicated create/update request models per domain:
   - `ProblemCreateRequest`, `ProblemUpdateRequest`
   - `ChangeCreateRequest`, `ChangeUpdateRequest`
   - `ReleaseCreateRequest`, `ReleaseUpdateRequest`
   - `SolutionCreateRequest`, `SolutionUpdateRequest`
-- [ ] Align interface signatures for each domain.
-- [ ] Ensure wrapper keys match docs (`problem`, `change`, `release`, `solution`).
+- [x] Align interface signatures for each domain.
+- [x] Ensure wrapper keys match docs (`problem`, `change`, `release`, `solution`).
 - [ ] Add/expand GET query unit tests for all list/get query parameters in these domains.
-- [ ] No write-query unit tests.
+- [x] No write-query unit tests.
 - [ ] Commit phase completion.
 
 ## Phase 5: Asset and Catalog Domains
@@ -190,6 +190,21 @@ Use this section to append progress notes as each phase is completed.
     - `Partial=8`
     - `Missing=2`
   - Priority missing area identified: `other_assets` GET query coverage.
+
+- 2026-05-30: Phase 4 write-contract migration implemented (Problem/Change/Release/Solution).
+  - Added request wrappers and write field models:
+    - `ProblemCreateRequest` / `ProblemUpdateRequest` / `ProblemWriteFields`
+    - `ChangeCreateRequest` / `ChangeUpdateRequest` / `ChangeWriteFields`
+    - `ReleaseCreateRequest` / `ReleaseUpdateRequest` / `ReleaseWriteFields`
+    - `SolutionCreateRequest` / `SolutionUpdateRequest` / `SolutionWriteFields`
+  - Updated interfaces to use dedicated request payloads:
+    - `IProblems`
+    - `IChanges`
+    - `IReleases`
+    - `ISolutions`
+  - Validation run:
+    - `IncidentQueryRequestTests`, `ServiceDeskUrlParameterFormatterTests`, `IncidentQueryIntegrationTests`
+    - `18 passed, 0 failed`, no compile errors.
 
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
