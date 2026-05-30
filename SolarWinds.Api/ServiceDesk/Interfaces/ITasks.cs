@@ -12,29 +12,37 @@ public interface ITasks
 	/// <summary>
 	/// Creates a new task.
 	/// </summary>
-	/// <param name="task">The task to create.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created task.</returns>
-	[Post("/tasks.json")]
-	public Task<ServiceTask> CreateAsync([Body] ServiceTask task, CancellationToken cancellationToken);
+	[Post("/{objectType}/{id}/tasks.json")]
+	public Task<ServiceTask> CreateAsync(string objectType, int id, [Body] TaskCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing task.
 	/// </summary>
-	/// <param name="id">The ID of the task to update.</param>
-	/// <param name="task">The task data to update.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="taskId">The task ID.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated task.</returns>
-	[Put("/tasks/{id}.json")]
-	public Task<ServiceTask> UpdateAsync(int id, [Body] ServiceTask task, CancellationToken cancellationToken);
+	[Put("/{objectType}/{id}/tasks/{taskId}.json")]
+	public Task<ServiceTask> UpdateAsync(string objectType, int id, int taskId, [Body] TaskUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a task.
 	/// </summary>
-	/// <param name="id">The ID of the task to delete.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="taskId">The task ID.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/tasks/{id}.json")]
+	[Delete("/{objectType}/{id}/tasks/{taskId}.json")]
 	public Task DeleteAsync(
+		string objectType,
 		int id,
+		int taskId,
 		CancellationToken cancellationToken);
 }

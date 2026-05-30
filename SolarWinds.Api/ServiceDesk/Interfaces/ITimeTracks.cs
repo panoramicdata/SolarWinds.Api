@@ -9,48 +9,49 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface ITimeTracks
 {
 	/// <summary>
-	/// Gets a list of time tracks.
+	/// Gets a list of time tracks for a source object.
 	/// </summary>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of time tracks.</returns>
-	[Get("/time_tracks.json")]
-	public Task<List<TimeTrack>> GetAllAsync(CancellationToken cancellationToken);
-
-	/// <summary>
-	/// Gets a specific time track by ID.
-	/// </summary>
-	/// <param name="id">The ID of the time track.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The time track.</returns>
-	[Get("/time_tracks/{id}.json")]
-	public Task<TimeTrack> GetAsync(int id, CancellationToken cancellationToken);
+	[Get("/{objectType}/{id}/time_tracks.json")]
+	public Task<List<TimeTrack>> GetAllAsync(string objectType, int id, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new time track.
 	/// </summary>
-	/// <param name="timeTrack">The time track to create.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created time track.</returns>
-	[Post("/time_tracks.json")]
-	public Task<TimeTrack> CreateAsync([Body] TimeTrack timeTrack, CancellationToken cancellationToken);
+	[Post("/{objectType}/{id}/time_tracks.json")]
+	public Task<TimeTrack> CreateAsync(string objectType, int id, [Body] TimeTrackCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing time track.
 	/// </summary>
-	/// <param name="id">The ID of the time track to update.</param>
-	/// <param name="timeTrack">The time track data to update.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="timeTrackId">The time track ID.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated time track.</returns>
-	[Put("/time_tracks/{id}.json")]
-	public Task<TimeTrack> UpdateAsync(int id, [Body] TimeTrack timeTrack, CancellationToken cancellationToken);
+	[Put("/{objectType}/{id}/time_tracks/{timeTrackId}.json")]
+	public Task<TimeTrack> UpdateAsync(string objectType, int id, int timeTrackId, [Body] TimeTrackUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a time track.
 	/// </summary>
-	/// <param name="id">The ID of the time track to delete.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="timeTrackId">The time track ID.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/time_tracks/{id}.json")]
+	[Delete("/{objectType}/{id}/time_tracks/{timeTrackId}.json")]
 	public Task DeleteAsync(
+		string objectType,
 		int id,
+		int timeTrackId,
 		CancellationToken cancellationToken);
 }

@@ -114,16 +114,16 @@ Goal: Migrate catalog/configuration/asset-style domains.
 
 Goal: Align object-type scoped endpoints and remove unsupported shortcuts.
 
-- [ ] Align generic path endpoints:
+- [x] Align generic path endpoints:
   - `/{object_type}/{id}/comments`
   - `/{object_type}/{id}/tasks`
   - `/{object_type}/{id}/time_tracks`
   - `/{object_type}/{id}/purchases`
   - `/{object_type}/{id}/audits`
-- [ ] Replace/retire non-doc singular shortcuts (`/comments/{id}`, `/tasks/{id}`, etc.) unless intentionally retained with explicit compatibility notes.
+- [x] Replace/retire non-doc singular shortcuts (`/comments/{id}`, `/tasks/{id}`, etc.) unless intentionally retained with explicit compatibility notes.
 - [ ] Align membership/service request/change request endpoints with documented routes and payload wrappers.
-- [ ] Add GET unit tests for any query-bearing GET endpoints introduced or changed.
-- [ ] No write-query unit tests.
+- [x] Add GET unit tests for any query-bearing GET endpoints introduced or changed.
+- [x] No write-query unit tests.
 - [ ] Commit phase completion.
 
 ## Phase 7: GET Query Test Completion Gate
@@ -233,6 +233,23 @@ Use this section to append progress notes as each phase is completed.
   - Validation run:
     - `SolarWindsServiceDeskClientTests`, `CoreDomainQueryRequestTests`, `IncidentQueryRequestTests`
     - `14 passed, 0 failed`, no compile errors.
+
+- 2026-05-30: Phase 6 object-scoped endpoint alignment in progress.
+  - Refactored to docs-aligned object-type routes:
+    - `IComments` -> `/{objectType}/{id}/comments` and `/{objectType}/{id}/comments/{commentId}`
+    - `ITasks` -> `/{objectType}/{id}/tasks` and `/{objectType}/{id}/tasks/{taskId}`
+    - `ITimeTracks` -> `/{objectType}/{id}/time_tracks` and `/{objectType}/{id}/time_tracks/{timeTrackId}`
+    - `IPurchases` -> `/{objectType}/{id}/purchases` and `/{objectType}/{id}/purchases/{purchaseId}`
+    - `IAudits` -> `/{objectType}/{id}/audits`
+  - Added request wrapper models for these object-scoped write operations:
+    - comments, tasks, time tracks, purchases
+  - Aligned subresource contracts:
+    - `IContracts` item routes -> `/contracts/{id}/items` and `/contracts/{contractId}/items/{itemId}`
+    - `IHardwares` warranty routes added -> `/hardwares/{id}/warranties` and `/hardwares/{hardwareId}/warranties/{warrantyId}`
+    - Added `Warranty` model.
+  - Validation run:
+    - `dotnet build` for test project succeeded.
+    - Targeted unit tests succeeded: `20 passed, 0 failed`.
 
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.

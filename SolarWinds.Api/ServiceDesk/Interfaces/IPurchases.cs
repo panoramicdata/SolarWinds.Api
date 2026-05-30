@@ -9,48 +9,39 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IPurchases
 {
 	/// <summary>
-	/// Gets a list of purchases.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>A list of purchases.</returns>
-	[Get("/purchases.json")]
-	public Task<List<Purchase>> GetAllAsync(CancellationToken cancellationToken);
-
-	/// <summary>
-	/// Gets a specific purchase by ID.
-	/// </summary>
-	/// <param name="id">The ID of the purchase.</param>
-	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The purchase.</returns>
-	[Get("/purchases/{id}.json")]
-	public Task<Purchase> GetAsync(int id, CancellationToken cancellationToken);
-
-	/// <summary>
 	/// Creates a new purchase.
 	/// </summary>
-	/// <param name="purchase">The purchase to create.</param>
+	/// <param name="objectType">The source object type (for example, contracts).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created purchase.</returns>
-	[Post("/purchases.json")]
-	public Task<Purchase> CreateAsync([Body] Purchase purchase, CancellationToken cancellationToken);
+	[Post("/{objectType}/{id}/purchases.json")]
+	public Task<Purchase> CreateAsync(string objectType, int id, [Body] PurchaseCreateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing purchase.
 	/// </summary>
-	/// <param name="id">The ID of the purchase to update.</param>
-	/// <param name="purchase">The purchase data to update.</param>
+	/// <param name="objectType">The source object type (for example, contracts).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="purchaseId">The purchase ID.</param>
+	/// <param name="request">The update request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated purchase.</returns>
-	[Put("/purchases/{id}.json")]
-	public Task<Purchase> UpdateAsync(int id, [Body] Purchase purchase, CancellationToken cancellationToken);
+	[Put("/{objectType}/{id}/purchases/{purchaseId}.json")]
+	public Task<Purchase> UpdateAsync(string objectType, int id, int purchaseId, [Body] PurchaseUpdateRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a purchase.
 	/// </summary>
-	/// <param name="id">The ID of the purchase to delete.</param>
+	/// <param name="objectType">The source object type (for example, contracts).</param>
+	/// <param name="id">The source object ID.</param>
+	/// <param name="purchaseId">The purchase ID.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/purchases/{id}.json")]
+	[Delete("/{objectType}/{id}/purchases/{purchaseId}.json")]
 	public Task DeleteAsync(
+		string objectType,
 		int id,
+		int purchaseId,
 		CancellationToken cancellationToken);
 }

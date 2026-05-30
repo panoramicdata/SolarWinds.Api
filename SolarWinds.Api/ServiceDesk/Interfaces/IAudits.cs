@@ -17,13 +17,15 @@ public interface IAudits
 	public Task<List<Audit>> GetAllAsync(CancellationToken cancellationToken);
 
 	/// <summary>
-	/// Gets a specific audit record by ID.
+	/// Gets audit records for a specific source object.
 	/// </summary>
-	/// <param name="id">The ID of the audit record.</param>
+	/// <param name="objectType">The source object type (for example, incidents).</param>
+	/// <param name="id">The source object ID.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The audit record.</returns>
-	[Get("/audits/{id}.json")]
-	public Task<Audit> GetAsync(
+	/// <returns>A list of audit records.</returns>
+	[Get("/{objectType}/{id}/audits.json")]
+	public Task<List<Audit>> GetByObjectAsync(
+		string objectType,
 		int id,
 		CancellationToken cancellationToken);
 }

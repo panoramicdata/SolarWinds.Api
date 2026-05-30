@@ -55,29 +55,33 @@ public interface IContracts
 	/// <summary>
 	/// Creates a new contract item.
 	/// </summary>
+	/// <param name="id">The contract ID.</param>
 	/// <param name="contractItem">The contract item to create.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The created contract item.</returns>
-	[Post("/contracts/items.json")]
-	public Task<ContractItem> CreateItemAsync([Body] ContractItem contractItem, CancellationToken cancellationToken);
+	[Post("/contracts/{id}/items.json")]
+	public Task<ContractItem> CreateItemAsync(int id, [Body] ContractItem contractItem, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Updates an existing contract item.
 	/// </summary>
-	/// <param name="id">The ID of the contract item to update.</param>
+	/// <param name="contractId">The contract ID.</param>
+	/// <param name="itemId">The item ID.</param>
 	/// <param name="contractItem">The contract item data to update.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>The updated contract item.</returns>
-	[Put("/contracts/items/{id}.json")]
-	public Task<ContractItem> UpdateItemAsync(int id, [Body] ContractItem contractItem, CancellationToken cancellationToken);
+	[Put("/contracts/{contractId}/items/{itemId}.json")]
+	public Task<ContractItem> UpdateItemAsync(int contractId, int itemId, [Body] ContractItem contractItem, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Deletes a contract item.
 	/// </summary>
-	/// <param name="id">The ID of the contract item to delete.</param>
+	/// <param name="contractId">The contract ID.</param>
+	/// <param name="itemId">The item ID.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	[Delete("/contracts/items/{id}.json")]
+	[Delete("/contracts/{contractId}/items/{itemId}.json")]
 	public Task DeleteItemAsync(
-		int id,
+		int contractId,
+		int itemId,
 		CancellationToken cancellationToken);
 }
