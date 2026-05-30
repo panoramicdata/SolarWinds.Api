@@ -1,9 +1,4 @@
-using AwesomeAssertions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Refit;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 

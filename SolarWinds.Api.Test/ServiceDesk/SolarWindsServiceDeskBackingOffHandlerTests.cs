@@ -1,8 +1,5 @@
-using System.Net;
-using AwesomeAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using SolarWinds.Api.Http;
-using Xunit;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 

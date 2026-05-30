@@ -1,12 +1,3 @@
-using System.Net;
-using System.Text.Json;
-using AwesomeAssertions;
-using Refit;
-using SolarWinds.Api.ServiceDesk.Helpers;
-using SolarWinds.Api.ServiceDesk.Interfaces;
-using SolarWinds.Api.ServiceDesk.Models;
-using Xunit;
-
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 public class IncidentQueryRequestTests

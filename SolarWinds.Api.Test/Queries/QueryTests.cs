@@ -1,8 +1,5 @@
-using AwesomeAssertions;
 using SolarWinds.Api.Orion;
 using SolarWinds.Api.Queries;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace SolarWinds.Api.Test.Queries;
 

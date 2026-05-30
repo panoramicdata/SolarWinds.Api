@@ -3,8 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SolarWinds.Api.Test.Logging;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace SolarWinds.Api.Test;
 

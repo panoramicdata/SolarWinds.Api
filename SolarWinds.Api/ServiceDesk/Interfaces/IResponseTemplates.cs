@@ -1,5 +1,6 @@
 using Refit;
 using SolarWinds.Api.ServiceDesk.Models;
+using System.Text.Json;
 
 namespace SolarWinds.Api.ServiceDesk.Interfaces;
 
@@ -15,6 +16,12 @@ public interface IResponseTemplates
 	/// <returns>The total response template count.</returns>
 	[Get("/response_templates/total_count.json")]
 	public Task<CountResult> GetTotalCountAsync(CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets response templates setup list payload.
+	/// </summary>
+	[Get("/setup/response_templates.json")]
+	public Task<JsonElement> GetSetupListAsync([Query] SolarWinds.Api.ServiceDesk.Models.PortalModeRequest request, CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets the total count of personal response templates for the current user.

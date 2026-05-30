@@ -1,6 +1,3 @@
-using AwesomeAssertions;
-using Xunit;
-
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 public class SolarWindsServiceDeskClientTests

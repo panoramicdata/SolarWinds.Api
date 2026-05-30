@@ -1,8 +1,3 @@
-using AwesomeAssertions;
-using SolarWinds.Api.ServiceDesk.Models;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithOutput(output)

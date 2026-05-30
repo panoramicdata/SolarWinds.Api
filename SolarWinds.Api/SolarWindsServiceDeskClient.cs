@@ -203,6 +203,31 @@ public class SolarWindsServiceDeskClient
 	public ISetupItsmStates SetupItsmStates { get; private set; }
 
 	/// <summary>
+	/// Gets the Service Desk UI custom views API.
+	/// </summary>
+	public IUiCustomViews UiCustomViews { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk UI infrastructure API.
+	/// </summary>
+	public IUiInfrastructure UiInfrastructure { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk dashboards API.
+	/// </summary>
+	public IDashboards Dashboards { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk widgets API.
+	/// </summary>
+	public IWidgets Widgets { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk UI jsonhtml list API.
+	/// </summary>
+	public IUiJsonHtmlLists UiJsonHtmlLists { get; private set; }
+
+	/// <summary>
 	/// Gets the Service Desk Custom Forms API.
 	/// </summary>
 	public ICustomForms CustomForms { get; private set; }
@@ -291,6 +316,11 @@ public class SolarWindsServiceDeskClient
 		Notifications = RestService.For<INotifications>(_httpClient, RefitSettings);
 		IncidentTypes = RestService.For<IIncidentTypes>(_httpClient, RefitSettings);
 		SetupItsmStates = RestService.For<ISetupItsmStates>(_httpClient, RefitSettings);
+		UiCustomViews = RestService.For<IUiCustomViews>(_httpClient, RefitSettings);
+		UiInfrastructure = RestService.For<IUiInfrastructure>(_httpClient, RefitSettings);
+		Dashboards = RestService.For<IDashboards>(_httpClient, RefitSettings);
+		Widgets = RestService.For<IWidgets>(_httpClient, RefitSettings);
+		UiJsonHtmlLists = RestService.For<IUiJsonHtmlLists>(_httpClient, RefitSettings);
 		CustomForms = RestService.For<ICustomForms>(_httpClient, RefitSettings);
 		ResponseTemplates = RestService.For<IResponseTemplates>(_httpClient, RefitSettings);
 		WorkflowApprovers = RestService.For<IWorkflowApprovers>(_httpClient, RefitSettings);

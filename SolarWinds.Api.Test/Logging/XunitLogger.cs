@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Logging;
-using System.Text;
-using Xunit.Abstractions;
 
 namespace SolarWinds.Api.Test.Logging;
 

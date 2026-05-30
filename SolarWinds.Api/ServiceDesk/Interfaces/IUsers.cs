@@ -1,4 +1,5 @@
 using Refit;
+using System.Text.Json;
 using SolarWinds.Api.ServiceDesk.Models;
 
 namespace SolarWinds.Api.ServiceDesk.Interfaces;
@@ -25,6 +26,15 @@ public interface IUsers
 	/// <returns>The user.</returns>
 	[Get("/users/{id}.json")]
 	public Task<User> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets user avatars in bulk for the provided user ids.
+	/// </summary>
+	[Get("/users/get_avatars.json")]
+	public Task<JsonElement> GetAvatarsAsync(
+		[Query(CollectionFormat.Multi), AliasAs("userIds[]")] IEnumerable<int> userIds,
+		[AliasAs("is_portal_mode")] bool isPortalMode,
+		CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Creates a new user.

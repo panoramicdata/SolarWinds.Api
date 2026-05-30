@@ -9,6 +9,12 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface ICustomForms
 {
 	/// <summary>
+	/// Gets custom forms list in setup context.
+	/// </summary>
+	[Get("/setup/custom_forms.json")]
+	public Task<System.Text.Json.JsonElement> GetSetupListAsync([Query] UiCustomViewRequest request, CancellationToken cancellationToken);
+
+	/// <summary>
 	/// Gets a custom form definition by ID.
 	/// </summary>
 	/// <param name="id">The custom form ID.</param>

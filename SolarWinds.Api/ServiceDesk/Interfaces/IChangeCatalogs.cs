@@ -11,6 +11,9 @@ public interface IChangeCatalogs
 	[Get("/change_catalogs.json")]
 	public Task<List<ChangeCatalog>> GetAsync(CancellationToken cancellationToken);
 
+	[Get("/change_catalogs.json")]
+	public Task<List<ChangeCatalog>> GetAsync([Query] GetChangeCatalogsRequest request, CancellationToken cancellationToken);
+
 	[Get("/change_catalogs/{id}.json")]
 	public Task<ChangeCatalog> GetAsync(int id, [AliasAs("layout")] ResponseLayout layout, CancellationToken cancellationToken);
 

@@ -1,1 +1,10 @@
 global using SolarWinds.Api.ServiceDesk.Models;
+global using System.Net;
+global using System.Text;
+global using System.Text.Json;
+global using AwesomeAssertions;
+global using Refit;
+global using SolarWinds.Api.ServiceDesk.Helpers;
+global using SolarWinds.Api.ServiceDesk.Interfaces;
+global using Xunit;
+global using Xunit.Abstractions;

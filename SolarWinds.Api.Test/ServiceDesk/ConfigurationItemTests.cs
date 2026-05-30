@@ -1,8 +1,3 @@
-using Xunit;
-using Xunit.Abstractions;
-using AwesomeAssertions;
-using SolarWinds.Api.ServiceDesk.Models;
-
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 public class ConfigurationItemTests(ITestOutputHelper output) : TestWithOutput(output)

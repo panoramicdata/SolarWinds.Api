@@ -1,7 +1,3 @@
-using AwesomeAssertions;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 public class IncidentTypeTests(ITestOutputHelper output) : TestWithOutput(output)
