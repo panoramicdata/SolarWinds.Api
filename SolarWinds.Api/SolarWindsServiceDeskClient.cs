@@ -58,6 +58,16 @@ public class SolarWindsServiceDeskClient
 	public IChanges Changes { get; private set; }
 
 	/// <summary>
+	/// Gets the Service Desk Change Catalogs API.
+	/// </summary>
+	public IChangeCatalogs ChangeCatalogs { get; private set; }
+
+	/// <summary>
+	/// Gets the Service Desk Change Requests API.
+	/// </summary>
+	public IChangeRequests ChangeRequests { get; private set; }
+
+	/// <summary>
 	/// Gets the Service Desk Releases API.
 	/// </summary>
 	public IReleases Releases { get; private set; }
@@ -212,6 +222,8 @@ public class SolarWindsServiceDeskClient
 		ConfigurationItems = RestService.For<IConfigurationItems>(_httpClient, RefitSettings);
 		Problems = RestService.For<IProblems>(_httpClient, RefitSettings);
 		Changes = RestService.For<IChanges>(_httpClient, RefitSettings);
+		ChangeCatalogs = RestService.For<IChangeCatalogs>(_httpClient, RefitSettings);
+		ChangeRequests = RestService.For<IChangeRequests>(_httpClient, RefitSettings);
 		Releases = RestService.For<IReleases>(_httpClient, RefitSettings);
 		Solutions = RestService.For<ISolutions>(_httpClient, RefitSettings);
 		CatalogItems = RestService.For<ICatalogItems>(_httpClient, RefitSettings);

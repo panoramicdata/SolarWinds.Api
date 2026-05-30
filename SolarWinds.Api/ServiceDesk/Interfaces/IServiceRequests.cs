@@ -11,13 +11,15 @@ namespace SolarWinds.Api.ServiceDesk.Interfaces;
 public interface IServiceRequests
 {
 	/// <summary>
-	/// Creates a new service request.
+	/// Creates a new service request from a catalog item.
 	/// </summary>
-	/// <param name="serviceRequest">The service request to create.</param>
+	/// <param name="id">The catalog item ID.</param>
+	/// <param name="request">The create request payload.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>The created service request.</returns>
-	[Post("/service_requests.json")]
-	public Task<ServiceRequest> CreateAsync(
-		[Body] ServiceRequest serviceRequest,
+	/// <returns>The created incident.</returns>
+	[Post("/catalog_items/{id}/service_requests.json")]
+	public Task<Incident> CreateAsync(
+		int id,
+		[Body] ServiceRequestCreateRequest request,
 		CancellationToken cancellationToken);
 }

@@ -220,6 +220,20 @@ Use this section to append progress notes as each phase is completed.
     - `CoreDomainQueryRequestTests`, `IncidentQueryRequestTests`, `ServiceDeskUrlParameterFormatterTests`
     - `14 passed, 0 failed`, no compile errors.
 
+- 2026-05-30: Additional parity implementation progress (post-Phase 4).
+  - Added missing Change Catalog and Change Request contracts:
+    - New interfaces: `IChangeCatalogs`, `IChangeRequests`
+    - New models: `ChangeCatalog`, `ChangeCatalogCreateRequest`, `ChangeCatalogUpdateRequest`, `ChangeCatalogWriteFields`, `ChangeRequestCreateRequest`, `ChangeRequestWriteFields`
+  - Aligned Service Request creation endpoint with docs path/payload pattern:
+    - `IServiceRequests.CreateAsync` now targets `/catalog_items/{id}/service_requests.json`
+    - Uses `ServiceRequestCreateRequest` with top-level `incident` wrapper.
+  - Exposed new APIs via `SolarWindsServiceDeskClient`:
+    - `ChangeCatalogs`
+    - `ChangeRequests`
+  - Validation run:
+    - `SolarWindsServiceDeskClientTests`, `CoreDomainQueryRequestTests`, `IncidentQueryRequestTests`
+    - `14 passed, 0 failed`, no compile errors.
+
 - [x] Phase 1 completed.
 - [ ] Phase 2 completed.
 - [ ] Phase 3 completed.
