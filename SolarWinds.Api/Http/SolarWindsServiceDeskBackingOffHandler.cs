@@ -10,6 +10,12 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 {
 	private readonly SolarWindsServiceDeskClientOptions _options = options;
 
+	/// <summary>
+	/// Sends an HTTP request and retries according to Service Desk rate-limit and transient-failure signals.
+	/// </summary>
+	/// <param name="request">Request to send.</param>
+	/// <param name="cancellationToken">Token used to cancel the request pipeline.</param>
+	/// <returns>The final response after retries, or the first non-retriable response.</returns>
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
 		if (request == null)
@@ -43,6 +49,14 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 		}
 	}
 
+	/// <summary>
+	/// Determines whether a response should be retried and computes the delay before retrying.
+	/// </summary>
+	/// <param name="response">Response received from the server.</param>
+	/// <param name="attempt">Current attempt number (1-based).</param>
+	/// <param name="delay">Computed delay before the next attempt.</param>
+	/// <param name="reason">Human-readable reason for the retry decision.</param>
+	/// <returns><see langword="true"/> when the request should be retried; otherwise <see langword="false"/>.</returns>
 	internal bool TryGetRetryDelay(HttpResponseMessage response, int attempt, out TimeSpan delay, out string reason)
 	{
 		if (TryGetRateLimitDelay(response, attempt, out delay, out reason))
@@ -96,6 +110,13 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 		return true;
 	}
 
+	/// <summary>
+	/// Calculates exponential backoff delay for a retry attempt.
+	/// </summary>
+	/// <param name="attempt">Current retry attempt number (1-based).</param>
+	/// <param name="backOffDelayFactor">Exponential multiplier applied per attempt.</param>
+	/// <param name="maxBackOffDelaySeconds">Maximum delay cap in seconds.</param>
+	/// <returns>Bounded backoff delay for the attempt.</returns>
 	internal static TimeSpan CalculateBackoffDelay(int attempt, double backOffDelayFactor, int maxBackOffDelaySeconds)
 	{
 		var seconds = Math.Pow(backOffDelayFactor, Math.Max(attempt - 1, 0));

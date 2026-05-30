@@ -5,5 +5,8 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// </summary>
 public sealed class HardwareCreateRequest
 {
+	/// <summary>
+	/// Gets or sets the hardware payload to create.
+	/// </summary>
 	public HardwareWriteFields Hardware { get; set; } = new();
 }

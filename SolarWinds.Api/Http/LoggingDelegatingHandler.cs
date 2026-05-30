@@ -8,6 +8,12 @@ namespace SolarWinds.Api.Http;
 /// </summary>
 public class LoggingDelegatingHandler(ILogger logger) : DelegatingHandler
 {
+	/// <summary>
+	/// Sends an HTTP request and logs request/response metadata and bodies at debug level.
+	/// </summary>
+	/// <param name="request">HTTP request to send.</param>
+	/// <param name="cancellationToken">Token used to cancel the operation.</param>
+	/// <returns>The HTTP response from the inner handler.</returns>
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
 		var sb = new StringBuilder();

@@ -5,5 +5,8 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// </summary>
 public sealed class MobileDeviceCreateRequest
 {
+	/// <summary>
+	/// Gets or sets the mobile device payload to create.
+	/// </summary>
 	public MobileDeviceWriteFields Mobile { get; set; } = new();
 }

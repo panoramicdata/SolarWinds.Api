@@ -5,5 +5,8 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// </summary>
 public sealed class CatalogItemCreateRequest
 {
+	/// <summary>
+	/// Gets or sets the catalog-item payload to create.
+	/// </summary>
 	public CatalogItemWriteFields CatalogItem { get; set; } = new();
 }

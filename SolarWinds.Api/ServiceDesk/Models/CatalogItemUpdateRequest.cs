@@ -5,5 +5,8 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// </summary>
 public sealed class CatalogItemUpdateRequest
 {
+	/// <summary>
+	/// Gets or sets the catalog-item fields to update.
+	/// </summary>
 	public CatalogItemWriteFields CatalogItem { get; set; } = new();
 }

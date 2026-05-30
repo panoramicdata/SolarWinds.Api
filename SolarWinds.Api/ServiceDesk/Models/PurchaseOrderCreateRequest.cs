@@ -5,5 +5,8 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// </summary>
 public sealed class PurchaseOrderCreateRequest
 {
+	/// <summary>
+	/// Gets or sets the purchase-order payload to create.
+	/// </summary>
 	public PurchaseOrderWriteFields PurchaseOrder { get; set; } = new();
 }
