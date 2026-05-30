@@ -7,4 +7,3 @@ global using Refit;
 global using SolarWinds.Api.ServiceDesk.Helpers;
 global using SolarWinds.Api.ServiceDesk.Interfaces;
 global using Xunit;
-global using Xunit.Abstractions;
