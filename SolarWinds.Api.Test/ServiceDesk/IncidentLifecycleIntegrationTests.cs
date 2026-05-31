@@ -144,10 +144,9 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 				.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
 			refreshed.Description.Should().Contain("Updated by safe integration test");
 
-			(refreshed.StateId == targetState!.Id
-				|| string.Equals(refreshed.State, targetState.Title, StringComparison.OrdinalIgnoreCase)
+			(string.Equals(refreshed.State, targetState!.Title, StringComparison.OrdinalIgnoreCase)
 				|| string.Equals(refreshed.State, targetState.Key, StringComparison.OrdinalIgnoreCase))
-				.Should().BeTrue("state transition should be visible via state_id or state name");
+				.Should().BeTrue("state transition should be visible via state name");
 		}
 		finally
 		{

@@ -153,7 +153,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 					(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
 					return new IncidentWriteFields { StateId = targetStateId };
 				},
-				(_, refreshed) => Task.FromResult(refreshed.StateId == targetStateId || string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
+				(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
 
 		targetStateId = null;
 		targetStateName = null;
@@ -166,7 +166,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 					(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
 					return new IncidentWriteFields { State = targetStateName };
 				},
-				(_, refreshed) => Task.FromResult(refreshed.StateId == targetStateId || string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
+				(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
 
 		results[nameof(IncidentWriteFields.Priority)] = await RunProbeAsync(
 				nameof(IncidentWriteFields.Priority),

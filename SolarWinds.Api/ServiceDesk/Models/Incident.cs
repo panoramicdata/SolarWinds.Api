@@ -13,12 +13,6 @@ public class Incident : WorkItemEntity
 	public object? Number { get; set; }
 
 	/// <summary>
-	/// Gets or sets the incident state ID.
-	/// </summary>
-	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-	public int? StateId { get; set; }
-
-	/// <summary>
 	/// Gets or sets the incident state name.
 	/// </summary>
 	public string? State { get; set; }
@@ -31,7 +25,7 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the incident category.
 	/// </summary>
-	public object? Category { get; set; }
+	public Category? Category { get; set; }
 
 	/// <summary>
 	/// Gets or sets the incident subcategory.
@@ -41,17 +35,17 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the group assignee.
 	/// </summary>
-	public object? GroupAssignee { get; set; }
+	public Group? GroupAssignee { get; set; }
 
 	/// <summary>
 	/// Gets or sets the site.
 	/// </summary>
-	public object? Site { get; set; }
+	public Site? Site { get; set; }
 
 	/// <summary>
 	/// Gets or sets the department.
 	/// </summary>
-	public object? Department { get; set; }
+	public Department? Department { get; set; }
 
 	/// <summary>
 	/// Gets or sets the due date.
@@ -96,27 +90,27 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the CC list.
 	/// </summary>
-	public object[] Cc { get; set; } = [];
+	public string[] Cc { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked releases.
 	/// </summary>
-	public object[] Releases { get; set; } = [];
+	public Release[] Releases { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked problems.
 	/// </summary>
-	public object[] Problems { get; set; } = [];
+	public Problem[] Problems { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked incidents.
 	/// </summary>
-	public object[] Incidents { get; set; } = [];
+	public Incident[] Incidents { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked changes.
 	/// </summary>
-	public object[] Changes { get; set; } = [];
+	public Change[] Changes { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked tasks.
@@ -126,40 +120,40 @@ public class Incident : WorkItemEntity
 	/// <summary>
 	/// Gets or sets the time tracks.
 	/// </summary>
-	public object[] TimeTracks { get; set; } = [];
+	public TimeTrack[] TimeTracks { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked solutions.
 	/// </summary>
-	public object[] Solutions { get; set; } = [];
+	public Solution[] Solutions { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked assets.
 	/// </summary>
-	public object[] Assets { get; set; } = [];
+	public Asset[] Assets { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked mobile devices.
 	/// </summary>
-	public object[] Mobiles { get; set; } = [];
+	public MobileDevice[] Mobiles { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked other assets.
 	/// </summary>
-	public object[] OtherAssets { get; set; } = [];
+	public Asset[] OtherAssets { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked configuration items.
 	/// </summary>
-	public object[] ConfigurationItems { get; set; } = [];
+	public ConfigurationItem[] ConfigurationItems { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked discovery hardware.
 	/// </summary>
-	public object[] DiscoveryHardwares { get; set; } = [];
+	public Hardware[] DiscoveryHardwares { get; set; } = [];
 
 	/// <summary>
 	/// Gets or sets the linked purchase orders.
 	/// </summary>
-	public object[] PurchaseOrders { get; set; } = [];
+	public PurchaseOrder[] PurchaseOrders { get; set; } = [];
 }
