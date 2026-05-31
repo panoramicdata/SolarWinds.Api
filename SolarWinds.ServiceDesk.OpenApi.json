@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "SolarWinds Service Desk API",
-    "version": "2026.5.8",
+    "version": "2026.5.11",
     "description": "Generated from SolarWinds.Api Refit interfaces and models."
   },
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
@@ -24,6 +24,9 @@
     "/attachments.json": {
       "post": {
         "operationId": "IAttachments_CreateAsync_attachment",
+        "tags": [
+          "Attachments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -51,6 +54,9 @@
     "/audits.json": {
       "get": {
         "operationId": "IAudits_GetAsync",
+        "tags": [
+          "Audits"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -71,6 +77,9 @@
     "/{objectType}/{id}/audits.json": {
       "get": {
         "operationId": "IAudits_GetByObjectAsync_objectType_id",
+        "tags": [
+          "Audits"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -110,6 +119,9 @@
     "/catalog_items.json": {
       "post": {
         "operationId": "ICatalogItems_CreateAsync_request",
+        "tags": [
+          "Catalog Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -135,6 +147,9 @@
       },
       "get": {
         "operationId": "ICatalogItems_GetAsync_request",
+        "tags": [
+          "Catalog Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -165,6 +180,9 @@
     "/catalog_items/{id}.json": {
       "delete": {
         "operationId": "ICatalogItems_DeleteAsync_id",
+        "tags": [
+          "Catalog Items"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -184,6 +202,9 @@
       },
       "get": {
         "operationId": "ICatalogItems_GetAsync_id_layout",
+        "tags": [
+          "Catalog Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -218,6 +239,9 @@
       },
       "put": {
         "operationId": "ICatalogItems_UpdateAsync_id_request",
+        "tags": [
+          "Catalog Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -256,6 +280,9 @@
     "/categories.json": {
       "post": {
         "operationId": "ICategories_CreateAsync_request",
+        "tags": [
+          "Categories"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -281,6 +308,9 @@
       },
       "get": {
         "operationId": "ICategories_GetAsync_request",
+        "tags": [
+          "Categories"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -311,6 +341,9 @@
     "/categories/{id}.json": {
       "delete": {
         "operationId": "ICategories_DeleteAsync_id",
+        "tags": [
+          "Categories"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -330,6 +363,9 @@
       },
       "get": {
         "operationId": "ICategories_GetAsync_id_layout",
+        "tags": [
+          "Categories"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -364,6 +400,9 @@
       },
       "put": {
         "operationId": "ICategories_UpdateAsync_id_request",
+        "tags": [
+          "Categories"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -402,6 +441,9 @@
     "/change_catalogs.json": {
       "post": {
         "operationId": "IChangeCatalogs_CreateAsync_request",
+        "tags": [
+          "Change Catalogs"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -427,6 +469,9 @@
       },
       "get": {
         "operationId": "IChangeCatalogs_GetAsync",
+        "tags": [
+          "Change Catalogs"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -447,6 +492,9 @@
     "/change_catalogs/{id}.json": {
       "delete": {
         "operationId": "IChangeCatalogs_DeleteAsync_id",
+        "tags": [
+          "Change Catalogs"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -466,6 +514,9 @@
       },
       "get": {
         "operationId": "IChangeCatalogs_GetAsync_id_layout",
+        "tags": [
+          "Change Catalogs"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -500,6 +551,9 @@
       },
       "put": {
         "operationId": "IChangeCatalogs_UpdateAsync_id_request",
+        "tags": [
+          "Change Catalogs"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -538,6 +592,9 @@
     "/change_catalogs/{id}/change_requests.json": {
       "post": {
         "operationId": "IChangeRequests_CreateAsync_id_request",
+        "tags": [
+          "Change Requests"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -576,6 +633,9 @@
     "/changes.json": {
       "post": {
         "operationId": "IChanges_CreateAsync_request",
+        "tags": [
+          "Changes"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -601,6 +661,9 @@
       },
       "get": {
         "operationId": "IChanges_GetAsync_request",
+        "tags": [
+          "Changes"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -631,6 +694,9 @@
     "/changes/{id}.json": {
       "delete": {
         "operationId": "IChanges_DeleteAsync_id",
+        "tags": [
+          "Changes"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -650,6 +716,9 @@
       },
       "get": {
         "operationId": "IChanges_GetAsync_id_layout",
+        "tags": [
+          "Changes"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -684,6 +753,9 @@
       },
       "put": {
         "operationId": "IChanges_UpdateAsync_id_request",
+        "tags": [
+          "Changes"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -722,6 +794,9 @@
     "/{objectType}/{id}/comments.json": {
       "post": {
         "operationId": "IComments_CreateAsync_objectType_id_request",
+        "tags": [
+          "Comments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -766,6 +841,9 @@
       },
       "get": {
         "operationId": "IComments_GetAsync_objectType_id_unmasked",
+        "tags": [
+          "Comments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -813,6 +891,9 @@
     "/{objectType}/{id}/comments/{commentId}.json": {
       "delete": {
         "operationId": "IComments_DeleteAsync_objectType_id_commentId",
+        "tags": [
+          "Comments"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -849,6 +930,9 @@
       },
       "put": {
         "operationId": "IComments_UpdateAsync_objectType_id_commentId_request",
+        "tags": [
+          "Comments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -904,6 +988,9 @@
     "/configuration_items/{id}/append_multiple_dependent_assets.json": {
       "put": {
         "operationId": "IConfigurationItems_AppendDependentAssetsAsync_id_request",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -935,6 +1022,9 @@
     "/configuration_items.json": {
       "post": {
         "operationId": "IConfigurationItems_CreateAsync_request",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -960,6 +1050,9 @@
       },
       "get": {
         "operationId": "IConfigurationItems_GetAsync_request",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -990,6 +1083,9 @@
     "/asset_links/delete_asset_link_by_id.json": {
       "put": {
         "operationId": "IConfigurationItems_DeleteAssetLinkAsync_request",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -1010,6 +1106,9 @@
     "/configuration_items/{id}.json": {
       "delete": {
         "operationId": "IConfigurationItems_DeleteAsync_id",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -1029,6 +1128,9 @@
       },
       "get": {
         "operationId": "IConfigurationItems_GetAsync_id_layout",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1063,6 +1165,9 @@
       },
       "put": {
         "operationId": "IConfigurationItems_UpdateAsync_id_request",
+        "tags": [
+          "Configuration Items"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1101,6 +1206,9 @@
     "/contracts.json": {
       "post": {
         "operationId": "IContracts_CreateAsync_request",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1126,6 +1234,9 @@
       },
       "get": {
         "operationId": "IContracts_GetAsync_request",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1156,6 +1267,9 @@
     "/contracts/{id}/items.json": {
       "post": {
         "operationId": "IContracts_CreateItemAsync_id_request",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1194,6 +1308,9 @@
     "/contracts/{id}.json": {
       "delete": {
         "operationId": "IContracts_DeleteAsync_id",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -1213,6 +1330,9 @@
       },
       "get": {
         "operationId": "IContracts_GetAsync_id_layout",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1247,6 +1367,9 @@
       },
       "put": {
         "operationId": "IContracts_UpdateAsync_id_request",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1285,6 +1408,9 @@
     "/contracts/{contractId}/items/{itemId}.json": {
       "delete": {
         "operationId": "IContracts_DeleteItemAsync_contractId_itemId",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -1313,6 +1439,9 @@
       },
       "put": {
         "operationId": "IContracts_UpdateItemAsync_contractId_itemId_request",
+        "tags": [
+          "Contracts"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1360,6 +1489,9 @@
     "/custom_fields/ALL_MODELS.json": {
       "get": {
         "operationId": "ICustomFields_GetAllModelsAsync",
+        "tags": [
+          "Custom Fields"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1380,6 +1512,9 @@
     "/custom_fields/get_potential_dynamic_approvals.json": {
       "get": {
         "operationId": "ICustomFields_GetPotentialDynamicApprovalsAsync",
+        "tags": [
+          "Custom Fields"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1400,6 +1535,9 @@
     "/setup/custom_forms/{id}.json": {
       "get": {
         "operationId": "ICustomForms_GetAsync_id",
+        "tags": [
+          "Custom Forms"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1428,6 +1566,9 @@
     "/setup/custom_forms.json": {
       "get": {
         "operationId": "ICustomForms_GetSetupListAsync_request",
+        "tags": [
+          "Custom Forms"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1514,6 +1655,9 @@
     "/dashboards/{id}.json": {
       "get": {
         "operationId": "IDashboards_GetAsync_id_request",
+        "tags": [
+          "Dashboards"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1550,6 +1694,9 @@
     "/dashboards.json": {
       "get": {
         "operationId": "IDashboards_GetAsync_request",
+        "tags": [
+          "Dashboards"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1580,6 +1727,9 @@
     "/departments.json": {
       "post": {
         "operationId": "IDepartments_CreateAsync_department",
+        "tags": [
+          "Departments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1605,6 +1755,9 @@
       },
       "get": {
         "operationId": "IDepartments_GetAsync",
+        "tags": [
+          "Departments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1625,6 +1778,9 @@
     "/departments/{id}.json": {
       "delete": {
         "operationId": "IDepartments_DeleteAsync_id",
+        "tags": [
+          "Departments"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -1644,6 +1800,9 @@
       },
       "get": {
         "operationId": "IDepartments_GetAsync_id_layout",
+        "tags": [
+          "Departments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1678,6 +1837,9 @@
       },
       "put": {
         "operationId": "IDepartments_UpdateAsync_id_department",
+        "tags": [
+          "Departments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1716,6 +1878,9 @@
     "/groups.json": {
       "post": {
         "operationId": "IGroups_CreateAsync_group",
+        "tags": [
+          "Groups"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1741,6 +1906,9 @@
       },
       "get": {
         "operationId": "IGroups_GetAsync",
+        "tags": [
+          "Groups"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1761,6 +1929,9 @@
     "/groups/{id}.json": {
       "delete": {
         "operationId": "IGroups_DeleteAsync_id",
+        "tags": [
+          "Groups"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -1780,6 +1951,9 @@
       },
       "get": {
         "operationId": "IGroups_GetAsync_id_layout",
+        "tags": [
+          "Groups"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1814,6 +1988,9 @@
       },
       "put": {
         "operationId": "IGroups_UpdateAsync_id_group",
+        "tags": [
+          "Groups"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1852,6 +2029,9 @@
     "/groups/group_list.json": {
       "get": {
         "operationId": "IGroups_GetGroupListAsync_request",
+        "tags": [
+          "Groups"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1916,6 +2096,9 @@
     "/hardwares.json": {
       "post": {
         "operationId": "IHardwares_CreateAsync_request",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1941,6 +2124,9 @@
       },
       "get": {
         "operationId": "IHardwares_GetAsync_request",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1971,6 +2157,9 @@
     "/hardwares/{id}/warranties.json": {
       "post": {
         "operationId": "IHardwares_CreateWarrantyAsync_id_request",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2007,6 +2196,9 @@
       },
       "get": {
         "operationId": "IHardwares_GetWarrantiesAsync_id",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2038,6 +2230,9 @@
     "/hardwares/{id}.json": {
       "delete": {
         "operationId": "IHardwares_DeleteAsync_id",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -2057,6 +2252,9 @@
       },
       "get": {
         "operationId": "IHardwares_GetAsync_id_layout",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2091,6 +2289,9 @@
       },
       "put": {
         "operationId": "IHardwares_UpdateAsync_id_request",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2129,6 +2330,9 @@
     "/hardwares/{hardwareId}/warranties/{warrantyId}.json": {
       "delete": {
         "operationId": "IHardwares_DeleteWarrantyAsync_hardwareId_warrantyId",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -2157,6 +2361,9 @@
       },
       "put": {
         "operationId": "IHardwares_UpdateWarrantyAsync_hardwareId_warrantyId_request",
+        "tags": [
+          "Hardwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2204,6 +2411,9 @@
     "/incident_types/types_list.json": {
       "get": {
         "operationId": "IIncidentTypes_GetTypesListAsync_request",
+        "tags": [
+          "Incident Types"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2285,6 +2495,9 @@
     "/incidents.json": {
       "post": {
         "operationId": "IIncidents_CreateAsync_request",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2310,6 +2523,9 @@
       },
       "get": {
         "operationId": "IIncidents_GetAsync_request",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2530,6 +2746,9 @@
     "/incidents/{id}.json": {
       "delete": {
         "operationId": "IIncidents_DeleteAsync_id",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -2549,6 +2768,9 @@
       },
       "get": {
         "operationId": "IIncidents_GetAsync_id_layout",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2583,6 +2805,9 @@
       },
       "put": {
         "operationId": "IIncidents_UpdateAsync_id_request",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2621,6 +2846,9 @@
     "/augmented_titles.json": {
       "get": {
         "operationId": "IIncidents_GetAugmentedTitlesAsync_request",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2679,6 +2907,9 @@
     "/entity_general_info/{incidentId}.json": {
       "get": {
         "operationId": "IIncidents_GetEntityGeneralInfoAsync_incidentId",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2740,6 +2971,9 @@
     "/incidents/{id}/response_template_variables.json": {
       "get": {
         "operationId": "IIncidents_GetResponseTemplateVariablesAsync_id",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2771,6 +3005,9 @@
     "/incidents/{id}/service_monitor_statistic.json": {
       "get": {
         "operationId": "IIncidents_GetServiceMonitorStatisticAsync_id",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2799,6 +3036,9 @@
     "/incidents/{id}/get_workflow.json": {
       "get": {
         "operationId": "IIncidents_GetWorkflowAsync_id",
+        "tags": [
+          "Incidents"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2827,6 +3067,9 @@
     "/memberships.json": {
       "post": {
         "operationId": "IMemberships_CreateAsync_groupId_userIds",
+        "tags": [
+          "Memberships"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -2856,6 +3099,9 @@
     "/memberships/{id}.json": {
       "delete": {
         "operationId": "IMemberships_DeleteAsync_id",
+        "tags": [
+          "Memberships"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -2877,6 +3123,9 @@
     "/mobiles.json": {
       "post": {
         "operationId": "IMobileDevices_CreateAsync_request",
+        "tags": [
+          "Mobile Devices"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2902,6 +3151,9 @@
       },
       "get": {
         "operationId": "IMobileDevices_GetAsync",
+        "tags": [
+          "Mobile Devices"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2922,6 +3174,9 @@
     "/mobiles/{id}.json": {
       "delete": {
         "operationId": "IMobileDevices_DeleteAsync_id",
+        "tags": [
+          "Mobile Devices"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -2941,6 +3196,9 @@
       },
       "get": {
         "operationId": "IMobileDevices_GetAsync_id_layout",
+        "tags": [
+          "Mobile Devices"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2975,6 +3233,9 @@
       },
       "put": {
         "operationId": "IMobileDevices_UpdateAsync_id_request",
+        "tags": [
+          "Mobile Devices"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3013,6 +3274,9 @@
     "/notifications/unseen_count.json": {
       "get": {
         "operationId": "INotifications_GetUnseenCountAsync",
+        "tags": [
+          "Notifications"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3030,6 +3294,9 @@
     "/other_assets.json": {
       "post": {
         "operationId": "IOtherAssets_CreateAsync_request",
+        "tags": [
+          "Other Assets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3055,6 +3322,9 @@
       },
       "get": {
         "operationId": "IOtherAssets_GetAsync_request",
+        "tags": [
+          "Other Assets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3085,6 +3355,9 @@
     "/other_assets/{id}.json": {
       "delete": {
         "operationId": "IOtherAssets_DeleteAsync_id",
+        "tags": [
+          "Other Assets"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -3104,6 +3377,9 @@
       },
       "get": {
         "operationId": "IOtherAssets_GetAsync_id_layout",
+        "tags": [
+          "Other Assets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3138,6 +3414,9 @@
       },
       "put": {
         "operationId": "IOtherAssets_UpdateAsync_id_request",
+        "tags": [
+          "Other Assets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3176,6 +3455,9 @@
     "/printers/{id}.json": {
       "get": {
         "operationId": "IPrinters_GetAsync_id_layout",
+        "tags": [
+          "Printers"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3210,6 +3492,9 @@
       },
       "put": {
         "operationId": "IPrinters_UpdateAsync_id_request",
+        "tags": [
+          "Printers"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3248,6 +3533,9 @@
     "/printers.json": {
       "get": {
         "operationId": "IPrinters_GetAsync",
+        "tags": [
+          "Printers"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3268,6 +3556,9 @@
     "/problems.json": {
       "post": {
         "operationId": "IProblems_CreateAsync_request",
+        "tags": [
+          "Problems"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3293,6 +3584,9 @@
       },
       "get": {
         "operationId": "IProblems_GetAsync_request",
+        "tags": [
+          "Problems"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3323,6 +3617,9 @@
     "/problems/{id}.json": {
       "delete": {
         "operationId": "IProblems_DeleteAsync_id",
+        "tags": [
+          "Problems"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -3342,6 +3639,9 @@
       },
       "get": {
         "operationId": "IProblems_GetAsync_id_layout",
+        "tags": [
+          "Problems"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3376,6 +3676,9 @@
       },
       "put": {
         "operationId": "IProblems_UpdateAsync_id_request",
+        "tags": [
+          "Problems"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3414,6 +3717,9 @@
     "/purchase_orders.json": {
       "post": {
         "operationId": "IPurchaseOrdersApi_CreateAsync_request",
+        "tags": [
+          "Purchase Orders"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3439,6 +3745,9 @@
       },
       "get": {
         "operationId": "IPurchaseOrdersApi_GetAsync",
+        "tags": [
+          "Purchase Orders"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3459,6 +3768,9 @@
     "/purchase_orders/{id}.json": {
       "delete": {
         "operationId": "IPurchaseOrdersApi_DeleteAsync_id",
+        "tags": [
+          "Purchase Orders"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -3478,6 +3790,9 @@
       },
       "get": {
         "operationId": "IPurchaseOrdersApi_GetAsync_id_layout",
+        "tags": [
+          "Purchase Orders"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3512,6 +3827,9 @@
       },
       "put": {
         "operationId": "IPurchaseOrdersApi_UpdateAsync_id_request",
+        "tags": [
+          "Purchase Orders"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3550,6 +3868,9 @@
     "/{objectType}/{id}/purchases.json": {
       "post": {
         "operationId": "IPurchases_CreateAsync_objectType_id_request",
+        "tags": [
+          "Purchases"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3596,6 +3917,9 @@
     "/{objectType}/{id}/purchases/{purchaseId}.json": {
       "delete": {
         "operationId": "IPurchases_DeleteAsync_objectType_id_purchaseId",
+        "tags": [
+          "Purchases"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -3632,6 +3956,9 @@
       },
       "put": {
         "operationId": "IPurchases_UpdateAsync_objectType_id_purchaseId_request",
+        "tags": [
+          "Purchases"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3687,6 +4014,9 @@
     "/releases.json": {
       "post": {
         "operationId": "IReleases_CreateAsync_request",
+        "tags": [
+          "Releases"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3712,6 +4042,9 @@
       },
       "get": {
         "operationId": "IReleases_GetAsync",
+        "tags": [
+          "Releases"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3732,6 +4065,9 @@
     "/releases/{id}.json": {
       "delete": {
         "operationId": "IReleases_DeleteAsync_id",
+        "tags": [
+          "Releases"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -3751,6 +4087,9 @@
       },
       "get": {
         "operationId": "IReleases_GetAsync_id_layout",
+        "tags": [
+          "Releases"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3785,6 +4124,9 @@
       },
       "put": {
         "operationId": "IReleases_UpdateAsync_id_request",
+        "tags": [
+          "Releases"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3823,6 +4165,9 @@
     "/setup/response_templates.json": {
       "get": {
         "operationId": "IResponseTemplates_GetSetupListAsync_request",
+        "tags": [
+          "Response Templates"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3850,6 +4195,9 @@
     "/response_templates/total_count.json": {
       "get": {
         "operationId": "IResponseTemplates_GetTotalCountAsync",
+        "tags": [
+          "Response Templates"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3867,6 +4215,9 @@
     "/response_templates/total_count_global.json": {
       "get": {
         "operationId": "IResponseTemplates_GetTotalCountGlobalAsync",
+        "tags": [
+          "Response Templates"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3884,6 +4235,9 @@
     "/response_templates/total_count_personal.json": {
       "get": {
         "operationId": "IResponseTemplates_GetTotalCountPersonalAsync",
+        "tags": [
+          "Response Templates"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3901,6 +4255,9 @@
     "/risks/{id}.json": {
       "get": {
         "operationId": "IRisks_GetAsync_id_layout",
+        "tags": [
+          "Risks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3937,6 +4294,9 @@
     "/risks.json": {
       "get": {
         "operationId": "IRisks_GetAsync",
+        "tags": [
+          "Risks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3957,6 +4317,9 @@
     "/roles.json": {
       "post": {
         "operationId": "IRoles_CreateAsync_role",
+        "tags": [
+          "Roles"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3982,6 +4345,9 @@
       },
       "get": {
         "operationId": "IRoles_GetAsync",
+        "tags": [
+          "Roles"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4002,6 +4368,9 @@
     "/roles/{id}.json": {
       "delete": {
         "operationId": "IRoles_DeleteAsync_id",
+        "tags": [
+          "Roles"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -4021,6 +4390,9 @@
       },
       "get": {
         "operationId": "IRoles_GetAsync_id_layout",
+        "tags": [
+          "Roles"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4055,6 +4427,9 @@
       },
       "put": {
         "operationId": "IRoles_UpdateAsync_id_role",
+        "tags": [
+          "Roles"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4093,6 +4468,9 @@
     "/catalog_items/{id}/service_requests.json": {
       "post": {
         "operationId": "IServiceRequests_CreateAsync_id_request",
+        "tags": [
+          "Service Requests"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4131,6 +4509,9 @@
     "/setup/itsm_states/init_states_data.json": {
       "get": {
         "operationId": "ISetupItsmStates_InitStatesDataAsync_request",
+        "tags": [
+          "Setup Itsm States"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4166,6 +4547,9 @@
     "/setup/itsm_states/init_tabs_data.json": {
       "get": {
         "operationId": "ISetupItsmStates_InitTabsDataAsync_request",
+        "tags": [
+          "Setup Itsm States"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4249,6 +4633,9 @@
     "/sites.json": {
       "post": {
         "operationId": "ISites_CreateAsync_site",
+        "tags": [
+          "Sites"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4274,6 +4661,9 @@
       },
       "get": {
         "operationId": "ISites_GetAsync",
+        "tags": [
+          "Sites"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4294,6 +4684,9 @@
     "/sites/{id}.json": {
       "delete": {
         "operationId": "ISites_DeleteAsync_id",
+        "tags": [
+          "Sites"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -4313,6 +4706,9 @@
       },
       "get": {
         "operationId": "ISites_GetAsync_id_layout",
+        "tags": [
+          "Sites"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4347,6 +4743,9 @@
       },
       "put": {
         "operationId": "ISites_UpdateAsync_id_site",
+        "tags": [
+          "Sites"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4385,6 +4784,9 @@
     "/softwares/{id}.json": {
       "get": {
         "operationId": "ISoftwares_GetAsync_id_layout",
+        "tags": [
+          "Softwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4421,6 +4823,9 @@
     "/softwares.json": {
       "get": {
         "operationId": "ISoftwares_GetAsync",
+        "tags": [
+          "Softwares"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4441,6 +4846,9 @@
     "/solutions.json": {
       "post": {
         "operationId": "ISolutions_CreateAsync_request",
+        "tags": [
+          "Solutions"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4466,6 +4874,9 @@
       },
       "get": {
         "operationId": "ISolutions_GetAllAsync_request",
+        "tags": [
+          "Solutions"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4496,6 +4907,9 @@
     "/solutions/{id}.json": {
       "delete": {
         "operationId": "ISolutions_DeleteAsync_id",
+        "tags": [
+          "Solutions"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -4515,6 +4929,9 @@
       },
       "get": {
         "operationId": "ISolutions_GetAsync_id_layout",
+        "tags": [
+          "Solutions"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4549,6 +4966,9 @@
       },
       "put": {
         "operationId": "ISolutions_UpdateAsync_id_request",
+        "tags": [
+          "Solutions"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4587,6 +5007,9 @@
     "/{objectType}/{id}/tasks.json": {
       "post": {
         "operationId": "ITasks_CreateAsync_objectType_id_request",
+        "tags": [
+          "Tasks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4633,6 +5056,9 @@
     "/{objectType}/{id}/tasks/{taskId}.json": {
       "delete": {
         "operationId": "ITasks_DeleteAsync_objectType_id_taskId",
+        "tags": [
+          "Tasks"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -4669,6 +5095,9 @@
       },
       "put": {
         "operationId": "ITasks_UpdateAsync_objectType_id_taskId_request",
+        "tags": [
+          "Tasks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4724,6 +5153,9 @@
     "/tasks.json": {
       "get": {
         "operationId": "ITasks_GetAsync_request",
+        "tags": [
+          "Tasks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4783,6 +5215,9 @@
     "/tickets.json": {
       "post": {
         "operationId": "ITickets_CreateAsync_ticket",
+        "tags": [
+          "Tickets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4808,6 +5243,9 @@
       },
       "get": {
         "operationId": "ITickets_GetAsync",
+        "tags": [
+          "Tickets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4828,6 +5266,9 @@
     "/tickets/{id}.json": {
       "delete": {
         "operationId": "ITickets_DeleteAsync_id",
+        "tags": [
+          "Tickets"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -4847,6 +5288,9 @@
       },
       "get": {
         "operationId": "ITickets_GetAsync_id_layout",
+        "tags": [
+          "Tickets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4881,6 +5325,9 @@
       },
       "put": {
         "operationId": "ITickets_UpdateAsync_id_ticket",
+        "tags": [
+          "Tickets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4919,6 +5366,9 @@
     "/{objectType}/{id}/time_tracks.json": {
       "post": {
         "operationId": "ITimeTracks_CreateAsync_objectType_id_request",
+        "tags": [
+          "Time Tracks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4963,6 +5413,9 @@
       },
       "get": {
         "operationId": "ITimeTracks_GetAsync_objectType_id",
+        "tags": [
+          "Time Tracks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5002,6 +5455,9 @@
     "/{objectType}/{id}/time_tracks/{timeTrackId}.json": {
       "delete": {
         "operationId": "ITimeTracks_DeleteAsync_objectType_id_timeTrackId",
+        "tags": [
+          "Time Tracks"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -5038,6 +5494,9 @@
       },
       "put": {
         "operationId": "ITimeTracks_UpdateAsync_objectType_id_timeTrackId_request",
+        "tags": [
+          "Time Tracks"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5093,6 +5552,9 @@
     "/custom_views/{context}/metadata.json": {
       "get": {
         "operationId": "IUiCustomViews_GetMetadataAsync_context_request",
+        "tags": [
+          "Ui Custom Views"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5137,6 +5599,9 @@
     "/custom_views/{context}.json": {
       "get": {
         "operationId": "IUiCustomViews_GetViewAsync_context_request",
+        "tags": [
+          "Ui Custom Views"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5231,6 +5696,9 @@
     "/custom.json": {
       "get": {
         "operationId": "IUiInfrastructure_GetCustomContextAsync_request",
+        "tags": [
+          "Ui Infrastructure"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5266,6 +5734,9 @@
     "/rum_script.json": {
       "get": {
         "operationId": "IUiInfrastructure_GetRumScriptAsync_request",
+        "tags": [
+          "Ui Infrastructure"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5293,6 +5764,9 @@
     "/filters/url_filters.json": {
       "get": {
         "operationId": "IUiInfrastructure_GetUrlFiltersAsync_request",
+        "tags": [
+          "Ui Infrastructure"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5336,6 +5810,9 @@
     "/websockets/jwt.json": {
       "get": {
         "operationId": "IUiInfrastructure_GetWebsocketJwtAsync_request",
+        "tags": [
+          "Ui Infrastructure"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5363,6 +5840,9 @@
     "/{context}.jsonhtml": {
       "get": {
         "operationId": "IUiJsonHtmlLists_GetAsync_context_request",
+        "tags": [
+          "Ui Json Html Lists"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5476,6 +5956,9 @@
     "/users.json": {
       "post": {
         "operationId": "IUsers_CreateAsync_user",
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5501,6 +5984,9 @@
       },
       "get": {
         "operationId": "IUsers_GetAsync",
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5521,6 +6007,9 @@
     "/users/{id}.json": {
       "delete": {
         "operationId": "IUsers_DeleteAsync_id",
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -5540,6 +6029,9 @@
       },
       "get": {
         "operationId": "IUsers_GetAsync_id_layout",
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5574,6 +6066,9 @@
       },
       "put": {
         "operationId": "IUsers_UpdateAsync_id_user",
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5612,6 +6107,9 @@
     "/users/get_avatars.json": {
       "get": {
         "operationId": "IUsers_GetAvatarsAsync_userIds_isPortalMode",
+        "tags": [
+          "Users"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5651,6 +6149,9 @@
     "/vendors.json": {
       "post": {
         "operationId": "IVendors_CreateAsync_request",
+        "tags": [
+          "Vendors"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5676,6 +6177,9 @@
       },
       "get": {
         "operationId": "IVendors_GetAsync",
+        "tags": [
+          "Vendors"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5696,6 +6200,9 @@
     "/vendors/{id}.json": {
       "delete": {
         "operationId": "IVendors_DeleteAsync_id",
+        "tags": [
+          "Vendors"
+        ],
         "responses": {
           "204": {
             "description": "No content"
@@ -5715,6 +6222,9 @@
       },
       "get": {
         "operationId": "IVendors_GetAsync_id_layout",
+        "tags": [
+          "Vendors"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5749,6 +6259,9 @@
       },
       "put": {
         "operationId": "IVendors_UpdateAsync_id_request",
+        "tags": [
+          "Vendors"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5787,6 +6300,9 @@
     "/widgets/{id}.json": {
       "get": {
         "operationId": "IWidgets_GetAsync_id_request",
+        "tags": [
+          "Widgets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5848,6 +6364,9 @@
     "/widgets/data.json": {
       "get": {
         "operationId": "IWidgets_GetDataAsync_request",
+        "tags": [
+          "Widgets"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5916,6 +6435,9 @@
     "/workflow_approvers.json": {
       "get": {
         "operationId": "IWorkflowApprovers_GetAsync_ids",
+        "tags": [
+          "Workflow Approvers"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -5948,6 +6470,143 @@
       }
     }
   },
+  "tags": [
+    {
+      "name": "Attachments"
+    },
+    {
+      "name": "Audits"
+    },
+    {
+      "name": "Catalog Items"
+    },
+    {
+      "name": "Categories"
+    },
+    {
+      "name": "Change Catalogs"
+    },
+    {
+      "name": "Change Requests"
+    },
+    {
+      "name": "Changes"
+    },
+    {
+      "name": "Comments"
+    },
+    {
+      "name": "Configuration Items"
+    },
+    {
+      "name": "Contracts"
+    },
+    {
+      "name": "Custom Fields"
+    },
+    {
+      "name": "Custom Forms"
+    },
+    {
+      "name": "Dashboards"
+    },
+    {
+      "name": "Departments"
+    },
+    {
+      "name": "Groups"
+    },
+    {
+      "name": "Hardwares"
+    },
+    {
+      "name": "Incident Types"
+    },
+    {
+      "name": "Incidents"
+    },
+    {
+      "name": "Memberships"
+    },
+    {
+      "name": "Mobile Devices"
+    },
+    {
+      "name": "Notifications"
+    },
+    {
+      "name": "Other Assets"
+    },
+    {
+      "name": "Printers"
+    },
+    {
+      "name": "Problems"
+    },
+    {
+      "name": "Purchase Orders"
+    },
+    {
+      "name": "Purchases"
+    },
+    {
+      "name": "Releases"
+    },
+    {
+      "name": "Response Templates"
+    },
+    {
+      "name": "Risks"
+    },
+    {
+      "name": "Roles"
+    },
+    {
+      "name": "Service Requests"
+    },
+    {
+      "name": "Setup Itsm States"
+    },
+    {
+      "name": "Sites"
+    },
+    {
+      "name": "Softwares"
+    },
+    {
+      "name": "Solutions"
+    },
+    {
+      "name": "Tasks"
+    },
+    {
+      "name": "Tickets"
+    },
+    {
+      "name": "Time Tracks"
+    },
+    {
+      "name": "Ui Custom Views"
+    },
+    {
+      "name": "Ui Infrastructure"
+    },
+    {
+      "name": "Ui Json Html Lists"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Vendors"
+    },
+    {
+      "name": "Widgets"
+    },
+    {
+      "name": "Workflow Approvers"
+    }
+  ],
   "components": {
     "schemas": {
       "Attachment": {
