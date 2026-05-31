@@ -14,6 +14,7 @@ This repository publishes an interactive Swagger UI for the generated Service De
 - Workflow: `.github/workflows/gh-pages.yml`
 - UI source: `docs/openapi/index.html`
 - OpenAPI document: `SolarWinds.ServiceDesk.OpenApi.json`
+- Live UI: [https://panoramicdata.github.io/SolarWinds.Api/](https://panoramicdata.github.io/SolarWinds.Api/)
 
 To regenerate the OpenAPI document for a follow-up commit where git height will increment by one, run:
 
