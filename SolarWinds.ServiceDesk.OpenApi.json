@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "SolarWinds Service Desk API",
-    "version": "2026.5.13",
+    "version": "2026.5.14",
     "description": "Generated from SolarWinds.Api Refit interfaces and models."
   },
   "servers": [
@@ -8457,25 +8457,10 @@
       "IncidentWriteFields": {
         "type": "object",
         "properties": {
-          "add_to_tag_list": {
-            "type": "string"
-          },
-          "assignee": {
-            "type": "object"
-          },
-          "category": {
-            "type": "object"
-          },
           "cc": {
             "type": "array",
             "items": {
               "type": "string"
-            }
-          },
-          "changes": {
-            "type": "array",
-            "items": {
-              "type": "object"
             }
           },
           "configuration_item_ids": {
@@ -8485,20 +8470,8 @@
               "format": "int32"
             }
           },
-          "configuration_items": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
           "custom_fields_values": {
             "type": "object"
-          },
-          "custom_fields_values_attributes": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
           },
           "department_id": {
             "type": "integer",
@@ -8507,67 +8480,19 @@
           "description": {
             "type": "string"
           },
-          "description_no_html": {
-            "type": "string"
-          },
           "due_at": {
             "type": "string",
             "format": "date-time"
           },
-          "group_assignee": {
-            "type": "object"
-          },
-          "incidents": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "is_service_request": {
-            "type": "boolean"
-          },
           "name": {
-            "type": "string"
-          },
-          "origin": {
             "type": "string"
           },
           "priority": {
             "type": "string"
           },
-          "problems": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "purchase_orders": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "releases": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
-          },
-          "remove_from_tag_list": {
-            "type": "string"
-          },
-          "requester": {
-            "type": "object"
-          },
           "site_id": {
             "type": "integer",
             "format": "int32"
-          },
-          "solutions": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
           },
           "state": {
             "type": "string"
@@ -8575,12 +8500,6 @@
           "state_id": {
             "type": "integer",
             "format": "int32"
-          },
-          "subcategory": {
-            "type": "object"
-          },
-          "tag_list": {
-            "type": "string"
           }
         },
         "additionalProperties": false
@@ -8867,11 +8786,51 @@
           "nodes"
         ]
       },
+      "IncidentUpdateFields": {
+        "type": "object",
+        "properties": {
+          "cc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "configuration_item_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "department_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "site_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "IncidentUpdateRequest": {
         "type": "object",
         "properties": {
           "incident": {
-            "$ref": "#/components/schemas/IncidentWriteFields"
+            "$ref": "#/components/schemas/IncidentUpdateFields"
           }
         },
         "additionalProperties": false,
