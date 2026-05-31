@@ -105,7 +105,6 @@ internal static partial class Program
 				["version"] = apiVersion,
 				["description"] = "Generated from SolarWinds.Api Refit interfaces and models."
 			},
-			["jsonSchemaDialect"] = "https://json-schema.org/draft/2020-12/schema",
 			["servers"] = new JsonArray
 			{
 				new JsonObject
