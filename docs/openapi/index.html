@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SolarWinds Service Desk OpenAPI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #16212b;
+      --accent: #0078d4;
+      --muted: #5b6b7a;
+      --border: #d9e1e8;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top right, #e7f2ff 0%, var(--bg) 42%);
+      color: var(--ink);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 90%, #eef5fb);
+      padding: 20px 24px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      margin: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    #swagger-ui {
+      min-height: calc(100vh - 160px);
+    }
+
+    .swagger-ui .topbar {
+      display: none;
+    }
+
+    .swagger-ui .info .title small {
+      background: var(--accent);
+    }
+
+    @media (max-width: 720px) {
+      .header {
+        padding: 16px;
+      }
+
+      .container {
+        margin: 12px;
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="title">SolarWinds Service Desk OpenAPI</h1>
+    <p class="subtitle">Interactive API explorer generated from SolarWinds.Api Service Desk interfaces and models.</p>
+  </header>
+
+  <main class="container">
+    <div id="swagger-ui"></div>
+  </main>
+
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js" crossorigin="anonymous"></script>
+  <script>
+    window.ui = SwaggerUIBundle({
+      url: "./SolarWinds.ServiceDesk.OpenApi.json",
+      dom_id: "#swagger-ui",
+      deepLinking: true,
+      docExpansion: "list",
+      displayRequestDuration: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      layout: "BaseLayout"
+    });
+  </script>
+</body>
+</html>

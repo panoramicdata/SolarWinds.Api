@@ -7,6 +7,18 @@
 
 A .NET API client for SolarWinds Orion and Service Desk.
 
+## OpenAPI UI (GitHub Pages)
+
+This repository publishes an interactive Swagger UI for the generated Service Desk OpenAPI document via GitHub Pages.
+
+- Workflow: `.github/workflows/gh-pages.yml`
+- UI source: `docs/openapi/index.html`
+- OpenAPI document: `SolarWinds.ServiceDesk.OpenApi.json`
+
+After enabling GitHub Pages with **Build and deployment: GitHub Actions**, the site is published at:
+
+`https://<org-or-user>.github.io/SolarWinds.Api/`
+
 ## Installation
 
 Install the NuGet package:

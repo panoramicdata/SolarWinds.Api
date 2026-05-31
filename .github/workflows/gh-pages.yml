@@ -1,0 +1,62 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Regenerate OpenAPI document
+        run: dotnet run --project ./SolarWinds.Api.OpenApi/SolarWinds.Api.OpenApi.csproj --configuration Release -- ./SolarWinds.ServiceDesk.OpenApi.json
+
+      - name: Verify generated OpenAPI is checked in
+        run: |
+          if [[ -n "$(git status --porcelain -- SolarWinds.ServiceDesk.OpenApi.json)" ]]; then
+            echo "SolarWinds.ServiceDesk.OpenApi.json is out of date. Regenerate and commit it."
+            git --no-pager diff -- SolarWinds.ServiceDesk.OpenApi.json
+            exit 1
+          fi
+
+      - name: Build Pages content
+        run: |
+          mkdir -p ./_site
+          cp ./docs/openapi/index.html ./_site/index.html
+          cp ./SolarWinds.ServiceDesk.OpenApi.json ./_site/SolarWinds.ServiceDesk.OpenApi.json
+          touch ./_site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
