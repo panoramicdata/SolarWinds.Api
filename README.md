@@ -15,6 +15,12 @@ This repository publishes an interactive Swagger UI for the generated Service De
 - UI source: `docs/openapi/index.html`
 - OpenAPI document: `SolarWinds.ServiceDesk.OpenApi.json`
 
+To regenerate the OpenAPI document for a follow-up commit where git height will increment by one, run:
+
+`dotnet run --project ./SolarWinds.Api.OpenApi/SolarWinds.Api.OpenApi.csproj --configuration Release -- ./SolarWinds.ServiceDesk.OpenApi.json --next-commit-version`
+
+`--next-commit-version` requires a clean working tree (`git status --porcelain`) and increments the last numeric segment of the NBGV-derived version before writing the document.
+
 After enabling GitHub Pages with **Build and deployment: GitHub Actions**, the site is published at:
 
 `https://<org-or-user>.github.io/SolarWinds.Api/`

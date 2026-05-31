@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -23,8 +24,9 @@ internal static partial class Program
 	{
 		try
 		{
-			var outputPath = ResolveOutputPath(args);
-			var document = BuildOpenApiDocument();
+			var parsedArgs = ParsedArgs.Parse(args);
+			var outputPath = ResolveOutputPath(parsedArgs.OutputPath);
+			var document = BuildOpenApiDocument(parsedArgs.UseNextCommitVersion);
 			Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
 			File.WriteAllText(outputPath, document.ToJsonString(JsonOptions));
 			Console.WriteLine($"Generated OpenAPI document: {outputPath}");
@@ -38,20 +40,20 @@ internal static partial class Program
 		}
 	}
 
-	private static string ResolveOutputPath(string[] args)
+	private static string ResolveOutputPath(string? outputPath)
 	{
-		if (args.Length > 0 && !string.IsNullOrWhiteSpace(args[0]))
+		if (!string.IsNullOrWhiteSpace(outputPath))
 		{
-			return Path.GetFullPath(args[0]);
+			return Path.GetFullPath(outputPath);
 		}
 
 		var repoRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".."));
 		return Path.Combine(repoRoot, "SolarWinds.ServiceDesk.OpenApi.json");
 	}
 
-	private static JsonObject BuildOpenApiDocument()
+	private static JsonObject BuildOpenApiDocument(bool useNextCommitVersion)
 	{
-		var apiVersion = GetApiVersion();
+		var apiVersion = GetApiVersion(useNextCommitVersion);
 		var paths = new JsonObject();
 		var components = new JsonObject();
 		var schemas = new JsonObject();
@@ -124,8 +126,13 @@ internal static partial class Program
 		};
 	}
 
-	private static string GetApiVersion()
+	private static string GetApiVersion(bool useNextCommitVersion)
 	{
+		if (useNextCommitVersion)
+		{
+			EnsureCleanPorcelain();
+		}
+
 		var assembly = typeof(SolarWindsServiceDeskClient).Assembly;
 		var informationalVersion = assembly
 			.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
@@ -137,9 +144,98 @@ internal static partial class Program
 		}
 
 		var plusIndex = informationalVersion.IndexOf('+');
-		return plusIndex >= 0
+		var normalizedVersion = plusIndex >= 0
 			? informationalVersion[..plusIndex]
 			: informationalVersion;
+
+		return useNextCommitVersion
+			? IncrementLastNumericSegment(normalizedVersion)
+			: normalizedVersion;
+	}
+
+	private static void EnsureCleanPorcelain()
+	{
+		var process = new Process
+		{
+			StartInfo = new ProcessStartInfo
+			{
+				FileName = "git",
+				Arguments = "status --porcelain",
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				UseShellExecute = false,
+				CreateNoWindow = true,
+			}
+		};
+
+		process.Start();
+		var output = process.StandardOutput.ReadToEnd();
+		var error = process.StandardError.ReadToEnd();
+		process.WaitForExit();
+
+		if (process.ExitCode != 0)
+		{
+			throw new InvalidOperationException($"Failed to run 'git status --porcelain': {error}");
+		}
+
+		if (!string.IsNullOrWhiteSpace(output))
+		{
+			throw new InvalidOperationException("Working tree must be clean before using --next-commit-version.");
+		}
+	}
+
+	private static string IncrementLastNumericSegment(string version)
+	{
+		var separatorIndex = version.IndexOf('-');
+		var core = separatorIndex >= 0 ? version[..separatorIndex] : version;
+		var suffix = separatorIndex >= 0 ? version[separatorIndex..] : string.Empty;
+
+		var segments = core.Split('.', StringSplitOptions.RemoveEmptyEntries);
+		for (var i = segments.Length - 1; i >= 0; i--)
+		{
+			if (!int.TryParse(segments[i], out var parsed))
+			{
+				continue;
+			}
+
+			segments[i] = (parsed + 1).ToString();
+			return string.Join('.', segments) + suffix;
+		}
+
+		return version;
+	}
+
+	private sealed record ParsedArgs(string? OutputPath, bool UseNextCommitVersion)
+	{
+		public static ParsedArgs Parse(string[] args)
+		{
+			string? outputPath = null;
+			var useNextCommitVersion = false;
+
+			foreach (var arg in args)
+			{
+				if (string.Equals(arg, "--next-commit-version", StringComparison.OrdinalIgnoreCase))
+				{
+					useNextCommitVersion = true;
+					continue;
+				}
+
+				if (arg.StartsWith("--", StringComparison.Ordinal))
+				{
+					throw new ArgumentException($"Unknown argument: {arg}");
+				}
+
+				if (outputPath is null)
+				{
+					outputPath = arg;
+					continue;
+				}
+
+				throw new ArgumentException("Only one output path argument is supported.");
+			}
+
+			return new ParsedArgs(outputPath, useNextCommitVersion);
+		}
 	}
 
 	private static void BuildInterfaceOperations(Type iface, JsonObject paths, SchemaBuilder schemaBuilder)
