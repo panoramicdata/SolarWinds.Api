@@ -51,6 +51,7 @@ internal static partial class Program
 
 	private static JsonObject BuildOpenApiDocument()
 	{
+		var apiVersion = GetApiVersion();
 		var paths = new JsonObject();
 		var components = new JsonObject();
 		var schemas = new JsonObject();
@@ -89,7 +90,7 @@ internal static partial class Program
 			["info"] = new JsonObject
 			{
 				["title"] = "SolarWinds Service Desk API",
-				["version"] = "1.0.0",
+				["version"] = apiVersion,
 				["description"] = "Generated from SolarWinds.Api Refit interfaces and models."
 			},
 			["jsonSchemaDialect"] = "https://json-schema.org/draft/2020-12/schema",
@@ -121,6 +122,24 @@ internal static partial class Program
 				}
 			}
 		};
+	}
+
+	private static string GetApiVersion()
+	{
+		var assembly = typeof(SolarWindsServiceDeskClient).Assembly;
+		var informationalVersion = assembly
+			.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+			?.InformationalVersion;
+
+		if (string.IsNullOrWhiteSpace(informationalVersion))
+		{
+			return "0.0.0";
+		}
+
+		var plusIndex = informationalVersion.IndexOf('+');
+		return plusIndex >= 0
+			? informationalVersion[..plusIndex]
+			: informationalVersion;
 	}
 
 	private static void BuildInterfaceOperations(Type iface, JsonObject paths, SchemaBuilder schemaBuilder)
