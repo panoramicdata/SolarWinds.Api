@@ -1,9 +1,9 @@
 namespace SolarWinds.Api.ServiceDesk.Models;
 
 /// <summary>
-/// Writable incident fields used by create and update operations.
+/// Incident fields verified to work with update operations.
 /// </summary>
-public sealed class IncidentWriteFields
+public sealed class IncidentUpdateFields
 {
 	/// <summary>
 	/// Gets or sets incident title.
@@ -31,24 +31,9 @@ public sealed class IncidentWriteFields
 	public int? StateId { get; set; }
 
 	/// <summary>
-	/// Gets or sets state value.
-	/// </summary>
-	public string? State { get; set; }
-
-	/// <summary>
 	/// Gets or sets incident priority.
 	/// </summary>
 	public string? Priority { get; set; }
-
-	/// <summary>
-	/// Gets or sets incident due date/time.
-	/// </summary>
-	public DateTime? DueAt { get; set; }
-
-	/// <summary>
-	/// Gets or sets custom field value payload.
-	/// </summary>
-	public object? CustomFieldsValues { get; set; }
 
 	/// <summary>
 	/// Gets or sets related configuration-item identifiers.
@@ -59,5 +44,4 @@ public sealed class IncidentWriteFields
 	/// Gets or sets CC email recipients.
 	/// </summary>
 	public string[]? Cc { get; set; }
-
 }

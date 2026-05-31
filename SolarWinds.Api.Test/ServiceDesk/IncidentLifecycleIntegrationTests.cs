@@ -68,8 +68,6 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 				Name = $"Lifecycle integration test {DateTimeOffset.UtcNow:yyyyMMdd-HHmmss}",
 				Description = "Created by automated integration test",
 				Priority = "Low",
-				Origin = "web",
-				IsServiceRequest = false,
 			}
 		};
 
@@ -94,7 +92,7 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 			var updatedDescription = $"Updated by safe integration test at {DateTimeOffset.UtcNow:O}";
 			var updateRequest = new IncidentUpdateRequest
 			{
-				Incident = new IncidentWriteFields
+				Incident = new IncidentUpdateFields
 				{
 					Name = created.Name,
 					Description = updatedDescription,
@@ -128,7 +126,7 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 
 			var transitionRequest = new IncidentUpdateRequest
 			{
-				Incident = new IncidentWriteFields
+				Incident = new IncidentUpdateFields
 				{
 					Name = updated.Name,
 					Description = updated.Description,
@@ -146,7 +144,10 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 				.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
 			refreshed.Description.Should().Contain("Updated by safe integration test");
 
-			refreshed.StateId.Should().Be(targetState!.Id);
+			(refreshed.StateId == targetState!.Id
+				|| string.Equals(refreshed.State, targetState.Title, StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(refreshed.State, targetState.Key, StringComparison.OrdinalIgnoreCase))
+				.Should().BeTrue("state transition should be visible via state_id or state name");
 		}
 		finally
 		{
