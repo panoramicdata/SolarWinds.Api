@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
@@ -17,6 +17,7 @@
     <File Path="Publish.ps1" />
     <File Path="SECURITY.md" />
   </Folder>
+  <Project Path="SolarWinds.Api.OpenApi/SolarWinds.Api.OpenApi.csproj" />
   <Project Path="SolarWinds.Api.Test/SolarWinds.Api.Test.csproj" />
   <Project Path="SolarWinds.Api/SolarWinds.Api.csproj" />
 </Solution>

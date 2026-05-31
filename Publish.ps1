@@ -4,6 +4,19 @@
 
 $ErrorActionPreference = 'Stop'
 
+# Regenerate and validate the checked-in Service Desk OpenAPI document.
+$openApiProject = Join-Path $PSScriptRoot 'SolarWinds.Api.OpenApi\SolarWinds.Api.OpenApi.csproj'
+$openApiOutput = Join-Path $PSScriptRoot 'SolarWinds.ServiceDesk.OpenApi.json'
+
+Write-Host "Generating Service Desk OpenAPI document ..." -ForegroundColor Cyan
+dotnet run --project $openApiProject --configuration Release -- $openApiOutput | Out-Host
+
+$openApiDiff = git status --porcelain -- SolarWinds.ServiceDesk.OpenApi.json
+if ($openApiDiff) {
+    Write-Error "SolarWinds.ServiceDesk.OpenApi.json is out of date after regeneration. Commit the updated file before publishing.`n$openApiDiff"
+    exit 1
+}
+
 # Check for clean working tree
 $status = git status --porcelain
 if ($status) {
