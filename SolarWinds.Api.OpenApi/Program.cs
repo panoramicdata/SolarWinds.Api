@@ -57,6 +57,7 @@ internal static partial class Program
 		var paths = new JsonObject();
 		var components = new JsonObject();
 		var schemas = new JsonObject();
+		var documentTags = new SortedSet<string>(StringComparer.Ordinal);
 		var securitySchemes = new JsonObject
 		{
 			["X-Samanage-Authorization"] = new JsonObject
@@ -83,7 +84,16 @@ internal static partial class Program
 
 		foreach (var iface in interfaces)
 		{
-			BuildInterfaceOperations(iface, paths, schemaBuilder);
+			BuildInterfaceOperations(iface, paths, schemaBuilder, documentTags);
+		}
+
+		var tags = new JsonArray();
+		foreach (var tag in documentTags)
+		{
+			tags.Add(new JsonObject
+			{
+				["name"] = tag
+			});
 		}
 
 		return new JsonObject
@@ -115,6 +125,7 @@ internal static partial class Program
 				}
 			},
 			["paths"] = paths,
+			["tags"] = tags,
 			["components"] = components,
 			["security"] = new JsonArray
 			{
@@ -238,8 +249,11 @@ internal static partial class Program
 		}
 	}
 
-	private static void BuildInterfaceOperations(Type iface, JsonObject paths, SchemaBuilder schemaBuilder)
+	private static void BuildInterfaceOperations(Type iface, JsonObject paths, SchemaBuilder schemaBuilder, ISet<string> documentTags)
 	{
+		var tagName = BuildTagName(iface);
+		documentTags.Add(tagName);
+
 		var methods = iface.GetMethods(BindingFlags.Public | BindingFlags.Instance)
 			.OrderBy(static m => m.Name, StringComparer.Ordinal)
 			.ThenBy(static m => m.ToString(), StringComparer.Ordinal)
@@ -263,7 +277,7 @@ internal static partial class Program
 				paths[normalizedPath] = pathItem;
 			}
 
-			var operation = BuildOperation(iface, method, methodAttribute, normalizedPath, fixedQueryParameters, schemaBuilder);
+			var operation = BuildOperation(iface, method, methodAttribute, normalizedPath, fixedQueryParameters, schemaBuilder, tagName);
 			pathItem[methodAttribute.Method.Method.ToLowerInvariant()] = operation;
 		}
 	}
@@ -274,7 +288,8 @@ internal static partial class Program
 		HttpMethodAttribute httpMethod,
 		string normalizedPath,
 		IReadOnlyDictionary<string, string> fixedQueryParameters,
-		SchemaBuilder schemaBuilder)
+		SchemaBuilder schemaBuilder,
+		string tagName)
 	{
 		var parameters = new JsonArray();
 		var bodyParameter = default(ParameterInfo);
@@ -361,6 +376,7 @@ internal static partial class Program
 		var operation = new JsonObject
 		{
 			["operationId"] = BuildOperationId(iface, method),
+			["tags"] = new JsonArray(tagName),
 			["responses"] = responses
 		};
 
@@ -446,6 +462,44 @@ internal static partial class Program
 		return string.IsNullOrWhiteSpace(overloadSuffix)
 			? $"{iface.Name}_{method.Name}"
 			: $"{iface.Name}_{method.Name}_{overloadSuffix}";
+	}
+
+	private static string BuildTagName(Type iface)
+	{
+		var name = iface.Name;
+		if (name.StartsWith('I') && name.Length > 1 && char.IsUpper(name[1]))
+		{
+			name = name[1..];
+		}
+
+		if (name.EndsWith("Api", StringComparison.Ordinal) && name.Length > 3)
+		{
+			name = name[..^3];
+		}
+
+		return HumanizePascalCase(name);
+	}
+
+	private static string HumanizePascalCase(string value)
+	{
+		if (string.IsNullOrWhiteSpace(value))
+		{
+			return value;
+		}
+
+		var chars = new List<char>(value.Length + 8);
+		for (var i = 0; i < value.Length; i++)
+		{
+			var c = value[i];
+			if (i > 0 && char.IsUpper(c) && (char.IsLower(value[i - 1]) || (i + 1 < value.Length && char.IsLower(value[i + 1]))))
+			{
+				chars.Add(' ');
+			}
+
+			chars.Add(c);
+		}
+
+		return new string(chars.ToArray());
 	}
 
 	private static HttpMethodAttribute? GetHttpMethodAttribute(MethodInfo method)
