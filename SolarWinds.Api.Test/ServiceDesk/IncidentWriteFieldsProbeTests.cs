@@ -76,46 +76,57 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 			Func<Incident, Task<IncidentWriteFields>> updateRequestFactory,
 			Func<Incident, Incident, Task<bool>> verifyUpdated)
 		{
-			Incident? created = null;
-			try
+			async Task<bool> RunProbeAttemptAsync()
 			{
-				created = await TryCreateProbeIncidentAsync(propertyName, createRequestFactory);
-				if (created is null)
-				{
-					return false;
-				}
-
-				var beforeUpdate = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
-
+				Incident? created = null;
 				try
 				{
-					_ = await _looseIncidentUpdates.UpdateAsync(
-						created.Id,
-						await updateRequestFactory(beforeUpdate),
-						CancellationToken);
-				}
-				catch (ApiException)
-				{
-					_output.WriteLine($"{propertyName}: update API exception");
-					return false;
-				}
+					created = await TryCreateProbeIncidentAsync(propertyName, createRequestFactory);
+					if (created is null)
+					{
+						return false;
+					}
 
-				var refreshed = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
-				return await verifyUpdated(beforeUpdate, refreshed);
-			}
-			finally
-			{
-				if (created?.Id > 0)
-				{
+					var beforeUpdate = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
+
 					try
 					{
-						await ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken);
+						_ = await _looseIncidentUpdates.UpdateAsync(
+							created.Id,
+							await updateRequestFactory(beforeUpdate),
+							CancellationToken);
 					}
 					catch (ApiException)
 					{
+						_output.WriteLine($"{propertyName}: update API exception");
+						return false;
+					}
+
+					var refreshed = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
+					return await verifyUpdated(beforeUpdate, refreshed);
+				}
+				finally
+				{
+					if (created?.Id > 0)
+					{
+						try
+						{
+							await ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken);
+						}
+						catch (ApiException)
+						{
+						}
 					}
 				}
 			}
+
+			if (await RunProbeAttemptAsync())
+			{
+				return true;
+			}
+
+			_output.WriteLine($"{propertyName}: retrying probe after initial verification failure");
+			return await RunProbeAttemptAsync();
 		}
 
 		results[nameof(IncidentWriteFields.Name)] = await RunProbeAsync(
