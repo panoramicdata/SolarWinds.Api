@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "SolarWinds Service Desk API",
-    "version": "2026.5.17",
+    "version": "2026.5.20",
     "description": "Generated from SolarWinds.Api Refit interfaces and models."
   },
   "servers": [
@@ -8260,38 +8260,197 @@
           "name"
         ]
       },
-      "Incident": {
+      "Asset": {
         "type": "object",
         "properties": {
-          "assets": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+          "asset_id": {
+            "type": "string"
           },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "asset_id",
+          "id",
+          "name"
+        ]
+      },
+      "MobileDevice": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "department_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imei": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "os": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "serial_number": {
+            "type": "string"
+          },
+          "site_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "created_at",
+          "department_id",
+          "id",
+          "imei",
+          "name",
+          "os",
+          "phone_number",
+          "serial_number",
+          "site_id",
+          "updated_at",
+          "user_id"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "properties": {
           "assignee": {
             "type": "object"
           },
-          "category": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
             "type": "object"
           },
-          "cc": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+          "description": {
+            "type": "string"
           },
-          "changes": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+          "id": {
+            "type": "integer",
+            "format": "int32"
           },
-          "configuration_items": {
-            "type": "array",
-            "items": {
-              "type": "object"
-            }
+          "name": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "requester": {
+            "type": "object"
+          },
+          "root_cause": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "symptoms": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workaround": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "created_at",
+          "description",
+          "id",
+          "name",
+          "priority",
+          "root_cause",
+          "state",
+          "symptoms",
+          "updated_at",
+          "workaround"
+        ]
+      },
+      "PurchaseOrder": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "created_at",
+          "description",
+          "id",
+          "name",
+          "status",
+          "updated_at"
+        ]
+      },
+      "Release": {
+        "type": "object",
+        "properties": {
+          "assignee": {
+            "type": "object"
           },
           "created_at": {
             "type": "string",
@@ -8306,13 +8465,231 @@
           "description": {
             "type": "string"
           },
+          "group_assignee": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "number": {
+            "type": "object"
+          },
+          "requester": {
+            "type": "object"
+          },
+          "site": {
+            "type": "object"
+          },
+          "state": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "created_at",
+          "description",
+          "group_assignee",
+          "id",
+          "name",
+          "state",
+          "updated_at"
+        ]
+      },
+      "Site": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "default_assignee_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "default_group_assignee_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "location": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "time_zone": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "created_at",
+          "default_assignee_id",
+          "default_group_assignee_id",
+          "description",
+          "id",
+          "location",
+          "name",
+          "time_zone",
+          "updated_at"
+        ]
+      },
+      "Solution": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "content",
+          "created_at",
+          "id",
+          "status",
+          "title",
+          "updated_at"
+        ]
+      },
+      "TimeTrack": {
+        "type": "object",
+        "properties": {
+          "commentable_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commentable_type": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "time_spent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "commentable_id",
+          "commentable_type",
+          "created_at",
+          "description",
+          "id",
+          "time_spent",
+          "updated_at"
+        ]
+      },
+      "Incident": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            }
+          },
+          "assignee": {
+            "type": "object"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "cc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Change"
+            }
+          },
+          "configuration_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConfigurationItem"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "custom_fields_values": {
+            "type": "object"
+          },
+          "department": {
+            "$ref": "#/components/schemas/Department"
+          },
+          "description": {
+            "type": "string"
+          },
           "description_no_html": {
             "type": "string"
           },
           "discovery_hardwares": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/Hardware"
             }
           },
           "due_at": {
@@ -8320,7 +8697,7 @@
             "format": "date-time"
           },
           "group_assignee": {
-            "type": "object"
+            "$ref": "#/components/schemas/Group"
           },
           "id": {
             "type": "integer",
@@ -8329,7 +8706,7 @@
           "incidents": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/Incident"
             }
           },
           "is_service_request": {
@@ -8338,7 +8715,7 @@
           "mobiles": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/MobileDevice"
             }
           },
           "name": {
@@ -8353,7 +8730,7 @@
           "other_assets": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/Asset"
             }
           },
           "priority": {
@@ -8362,19 +8739,19 @@
           "problems": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/Problem"
             }
           },
           "purchase_orders": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/PurchaseOrder"
             }
           },
           "releases": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/Release"
             }
           },
           "requester": {
@@ -8390,20 +8767,16 @@
             "type": "object"
           },
           "site": {
-            "type": "object"
+            "$ref": "#/components/schemas/Site"
           },
           "solutions": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/Solution"
             }
           },
           "state": {
             "type": "string"
-          },
-          "state_id": {
-            "type": "integer",
-            "format": "int32"
           },
           "subcategory": {
             "type": "object"
@@ -8420,7 +8793,7 @@
           "time_tracks": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/TimeTrack"
             }
           },
           "updated_at": {
@@ -8838,67 +9211,6 @@
           "incident"
         ]
       },
-      "MobileDevice": {
-        "type": "object",
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "department_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "imei": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "os": {
-            "type": "string"
-          },
-          "phone_number": {
-            "type": "string"
-          },
-          "serial_number": {
-            "type": "string"
-          },
-          "site_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "user_id": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "created_at",
-          "department_id",
-          "id",
-          "imei",
-          "name",
-          "os",
-          "phone_number",
-          "serial_number",
-          "site_id",
-          "updated_at",
-          "user_id"
-        ]
-      },
       "MobileDeviceWriteFields": {
         "type": "object",
         "properties": {
@@ -8967,33 +9279,6 @@
         "additionalProperties": false,
         "required": [
           "unseen_count"
-        ]
-      },
-      "Asset": {
-        "type": "object",
-        "properties": {
-          "asset_id": {
-            "type": "string"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "object"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "asset_id",
-          "id",
-          "name"
         ]
       },
       "OtherAssetWriteFields": {
@@ -9098,66 +9383,6 @@
         "additionalProperties": false,
         "required": [
           "printer"
-        ]
-      },
-      "Problem": {
-        "type": "object",
-        "properties": {
-          "assignee": {
-            "type": "object"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "description": {
-            "type": "string"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "priority": {
-            "type": "string"
-          },
-          "requester": {
-            "type": "object"
-          },
-          "root_cause": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "symptoms": {
-            "type": "string"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "workaround": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "created_at",
-          "description",
-          "id",
-          "name",
-          "priority",
-          "root_cause",
-          "state",
-          "symptoms",
-          "updated_at",
-          "workaround"
         ]
       },
       "ProblemWriteFields": {
@@ -9310,44 +9535,6 @@
           "problem"
         ]
       },
-      "PurchaseOrder": {
-        "type": "object",
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "description": {
-            "type": "string"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "created_at",
-          "description",
-          "id",
-          "name",
-          "status",
-          "updated_at"
-        ]
-      },
       "PurchaseOrderWriteFields": {
         "type": "object",
         "properties": {
@@ -9480,63 +9667,6 @@
         "additionalProperties": false,
         "required": [
           "purchase"
-        ]
-      },
-      "Release": {
-        "type": "object",
-        "properties": {
-          "assignee": {
-            "type": "object"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "department": {
-            "type": "object"
-          },
-          "description": {
-            "type": "string"
-          },
-          "group_assignee": {
-            "type": "string"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "number": {
-            "type": "object"
-          },
-          "requester": {
-            "type": "object"
-          },
-          "site": {
-            "type": "object"
-          },
-          "state": {
-            "type": "string"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "created_at",
-          "description",
-          "group_assignee",
-          "id",
-          "name",
-          "state",
-          "updated_at"
         ]
       },
       "ReleaseWriteFields": {
@@ -9897,58 +10027,6 @@
           "tabs"
         ]
       },
-      "Site": {
-        "type": "object",
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "default_assignee_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "default_group_assignee_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "description": {
-            "type": "string"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "location": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "time_zone": {
-            "type": "string"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "created_at",
-          "default_assignee_id",
-          "default_group_assignee_id",
-          "description",
-          "id",
-          "location",
-          "name",
-          "time_zone",
-          "updated_at"
-        ]
-      },
       "Software": {
         "type": "object",
         "properties": {
@@ -9985,44 +10063,6 @@
           "name",
           "updated_at",
           "version"
-        ]
-      },
-      "Solution": {
-        "type": "object",
-        "properties": {
-          "content": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "status": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "content",
-          "created_at",
-          "id",
-          "status",
-          "title",
-          "updated_at"
         ]
       },
       "SolutionWriteFields": {
@@ -10221,50 +10261,6 @@
           "id",
           "status",
           "subject"
-        ]
-      },
-      "TimeTrack": {
-        "type": "object",
-        "properties": {
-          "commentable_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "commentable_type": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "custom_fields_values": {
-            "type": "object"
-          },
-          "description": {
-            "type": "string"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "time_spent": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "commentable_id",
-          "commentable_type",
-          "created_at",
-          "description",
-          "id",
-          "time_spent",
-          "updated_at"
         ]
       },
       "TimeTrackWriteFields": {
