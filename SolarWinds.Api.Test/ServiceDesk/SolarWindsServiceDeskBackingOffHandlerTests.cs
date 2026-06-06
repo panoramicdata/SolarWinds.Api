@@ -3,8 +3,14 @@ using SolarWinds.Api.Http;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class SolarWindsServiceDeskBackingOffHandlerTests
 {
+	/// <summary>
+	/// Executes SendAsync_Retries429AndPreservesBody.
+	/// </summary>
 	[Fact]
 	public async Task SendAsync_Retries429AndPreservesBody()
 	{
@@ -47,6 +53,9 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 		innerHandler.RequestBodies.Should().BeEquivalentTo(["{\"name\":\"test\"}", "{\"name\":\"test\"}"]);
 	}
 
+	/// <summary>
+	/// Executes SendAsync_RetriesWhenRateLimitHeadersShowExhausted.
+	/// </summary>
 	[Fact]
 	public async Task SendAsync_RetriesWhenRateLimitHeadersShowExhausted()
 	{
@@ -89,6 +98,9 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 		innerHandler.CallCount.Should().Be(2);
 	}
 
+	/// <summary>
+	/// Executes SendAsync_DoesNotRetryPlainBadRequest.
+	/// </summary>
 	[Fact]
 	public async Task SendAsync_DoesNotRetryPlainBadRequest()
 	{

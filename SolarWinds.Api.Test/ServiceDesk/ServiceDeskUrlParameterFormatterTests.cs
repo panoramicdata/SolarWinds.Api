@@ -3,12 +3,18 @@ using System.Reflection;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class ServiceDeskUrlParameterFormatterTests
 {
 	private static readonly ServiceDeskUrlParameterFormatter Formatter = new();
 	private static readonly ICustomAttributeProvider AttributeProvider = typeof(GetIncidentsRequest)
 		.GetProperty(nameof(GetIncidentsRequest.Layout))!;
 
+	/// <summary>
+	/// Executes Format_WithNullValue_ReturnsNull.
+	/// </summary>
 	[Fact]
 	public void Format_WithNullValue_ReturnsNull()
 	{
@@ -17,6 +23,9 @@ public class ServiceDeskUrlParameterFormatterTests
 		result.Should().BeNull();
 	}
 
+	/// <summary>
+	/// Executes Format_WithDateTime_UsesShortMonthDayYearInvariantFormat.
+	/// </summary>
 	[Fact]
 	public void Format_WithDateTime_UsesShortMonthDayYearInvariantFormat()
 	{
@@ -25,6 +34,9 @@ public class ServiceDeskUrlParameterFormatterTests
 		result.Should().Be("Jan 5 2026");
 	}
 
+	/// <summary>
+	/// Executes Format_WithDateTimeOffset_UsesShortMonthDayYearInvariantFormat.
+	/// </summary>
 	[Fact]
 	public void Format_WithDateTimeOffset_UsesShortMonthDayYearInvariantFormat()
 	{
@@ -34,6 +46,9 @@ public class ServiceDeskUrlParameterFormatterTests
 		result.Should().Be("Dec 31 2026");
 	}
 
+	/// <summary>
+	/// Executes Format_WithEnumMember_UsesEnumMemberValue.
+	/// </summary>
 	[Fact]
 	public void Format_WithEnumMember_UsesEnumMemberValue()
 	{
@@ -42,6 +57,9 @@ public class ServiceDeskUrlParameterFormatterTests
 		result.Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Format_WithEnumWithoutEnumMember_UsesLowercaseName.
+	/// </summary>
 	[Fact]
 	public void Format_WithEnumWithoutEnumMember_UsesLowercaseName()
 	{
@@ -50,6 +68,9 @@ public class ServiceDeskUrlParameterFormatterTests
 		result.Should().Be("waitingapproval");
 	}
 
+	/// <summary>
+	/// Executes Format_WithNonSpecialType_UsesToString.
+	/// </summary>
 	[Fact]
 	public void Format_WithNonSpecialType_UsesToString()
 	{

@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class RoleTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetAll_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_ReturnsItems()
 	{
@@ -10,6 +16,9 @@ public class RoleTests(ITestOutputHelper output) : TestWithOutput(output)
 		items.Should().NotBeEmpty();
 	}
 
+	/// <summary>
+	/// Executes GetById_WithValidId_ReturnsItem.
+	/// </summary>
 	[Fact]
 	public async Task GetById_WithValidId_ReturnsItem()
 	{

@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class ItsmStatesRequestTests
 {
+	/// <summary>
+	/// Executes InitTabsData_WithPortalSettings_UsesExpectedQueryParameters_AndDeserializes.
+	/// </summary>
 	[Fact]
 	public async Task InitTabsData_WithPortalSettings_UsesExpectedQueryParameters_AndDeserializes()
 	{
@@ -57,6 +63,9 @@ public class ItsmStatesRequestTests
 		result.Tabs[0].Key.Should().Be("custom_states_incident");
 	}
 
+	/// <summary>
+	/// Executes InitStatesData_WithIncidentType_UsesExpectedQueryParameters_AndDeserializes.
+	/// </summary>
 	[Fact]
 	public async Task InitStatesData_WithIncidentType_UsesExpectedQueryParameters_AndDeserializes()
 	{

@@ -1,5 +1,8 @@
 namespace SolarWinds.Api.Test;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class SolarWindsClientConstructorTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
 

@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentQueryRequestTests
 {
+	/// <summary>
+	/// Executes GetAll_WithEmptyRequest_OmitsOptionalQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithEmptyRequest_OmitsOptionalQueryParameters()
 	{
@@ -38,6 +44,9 @@ public class IncidentQueryRequestTests
 		query.Should().NotContainKey("per_page");
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithLayoutLongAndUpdatedRange_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithLayoutLongAndUpdatedRange_UsesExpectedQueryParameters()
 	{
@@ -86,6 +95,9 @@ public class IncidentQueryRequestTests
 		query["per_page"].Should().Be("100");
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithUpdatedFromTo_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithUpdatedFromTo_UsesExpectedQueryParameters()
 	{
@@ -123,6 +135,9 @@ public class IncidentQueryRequestTests
 		query.Should().NotContainKey("updated");
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithPortalSearchParameters_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithPortalSearchParameters_UsesExpectedQueryParameters()
 	{

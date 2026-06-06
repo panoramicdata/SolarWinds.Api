@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetAll_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_ReturnsItems()
 	{
@@ -17,6 +23,9 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 		items.Count.Should().BeLessThanOrEqualTo(10);
 	}
 
+	/// <summary>
+	/// Executes GetById_WithValidId_ReturnsItem.
+	/// </summary>
 	[Fact]
 	public async Task GetById_WithValidId_ReturnsItem()
 	{
@@ -24,6 +33,9 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 		item.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetEntityGeneralInfo_WithValidId_ReturnsStates.
+	/// </summary>
 	[Fact]
 	public async Task GetEntityGeneralInfo_WithValidId_ReturnsStates()
 	{

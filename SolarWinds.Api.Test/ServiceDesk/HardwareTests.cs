@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class HardwareTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetAll_ReturnsCollection.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_ReturnsCollection()
 	{
@@ -9,6 +15,9 @@ public class HardwareTests(ITestOutputHelper output) : TestWithOutput(output)
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetById_WhenItemsExist_ReturnsItem.
+	/// </summary>
 	[Fact]
 	public async Task GetById_WhenItemsExist_ReturnsItem()
 	{

@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentEntityGeneralInfoRequestTests
 {
+	/// <summary>
+	/// Executes GetEntityGeneralInfo_UsesExpectedEndpointAndDeserializesStates.
+	/// </summary>
 	[Fact]
 	public async Task GetEntityGeneralInfo_UsesExpectedEndpointAndDeserializesStates()
 	{

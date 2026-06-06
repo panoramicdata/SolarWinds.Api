@@ -3,6 +3,9 @@ using SolarWinds.Api.Queries;
 
 namespace SolarWinds.Api.Test.Orion;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class NodeTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
 

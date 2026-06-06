@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class SolarWindsServiceDeskClientTests
 {
+	/// <summary>
+	/// Executes Constructor_WithValidOptions_InitializesClientAndApis.
+	/// </summary>
 	[Fact]
 	public void Constructor_WithValidOptions_InitializesClientAndApis()
 	{
@@ -23,6 +29,9 @@ public class SolarWindsServiceDeskClientTests
 		client.OtherAssets.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes Constructor_WithInvalidOptions_ThrowsArgumentException.
+	/// </summary>
 	[Theory]
 	[InlineData(null, "test_token", "BaseUrl must be provided. (Parameter 'baseUrl')")]
 	[InlineData("", "test_token", "BaseUrl must be provided. (Parameter 'baseUrl')")]
@@ -42,6 +51,9 @@ public class SolarWindsServiceDeskClientTests
 		((Action)(() => _ = new SolarWindsServiceDeskClient(options))).Should().Throw<ArgumentException>().WithMessage(expectedErrorMessage);
 	}
 
+	/// <summary>
+	/// Executes Constructor_WithNullOptions_ThrowsArgumentNullException.
+	/// </summary>
 	[Fact]
 	public void Constructor_WithNullOptions_ThrowsArgumentNullException()
 	{

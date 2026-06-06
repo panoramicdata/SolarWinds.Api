@@ -3,6 +3,9 @@ using SolarWinds.Api.Queries;
 
 namespace SolarWinds.Api.Test.Queries;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
 	/// <summary>

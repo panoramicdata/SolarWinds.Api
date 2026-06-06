@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class TaskQueryRequestTests
 {
+	/// <summary>
+	/// Executes GetAll_WithPortalSearchParameters_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithPortalSearchParameters_UsesExpectedQueryParameters()
 	{

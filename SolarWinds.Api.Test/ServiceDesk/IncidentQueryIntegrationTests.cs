@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetAll_WithLayoutLong_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithLayoutLong_ReturnsItems()
 	{
@@ -9,6 +15,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithUpdatedSelector_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithUpdatedSelector_ReturnsItems()
 	{
@@ -16,6 +25,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithUpdatedCustomRange_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithUpdatedCustomRange_ReturnsItems()
 	{
@@ -32,6 +44,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithUpdatedFrom_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithUpdatedFrom_ReturnsItems()
 	{
@@ -39,6 +54,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithUpdatedTo_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithUpdatedTo_ReturnsItems()
 	{
@@ -53,6 +71,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithCreatedFrom_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithCreatedFrom_ReturnsItems()
 	{
@@ -60,6 +81,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithCreatedTo_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithCreatedTo_ReturnsItems()
 	{
@@ -74,6 +98,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithPage_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithPage_ReturnsItems()
 	{
@@ -81,6 +108,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithPerPage_ReturnsItemsLimitedByPerPage.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithPerPage_ReturnsItemsLimitedByPerPage()
 	{
@@ -91,6 +121,9 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 		items.Count.Should().BeLessThanOrEqualTo(perPage);
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithAllSupportedParameters_ReturnsItems.
+	/// </summary>
 	[Fact]
 	public async Task GetAll_WithAllSupportedParameters_ReturnsItems()
 	{

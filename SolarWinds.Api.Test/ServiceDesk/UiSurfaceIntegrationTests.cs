@@ -2,8 +2,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class UiSurfaceIntegrationTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes UiCustomViews_Endpoints_ReturnResults.
+	/// </summary>
 	[Fact]
 	public async Task UiCustomViews_Endpoints_ReturnResults()
 	{
@@ -25,6 +31,9 @@ public class UiSurfaceIntegrationTests(ITestOutputHelper output) : TestWithOutpu
 		metadata.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes UiInfrastructure_Endpoints_ReturnResults.
+	/// </summary>
 	[Fact]
 	public async Task UiInfrastructure_Endpoints_ReturnResults()
 	{
@@ -111,6 +120,9 @@ public class UiSurfaceIntegrationTests(ITestOutputHelper output) : TestWithOutpu
 		}
 	}
 
+	/// <summary>
+	/// Executes UsersAvatars_And_ChangeCatalogTree_ReturnResults.
+	/// </summary>
 	[Fact]
 	public async Task UsersAvatars_And_ChangeCatalogTree_ReturnResults()
 	{

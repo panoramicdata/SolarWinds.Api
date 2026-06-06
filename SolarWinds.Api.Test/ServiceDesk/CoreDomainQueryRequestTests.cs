@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class CoreDomainQueryRequestTests
 {
+	/// <summary>
+	/// Executes Categories_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Categories_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -17,6 +23,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Categories_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Categories_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -32,6 +41,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes CatalogItems_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task CatalogItems_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -47,6 +59,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes CatalogItems_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task CatalogItems_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -62,6 +77,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes ConfigurationItems_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task ConfigurationItems_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -77,6 +95,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes ConfigurationItems_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task ConfigurationItems_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -92,6 +113,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Contracts_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Contracts_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -107,6 +131,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Contracts_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Contracts_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -122,6 +149,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Hardwares_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Hardwares_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -137,6 +167,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Hardwares_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Hardwares_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -152,6 +185,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes OtherAssets_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task OtherAssets_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -167,6 +203,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes OtherAssets_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task OtherAssets_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -182,6 +221,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Problems_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Problems_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -197,6 +239,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Problems_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Problems_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -212,6 +257,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Changes_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Changes_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -227,6 +275,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Changes_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Changes_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -242,6 +293,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Solutions_GetAll_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Solutions_GetAll_WithLayoutLong_UsesExpectedQueryParameters()
 	{
@@ -257,6 +311,9 @@ public class CoreDomainQueryRequestTests
 		query["layout"].Should().Be("long");
 	}
 
+	/// <summary>
+	/// Executes Solutions_GetById_WithLayoutLong_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task Solutions_GetById_WithLayoutLong_UsesExpectedQueryParameters()
 	{

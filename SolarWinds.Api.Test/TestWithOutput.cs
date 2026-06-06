@@ -6,12 +6,25 @@ using SolarWinds.Api.Test.Logging;
 
 namespace SolarWinds.Api.Test;
 
+/// <summary>
+/// Base type for integration tests that need shared logging, time windows, and lazy API clients.
+/// </summary>
 public abstract class TestWithOutput
 {
+	/// <summary>
+	/// Gets the logger instance for the current test.
+	/// </summary>
 	protected ILogger Logger { get; }
 
+	/// <summary>
+	/// Gets a default cancellation token used by test API calls.
+	/// </summary>
 	protected static CancellationToken CancellationToken => default;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="TestWithOutput"/> class.
+	/// </summary>
+	/// <param name="iTestOutputHelper">The xUnit output helper used to emit logs.</param>
 	protected TestWithOutput(ITestOutputHelper iTestOutputHelper)
 	{
 		// Set up logger
@@ -29,7 +42,14 @@ public abstract class TestWithOutput
 
 	private Stopwatch Stopwatch { get; }
 
+	/// <summary>
+	/// Gets the start epoch (Unix seconds) used in range-based test queries.
+	/// </summary>
 	protected long StartEpoch { get; }
+
+	/// <summary>
+	/// Gets the end epoch (Unix seconds) used in range-based test queries.
+	/// </summary>
 	protected long EndEpoch { get; }
 
 	/// <summary>
@@ -68,6 +88,10 @@ public abstract class TestWithOutput
 		}
 	}
 
+	/// <summary>
+	/// Asserts that the test execution completed within the specified duration.
+	/// </summary>
+	/// <param name="durationSeconds">Maximum expected duration in seconds.</param>
 	protected void AssertFast(int durationSeconds) => Assert.InRange(Stopwatch.ElapsedMilliseconds, 0, durationSeconds * 1000);
 
 	/// <summary>

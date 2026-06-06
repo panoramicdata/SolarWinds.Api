@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class ResponseTemplateTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetTotalCount_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetTotalCount_ReturnsResult()
 	{
@@ -10,6 +16,9 @@ public class ResponseTemplateTests(ITestOutputHelper output) : TestWithOutput(ou
 		result.EffectiveCount.Should().BeGreaterThanOrEqualTo(0);
 	}
 
+	/// <summary>
+	/// Executes GetTotalCountPersonal_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetTotalCountPersonal_ReturnsResult()
 	{
@@ -18,6 +27,9 @@ public class ResponseTemplateTests(ITestOutputHelper output) : TestWithOutput(ou
 		result.EffectiveCount.Should().BeGreaterThanOrEqualTo(0);
 	}
 
+	/// <summary>
+	/// Executes GetTotalCountGlobal_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetTotalCountGlobal_ReturnsResult()
 	{
@@ -26,6 +38,9 @@ public class ResponseTemplateTests(ITestOutputHelper output) : TestWithOutput(ou
 		result.EffectiveCount.Should().BeGreaterThanOrEqualTo(0);
 	}
 
+	/// <summary>
+	/// Executes GetResponseTemplateVariables_WithValidIncidentId_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetResponseTemplateVariables_WithValidIncidentId_ReturnsResult()
 	{

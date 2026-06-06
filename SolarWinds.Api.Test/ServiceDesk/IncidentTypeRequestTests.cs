@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentTypeRequestTests
 {
+	/// <summary>
+	/// Executes GetTypesList_WithPortalQueryParameters_UsesExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task GetTypesList_WithPortalQueryParameters_UsesExpectedQueryParameters()
 	{

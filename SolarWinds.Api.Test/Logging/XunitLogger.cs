@@ -2,6 +2,9 @@ using Microsoft.Extensions.Logging;
 
 namespace SolarWinds.Api.Test.Logging;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class XunitLogger(ITestOutputHelper output, string category, LogLevel minLogLevel) : ILogger
 {
 	private static readonly string[] NewLineChars = { Environment.NewLine };
@@ -9,6 +12,9 @@ public class XunitLogger(ITestOutputHelper output, string category, LogLevel min
 	private readonly LogLevel _minLogLevel = minLogLevel;
 	private readonly ITestOutputHelper _output = output;
 
+	/// <summary>
+	/// Executes Log.
+	/// </summary>
 	public void Log<TState>(
 		LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
 	{
@@ -64,14 +70,23 @@ public class XunitLogger(ITestOutputHelper output, string category, LogLevel min
 		}
 	}
 
+	/// <summary>
+	/// Executes IsEnabled.
+	/// </summary>
 	public bool IsEnabled(LogLevel logLevel)
 		=> logLevel >= _minLogLevel;
 
+	/// <summary>
+	/// Executes BeginScope.
+	/// </summary>
 	public IDisposable BeginScope<TState>(TState state) where TState : notnull
 		=> new NullScope();
 
 	private class NullScope : IDisposable
 	{
+		/// <summary>
+		/// Executes Dispose.
+		/// </summary>
 		public void Dispose()
 		{
 		}

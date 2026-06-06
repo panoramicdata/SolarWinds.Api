@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class UiSurfaceRequestTests
 {
+	/// <summary>
+	/// Executes CustomViews_And_Metadata_UseExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task CustomViews_And_Metadata_UseExpectedQueryParameters()
 	{
@@ -38,6 +44,9 @@ public class UiSurfaceRequestTests
 		advancedQuery["page_parameters[report_id]"].Should().Be("8992244");
 	}
 
+	/// <summary>
+	/// Executes UiInfrastructure_Endpoints_UseExpectedQueryParameters_AndDeserialize.
+	/// </summary>
 	[Fact]
 	public async Task UiInfrastructure_Endpoints_UseExpectedQueryParameters_AndDeserialize()
 	{
@@ -88,6 +97,9 @@ public class UiSurfaceRequestTests
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/rum_script.json");
 	}
 
+	/// <summary>
+	/// Executes UsersAvatars_And_ChangeCatalogsTree_UseExpectedQueryParameters.
+	/// </summary>
 	[Fact]
 	public async Task UsersAvatars_And_ChangeCatalogsTree_UseExpectedQueryParameters()
 	{

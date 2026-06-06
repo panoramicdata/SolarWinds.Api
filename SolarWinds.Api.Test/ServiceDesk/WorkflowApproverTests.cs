@@ -2,8 +2,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class WorkflowApproverTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetApprovers_WithValidIds_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetApprovers_WithValidIds_ReturnsResult()
 	{

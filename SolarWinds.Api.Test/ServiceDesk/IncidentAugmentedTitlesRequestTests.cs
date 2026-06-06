@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentAugmentedTitlesRequestTests
 {
+	/// <summary>
+	/// Executes GetAugmentedTitles_UsesExpectedQueryParameters_AndDeserializesResponse.
+	/// </summary>
 	[Fact]
 	public async Task GetAugmentedTitles_UsesExpectedQueryParameters_AndDeserializesResponse()
 	{

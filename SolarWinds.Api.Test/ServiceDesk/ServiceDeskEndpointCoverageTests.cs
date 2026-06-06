@@ -2,8 +2,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes ChangeCatalogs_ReadEndpoints_Work.
+	/// </summary>
 	[Fact]
 	public async Task ChangeCatalogs_ReadEndpoints_Work()
 	{
@@ -18,6 +24,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		byId.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes ChangeCatalogs_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task ChangeCatalogs_WriteEndpoints_AreCovered()
 	{
@@ -74,6 +83,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes ChangeRequests_Create_IsCovered.
+	/// </summary>
 	[Fact]
 	public async Task ChangeRequests_Create_IsCovered()
 	{
@@ -101,6 +113,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		created.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes Comments_Tasks_TimeTracks_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Comments_Tasks_TimeTracks_AreCovered()
 	{
@@ -195,6 +210,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Purchases_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Purchases_AreCovered()
 	{
@@ -246,6 +264,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Tickets_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Tickets_AreCovered()
 	{
@@ -301,6 +322,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes ServiceRequests_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task ServiceRequests_AreCovered()
 	{
@@ -329,6 +353,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		created.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes Memberships_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Memberships_AreCovered()
 	{
@@ -359,6 +386,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Attachments_Create_IsCovered.
+	/// </summary>
 	[Fact]
 	public async Task Attachments_Create_IsCovered()
 	{
@@ -389,6 +419,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		created.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes Categories_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Categories_WriteEndpoints_AreCovered()
 	{
@@ -435,6 +468,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Departments_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Departments_WriteEndpoints_AreCovered()
 	{
@@ -472,6 +508,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Groups_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Groups_WriteEndpoints_AreCovered()
 	{
@@ -507,6 +546,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Roles_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Roles_WriteEndpoints_AreCovered()
 	{
@@ -544,6 +586,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Sites_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Sites_WriteEndpoints_AreCovered()
 	{
@@ -599,6 +644,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Vendors_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Vendors_WriteEndpoints_AreCovered()
 	{
@@ -653,6 +701,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		}
 	}
 
+	/// <summary>
+	/// Executes Users_WriteEndpoints_AreCovered.
+	/// </summary>
 	[Fact]
 	public async Task Users_WriteEndpoints_AreCovered()
 	{

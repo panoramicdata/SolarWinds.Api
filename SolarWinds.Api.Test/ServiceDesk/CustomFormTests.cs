@@ -2,8 +2,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class CustomFormTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetById_WithValidId_ReturnsForm.
+	/// </summary>
 	[Fact]
 	public async Task GetById_WithValidId_ReturnsForm()
 	{

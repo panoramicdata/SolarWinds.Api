@@ -2,8 +2,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class ItsmStatesIntegrationTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes IncidentTypes_TypesListPortalShape_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task IncidentTypes_TypesListPortalShape_ReturnsResult()
 	{
@@ -25,6 +31,9 @@ public class ItsmStatesIntegrationTests(ITestOutputHelper output) : TestWithOutp
 		result.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes SetupItsmStates_InitTabsDataPortalShape_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task SetupItsmStates_InitTabsDataPortalShape_ReturnsResult()
 	{
@@ -48,6 +57,9 @@ public class ItsmStatesIntegrationTests(ITestOutputHelper output) : TestWithOutp
 		result.Should().NotBeNull();
 	}
 
+	/// <summary>
+	/// Executes SetupItsmStates_InitStatesDataPortalShape_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task SetupItsmStates_InitStatesDataPortalShape_ReturnsResult()
 	{

@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentSubResourceTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetServiceMonitorStatistic_WithValidId_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetServiceMonitorStatistic_WithValidId_ReturnsResult()
 	{
@@ -18,6 +24,9 @@ public class IncidentSubResourceTests(ITestOutputHelper output) : TestWithOutput
 		}
 	}
 
+	/// <summary>
+	/// Executes GetWorkflow_WithValidId_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetWorkflow_WithValidId_ReturnsResult()
 	{
@@ -33,6 +42,9 @@ public class IncidentSubResourceTests(ITestOutputHelper output) : TestWithOutput
 		}
 	}
 
+	/// <summary>
+	/// Executes GetComments_WithValidId_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetComments_WithValidId_ReturnsResult()
 	{

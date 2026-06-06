@@ -2,6 +2,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestWithOutput(output)
 {
 	//[Fact]
@@ -53,6 +56,9 @@ public class IncidentLifecycleIntegrationTests(ITestOutputHelper output) : TestW
 	//	allIncidents.Should().NotBeNull();
 	//}
 
+	/// <summary>
+	/// Executes Create_Update_Close_TestIncident.
+	/// </summary>
 	[Fact]
 	public async Task Create_Update_Close_TestIncident()
 	{

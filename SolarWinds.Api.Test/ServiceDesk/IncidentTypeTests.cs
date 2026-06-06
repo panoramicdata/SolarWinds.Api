@@ -1,7 +1,13 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentTypeTests(ITestOutputHelper output) : TestWithOutput(output)
 {
+	/// <summary>
+	/// Executes GetTypesList_ReturnsResult.
+	/// </summary>
 	[Fact]
 	public async Task GetTypesList_ReturnsResult()
 	{

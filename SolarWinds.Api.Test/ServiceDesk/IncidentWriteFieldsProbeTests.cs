@@ -2,26 +2,47 @@ using Microsoft.Extensions.Configuration;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
+/// <summary>
+/// Defines this contract.
+/// </summary>
 public interface ILooseIncidentUpdates
 {
+	/// <summary>
+	/// Executes CreateAsync.
+	/// </summary>
 	[Post("/incidents.json")]
 	public Task<Incident> CreateAsync([Body] IncidentCreateRequest request, CancellationToken cancellationToken);
 
+	/// <summary>
+	/// Executes GetRawAsync.
+	/// </summary>
 	[Get("/incidents/{id}.json")]
 	public Task<JsonElement> GetRawAsync(int id, CancellationToken cancellationToken);
 
+	/// <summary>
+	/// Executes UpdateAsync.
+	/// </summary>
 	[Put("/incidents/{id}.json")]
 	public Task<Incident> UpdateAsync(int id, [Body] IncidentWriteFields request, CancellationToken cancellationToken);
 }
 
+/// <summary>
+/// Represents this type.
+/// </summary>
 public class IncidentWriteFieldsProbeTests : TestWithOutput
 {
 	private readonly ITestOutputHelper _output;
 	private readonly ILooseIncidentUpdates _looseIncidentUpdates;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="IncidentWriteFieldsProbeTests"/> class.
+	/// </summary>
 	public IncidentWriteFieldsProbeTests(ITestOutputHelper output) : base(output) =>
 		(_output, _looseIncidentUpdates) = (output, CreateLooseIncidentUpdatesClient());
 
+	/// <summary>
+	/// Executes IncidentWriteFields_UpdateAsync_ReportsWhichFieldsRoundTrip.
+	/// </summary>
 	[Fact]
 	public async Task IncidentWriteFields_UpdateAsync_ReportsWhichFieldsRoundTrip()
 	{
@@ -235,6 +256,9 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 		}
 	}
 
+	/// <summary>
+	/// Executes IncidentWriteFields_CreateAsync_ReportsRemainingCreateCoverage.
+	/// </summary>
 	[Fact]
 	public async Task IncidentWriteFields_CreateAsync_ReportsRemainingCreateCoverage()
 	{
