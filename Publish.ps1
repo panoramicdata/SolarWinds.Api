@@ -50,25 +50,28 @@ if ($localHead -ne $remoteHead) {
 # Get version from NBGV
 function Get-NbgvVersionJson {
     $nbgvCommand = Get-Command nbgv -ErrorAction SilentlyContinue
+
+    if (-not $nbgvCommand) {
+        Write-Host "NBGV not found on PATH. Installing global nbgv tool ..." -ForegroundColor Yellow
+        dotnet tool install -g nbgv | Out-Host
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "nbgv install failed, trying dotnet tool update -g nbgv ..." -ForegroundColor Yellow
+            dotnet tool update -g nbgv | Out-Host
+        }
+
+        $globalTool = Join-Path $env:USERPROFILE '.dotnet\tools\nbgv.exe'
+        if (Test-Path $globalTool) {
+            return (& $globalTool get-version -f json | ConvertFrom-Json)
+        }
+
+        $nbgvCommand = Get-Command nbgv -ErrorAction SilentlyContinue
+    }
+
     if ($nbgvCommand) {
         return (& $nbgvCommand.Source get-version -f json | ConvertFrom-Json)
     }
 
-    $nugetRoot = if ($env:NUGET_PACKAGES) {
-        $env:NUGET_PACKAGES
-    } else {
-        Join-Path $env:USERPROFILE '.nuget\packages'
-    }
-
-    $nbgvDll = Get-ChildItem -Path (Join-Path $nugetRoot 'nerdbank.gitversioning') -Filter nbgv.dll -File -Recurse -ErrorAction SilentlyContinue |
-        Sort-Object FullName -Descending |
-        Select-Object -First 1
-
-    if ($nbgvDll) {
-        return (& dotnet $nbgvDll.FullName get-version -f json | ConvertFrom-Json)
-    }
-
-    throw "NBGV was not found on PATH and nbgv.dll was not found under '$nugetRoot'. Install it with 'dotnet tool install -g nbgv' or restore packages and retry."
+    throw "NBGV is unavailable. Install with 'dotnet tool install -g nbgv' and ensure '~/.dotnet/tools' is on PATH."
 }
 
 $versionJson = Get-NbgvVersionJson
