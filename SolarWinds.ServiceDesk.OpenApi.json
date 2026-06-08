@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "SolarWinds Service Desk API",
-    "version": "2026.5.23",
+    "version": "2026.5.25",
     "description": "Generated from SolarWinds.Api Refit interfaces and models."
   },
   "servers": [
@@ -1520,10 +1520,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PotentialDynamicApproval"
-                  }
+                  "$ref": "#/components/schemas/PotentialDynamicApprovalsResponse"
                 }
               }
             }
@@ -2682,6 +2679,17 @@
             "required": false,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "state[]",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           {
@@ -7753,6 +7761,10 @@
             "type": "object"
           },
           "field_type": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "field_type_name": {
             "type": "string"
           },
           "id": {
@@ -7793,6 +7805,10 @@
         "type": "object",
         "properties": {
           "field_type": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "field_type_name": {
             "type": "string"
           },
           "id": {
@@ -7810,6 +7826,21 @@
         "required": [
           "id",
           "name"
+        ]
+      },
+      "PotentialDynamicApprovalsResponse": {
+        "type": "object",
+        "properties": {
+          "custom_fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PotentialDynamicApproval"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "custom_fields"
         ]
       },
       "CustomFormField": {
