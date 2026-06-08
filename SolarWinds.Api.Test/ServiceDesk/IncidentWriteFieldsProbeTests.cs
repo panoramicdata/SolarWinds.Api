@@ -375,7 +375,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 			})));
 	}
 
-	private static IncidentCreateRequest CreateProbeIncidentRequest(string suffix) => new IncidentCreateRequest
+	private static IncidentCreateRequest CreateProbeIncidentRequest(string suffix) => new()
 	{
 		Incident = new IncidentWriteFields
 		{

@@ -60,4 +60,13 @@ public sealed class IncidentWriteFields
 	/// </summary>
 	public string[]? Cc { get; set; }
 
+	/// <summary>
+	/// The assignee
+	/// </summary>
+	public UserReference? Assignee { get; set; }
+
+	/// <summary>
+	/// The requester
+	/// </summary>
+	public UserReference? Requester { get; set; }
 }
