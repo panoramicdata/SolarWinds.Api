@@ -121,6 +121,13 @@ public sealed class GetIncidentsRequest
 	[AliasAs("title[]")]
 	public string[]? Title { get; set; }
 
+
+	/// <summary>
+	/// Optional state search terms using the portal state[] parameter shape.
+	/// </summary>
+	[AliasAs("state[]")]
+	public string[]? State { get; set; }
+
 	/// <summary>
 	/// Optional sort field (for example: "title").
 	/// </summary>

@@ -257,12 +257,12 @@ public class SolarWindsServiceDeskClient
 
 		if (string.IsNullOrWhiteSpace(options.BaseUrl))
 		{
-			throw new ArgumentException("BaseUrl must be provided.", nameof(options.BaseUrl));
+			throw new ArgumentException("BaseUrl must be provided.", nameof(options));
 		}
 
 		if (string.IsNullOrWhiteSpace(options.AccessToken))
 		{
-			throw new ArgumentException("AccessToken must be provided.", nameof(options.AccessToken));
+			throw new ArgumentException("AccessToken must be provided.", nameof(options));
 		}
 
 		HttpMessageHandler handler = new HttpClientHandler();

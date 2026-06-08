@@ -206,6 +206,46 @@ public class IncidentQueryRequestTests
 		query["connectionId"].Should().Be("eMdXLeRxoAMCEuw=");
 	}
 
+	/// <summary>
+	/// Executes GetAll_WithTitleQuery_UsesExpectedQueryParameters.
+	/// </summary>
+	[Fact]
+	public async Task GetAll_WithTitleQuery_UsesExpectedQueryParameters()
+	{
+		const string problemSignature = "New Laptop Request";
+
+		var capture = new CaptureHandler();
+		using var client = new HttpClient(capture)
+		{
+			BaseAddress = new Uri("https://api.samanage.com")
+		};
+
+		var incidentsApi = RestService.For<IIncidents>(client, new RefitSettings(
+			new SystemTextJsonContentSerializer(new JsonSerializerOptions
+			{
+				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+			}))
+		{
+			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
+		});
+
+		await incidentsApi.GetAsync(new GetIncidentsRequest
+		{
+			Title = [problemSignature]
+		}, CancellationToken.None);
+
+		capture.LastRequest.Should().NotBeNull();
+		capture.LastRequest!.Method.Should().Be(HttpMethod.Get);
+		capture.LastRequest.RequestUri.Should().NotBeNull();
+		capture.LastRequest.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
+
+		var query = ParseQuery(capture.LastRequest.RequestUri);
+		query.Should().ContainKey("layout");
+		query["layout"].Should().Be("short");
+		query.Should().ContainKey("title[]");
+		query["title[]"].Should().Be(problemSignature);
+	}
+
 	private static Dictionary<string, string> ParseQuery(Uri uri)
 	{
 		var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);

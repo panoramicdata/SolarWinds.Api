@@ -130,4 +130,12 @@ public abstract class TestWithOutput
 			});
 		}
 	}
+
+	/// <summary>
+	/// JSON serializer options with snake_case_lower naming policy, used for deserializing API responses that use snake_case naming.
+	/// </summary>
+	protected static readonly JsonSerializerOptions SnakeCaseLowerJsonSerializerOptions = new()
+	{
+		PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+	};
 }

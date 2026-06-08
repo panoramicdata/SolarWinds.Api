@@ -33,10 +33,10 @@ public class SolarWindsServiceDeskClientTests
 	/// Executes Constructor_WithInvalidOptions_ThrowsArgumentException.
 	/// </summary>
 	[Theory]
-	[InlineData(null, "test_token", "BaseUrl must be provided. (Parameter 'baseUrl')")]
-	[InlineData("", "test_token", "BaseUrl must be provided. (Parameter 'baseUrl')")]
-	[InlineData("https://api.samanage.com", null, "AccessToken must be provided. (Parameter 'accessToken')")]
-	[InlineData("https://api.samanage.com", "", "AccessToken must be provided. (Parameter 'accessToken')")]
+	[InlineData(null, "test_token", "BaseUrl must be provided. (Parameter 'options')")]
+	[InlineData("", "test_token", "BaseUrl must be provided. (Parameter 'options')")]
+	[InlineData("https://api.samanage.com", null, "AccessToken must be provided. (Parameter 'options')")]
+	[InlineData("https://api.samanage.com", "", "AccessToken must be provided. (Parameter 'options')")]
 	public void Constructor_WithInvalidOptions_ThrowsArgumentException(
 		string? baseUrl, string? accessToken, string expectedErrorMessage)
 	{

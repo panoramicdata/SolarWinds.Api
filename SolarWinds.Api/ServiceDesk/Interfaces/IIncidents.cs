@@ -15,7 +15,9 @@ public interface IIncidents
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A list of incidents.</returns>
 	[Get("/incidents.json")]
-	public Task<List<Incident>> GetAsync([Query(CollectionFormat.Multi)] GetIncidentsRequest request, CancellationToken cancellationToken);
+	public Task<List<Incident>> GetAsync(
+		[Query(CollectionFormat.Multi)] GetIncidentsRequest request,
+		CancellationToken cancellationToken);
 
 	/// <summary>
 	/// Gets a specific incident by ID.

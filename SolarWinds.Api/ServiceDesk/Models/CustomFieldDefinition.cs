@@ -20,10 +20,16 @@ public class CustomFieldDefinition : BaseEntity
 	public string? Title { get; set; }
 
 	/// <summary>
-	/// Gets or sets the field type (for example "text", "dropdown", "date").
+	/// Gets or sets the numeric field type code.
 	/// </summary>
 	[JsonPropertyName("field_type")]
-	public string? FieldType { get; set; }
+	public int? FieldType { get; set; }
+
+	/// <summary>
+	/// Gets or sets the field type name (for example "Text", "Dropdown", "Date").
+	/// </summary>
+	[JsonPropertyName("field_type_name")]
+	public string? FieldTypeName { get; set; }
 
 	/// <summary>
 	/// Gets or sets the model this field belongs to (for example "Incident", "Problem").
@@ -92,8 +98,26 @@ public class PotentialDynamicApproval
 	public string? Model { get; set; }
 
 	/// <summary>
-	/// Gets or sets the field type.
+	/// Gets or sets the numeric field type code.
 	/// </summary>
 	[JsonPropertyName("field_type")]
-	public string? FieldType { get; set; }
+	public int? FieldType { get; set; }
+
+	/// <summary>
+	/// Gets or sets the field type name.
+	/// </summary>
+	[JsonPropertyName("field_type_name")]
+	public string? FieldTypeName { get; set; }
+}
+
+/// <summary>
+/// Represents the wrapped response for potential dynamic approval fields.
+/// </summary>
+public class PotentialDynamicApprovalsResponse
+{
+	/// <summary>
+	/// Gets or sets the custom fields available for dynamic approvals.
+	/// </summary>
+	[JsonPropertyName("custom_fields")]
+	public List<PotentialDynamicApproval> CustomFields { get; set; } = [];
 }

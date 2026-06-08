@@ -20,7 +20,7 @@ public interface ICustomFields
 	/// Gets the custom fields that can be used as potential dynamic approval sources.
 	/// </summary>
 	/// <param name="cancellationToken">The cancellation token.</param>
-	/// <returns>A list of potential dynamic approval custom fields.</returns>
+	/// <returns>The wrapped potential dynamic approval custom fields response.</returns>
 	[Get("/custom_fields/get_potential_dynamic_approvals.json")]
-	public Task<List<PotentialDynamicApproval>> GetPotentialDynamicApprovalsAsync(CancellationToken cancellationToken);
+	public Task<PotentialDynamicApprovalsResponse> GetPotentialDynamicApprovalsAsync(CancellationToken cancellationToken);
 }
