@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "SolarWinds Service Desk API",
-    "version": "2026.5.27",
+    "version": "2026.5.29",
     "description": "Generated from SolarWinds.Api Refit interfaces and models."
   },
   "servers": [
