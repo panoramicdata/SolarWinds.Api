@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "SolarWinds Service Desk API",
-    "version": "2026.5.29",
+    "version": "2026.5.31",
     "description": "Generated from SolarWinds.Api Refit interfaces and models."
   },
   "servers": [
@@ -8858,9 +8858,24 @@
           "updated_at"
         ]
       },
+      "UserReference": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ]
+      },
       "IncidentWriteFields": {
         "type": "object",
         "properties": {
+          "assignee": {
+            "$ref": "#/components/schemas/UserReference"
+          },
           "cc": {
             "type": "array",
             "items": {
@@ -8893,6 +8908,9 @@
           },
           "priority": {
             "type": "string"
+          },
+          "requester": {
+            "$ref": "#/components/schemas/UserReference"
           },
           "site_id": {
             "type": "integer",
