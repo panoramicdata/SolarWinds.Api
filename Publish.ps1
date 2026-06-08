@@ -48,11 +48,34 @@ if ($localHead -ne $remoteHead) {
 }
 
 # Get version from NBGV
-$versionJson = nbgv get-version -f json | ConvertFrom-Json
+function Get-NbgvVersionJson {
+    $nbgvCommand = Get-Command nbgv -ErrorAction SilentlyContinue
+    if ($nbgvCommand) {
+        return (& $nbgvCommand.Source get-version -f json | ConvertFrom-Json)
+    }
+
+    $nugetRoot = if ($env:NUGET_PACKAGES) {
+        $env:NUGET_PACKAGES
+    } else {
+        Join-Path $env:USERPROFILE '.nuget\packages'
+    }
+
+    $nbgvDll = Get-ChildItem -Path (Join-Path $nugetRoot 'nerdbank.gitversioning') -Filter nbgv.dll -File -Recurse -ErrorAction SilentlyContinue |
+        Sort-Object FullName -Descending |
+        Select-Object -First 1
+
+    if ($nbgvDll) {
+        return (& dotnet $nbgvDll.FullName get-version -f json | ConvertFrom-Json)
+    }
+
+    throw "NBGV was not found on PATH and nbgv.dll was not found under '$nugetRoot'. Install it with 'dotnet tool install -g nbgv' or restore packages and retry."
+}
+
+$versionJson = Get-NbgvVersionJson
 $version = $versionJson.SimpleVersion
 
 if (-not $version) {
-    Write-Error "Failed to determine version from nbgv."
+    Write-Error "Failed to determine version from NBGV."
     exit 1
 }
 
