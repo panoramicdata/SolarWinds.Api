@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using Newtonsoft.Json;
+
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 /// <summary>
@@ -16,6 +19,61 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 			Page = 1,
 			PerPage = 10
 		}, CancellationToken);
+
+		items.Should().NotBeNullOrEmpty();
+		items.Should().OnlyHaveUniqueItems(i => i.Id);
+		items.Should().OnlyHaveUniqueItems(i => i.Number);
+		items.Count.Should().BeLessThanOrEqualTo(10);
+	}
+
+	/// <summary>
+	/// Get Incidents with Title filter, and a wide range of State filters to ensure we get results, since Title is not unique.
+	/// </summary>
+	[Fact]
+	public async Task GetAll_TitleFilter_ReturnsItems()
+	{
+
+		var getIncidentsRequest = new GetIncidentsRequest
+		{
+			Title = ["New Laptop Request"],
+			State = [
+				"New",
+				"Pending Assignment",
+				"Interrupted",
+				"Pending Closure_Comp Team",
+				"Closed Non-Response",
+				"SEC: WIP",
+				"Pre-Vendor",
+				"TPRM: Waiting on Feedback",
+				"Review Documentation",
+				"Researching",
+				"Waiting on Equipment",
+				"Quarantine Pending Test",
+				"Quarantine",
+				"Assigned",
+				"Comment Added",
+				"Work in Progress",
+				"Waiting on Approval",
+				"Waiting on Colleague",
+				"Waiting on Vendor",
+				"Escalated to Admin",
+				"Escalated to Clinical",
+				"On Hold",
+				"Scheduled",
+				"Approved",
+				"Escalated - Billing HH",
+				"Escalated - Billing HOS",
+				"Build in Progress",
+				"Project",
+				"SEC: Waiting on Feedback",
+				"Interim Resolution"
+			]
+		};
+
+		// Get all incidents that match
+		var items = await ServiceDeskClient
+				.Incidents
+				.GetAsync(getIncidentsRequest, CancellationToken);
 
 		items.Should().NotBeNullOrEmpty();
 		items.Should().OnlyHaveUniqueItems(i => i.Id);
