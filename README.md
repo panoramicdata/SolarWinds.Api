@@ -26,6 +26,20 @@ After enabling GitHub Pages with **Build and deployment: GitHub Actions**, the s
 
 `https://<org-or-user>.github.io/SolarWinds.Api/`
 
+## Breaking Changes
+
+### Version 2026.6.13
+
+The `SolarWindsClient` has been deprecated and replaced by `SolarWindsOrionClient`. The new client uses an options pattern for configuration, providing more flexibility for setting credentials, proxy settings, and logging.
+
+The `SolarWindsClient` is now marked as obsolete and its usage will result in a compile-time error.
+
+- "But that Breaks SEMVER!"
+    - Yep.
+- "But... but..."
+    - We do this for free.  Update your code.
+
+
 ## Installation
 
 Install the NuGet package:
@@ -55,18 +69,23 @@ For the SolarWinds Service Desk API, see [API documentation](https://apidoc.sama
 
 #### SolarWinds Orion Client
 
-The `SolarWindsClient` automatically loads configuration from `appsettings.json`.
+The `SolarWindsOrionClient` is configured using the `SolarWindsOrionClientOptions` class.
 
 ```csharp
 using SolarWinds.Api;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
 
-// For logging (optional)
-var loggerFactory = LoggerFactory.Create(builder => builder.AddDebug());
-var logger = loggerFactory.CreateLogger<SolarWindsClient>();
+var options = new SolarWindsOrionClientOptions
+{
+    Hostname = "YOUR_ORION_HOSTNAME",
+    Username = "YOUR_ORION_USERNAME",
+    Password = "YOUR_ORION_PASSWORD",
+    IgnoreSslCertificateErrors = true,
+    Logger = logger, // Your ILogger instance
+    // ProxySettings = new HttpProxySettings { ... } // Optional
+};
 
-var client = new SolarWindsClient(logger);
+var client = new SolarWindsOrionClient(options);
 ```
 
 #### SolarWinds Service Desk Client
