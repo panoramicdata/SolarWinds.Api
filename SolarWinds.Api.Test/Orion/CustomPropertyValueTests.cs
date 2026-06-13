@@ -15,7 +15,7 @@ public class CustomPropertyValueTests(ITestOutputHelper iTestOutputHelper) : Tes
 	[Fact]
 	public async Task Valid_SqlQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.SqlQueryAsync<CustomPropertyValue>(new SqlQuery
+		var queryResponse = await OrionClient.SqlQueryAsync<CustomPropertyValue>(new SqlQuery
 		{
 			Sql = "SELECT DisplayName FROM Orion.CustomPropertyValues ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
 		}, CancellationToken);
@@ -29,7 +29,7 @@ public class CustomPropertyValueTests(ITestOutputHelper iTestOutputHelper) : Tes
 	[Fact]
 	public async Task Valid_FilterQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.FilterQueryAsync(new FilterQuery<CustomPropertyValue>
+		var queryResponse = await OrionClient.FilterQueryAsync(new FilterQuery<CustomPropertyValue>
 		{
 			Constraints =
 			[

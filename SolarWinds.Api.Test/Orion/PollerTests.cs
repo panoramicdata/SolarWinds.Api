@@ -15,7 +15,7 @@ public class PollerTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(i
 	[Fact]
 	public async Task Valid_SqlQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.SqlQueryAsync<Poller>(new SqlQuery
+		var queryResponse = await OrionClient.SqlQueryAsync<Poller>(new SqlQuery
 		{
 			Sql = "SELECT Description, Uri, InstanceType, Enabled, PollerType FROM Orion.Pollers WHERE PollerID>@p ORDER BY PollerID WITH ROWS 1 TO 3 WITH TOTALROWS",
 			Parameters = new Dictionary<string, object>
@@ -33,7 +33,7 @@ public class PollerTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(i
 	[Fact]
 	public async Task Valid_FilterQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.FilterQueryAsync(new FilterQuery<Poller>
+		var queryResponse = await OrionClient.FilterQueryAsync(new FilterQuery<Poller>
 		{
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,

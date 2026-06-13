@@ -15,7 +15,7 @@ public class NodeTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTe
 	[Fact]
 	public async Task Valid_SqlQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.SqlQueryAsync<Node>(new SqlQuery
+		var queryResponse = await OrionClient.SqlQueryAsync<Node>(new SqlQuery
 		{
 			Sql = "SELECT Description, Uri, InstanceType FROM Orion.Nodes ORDER BY Uri WITH ROWS 1 TO 3 WITH TOTALROWS"
 		}, CancellationToken);
@@ -29,7 +29,7 @@ public class NodeTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTe
 	[Fact]
 	public async Task Valid_FilterQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.FilterQueryAsync(new FilterQuery<Node>
+		var queryResponse = await OrionClient.FilterQueryAsync(new FilterQuery<Node>
 		{
 			OrderBy = nameof(Entity.Uri),
 			Skip = 0,

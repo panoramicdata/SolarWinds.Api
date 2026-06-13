@@ -29,14 +29,14 @@ public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iT
 	/// </summary>
 	[Fact]
 	public void Null_Throws_ArgumentNullException()
-		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(null!, CancellationToken.None))).Should().ThrowAsync<ArgumentNullException>();
+		=> ((Func<Task>)(async () => await OrionClient.SqlQueryAsync<Poller>(null!, CancellationToken.None))).Should().ThrowAsync<ArgumentNullException>();
 
 	/// <summary>
 	/// Query with null query should throw an appropriate exception
 	/// </summary>
 	[Fact]
 	public void QueryNull_Throws_ArgumentException()
-		=> ((Func<Task>)(async () => await Client.SqlQueryAsync<Poller>(new SqlQuery(), CancellationToken.None))).Should().ThrowAsync<ArgumentException>();
+		=> ((Func<Task>)(async () => await OrionClient.SqlQueryAsync<Poller>(new SqlQuery(), CancellationToken.None))).Should().ThrowAsync<ArgumentException>();
 
 	/// <summary>
 	/// Valid SQL query returns items
@@ -44,7 +44,7 @@ public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iT
 	[Fact]
 	public async Task JObject_SqlQuery_ReturnsItems()
 	{
-		var queryResponse = await Client.SqlJObjectQueryAsync(new SqlQuery
+		var queryResponse = await OrionClient.SqlJObjectQueryAsync(new SqlQuery
 		{
 			Sql = "SELECT TOP 1 [Caption] FROM Orion.Nodes"
 		}, CancellationToken.None);

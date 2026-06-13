@@ -192,7 +192,12 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 
 		await using var stream = await response.Content.ReadAsStreamAsync(CancellationToken);
 
-		var incidents = await JsonSerializer.DeserializeAsync<List<Incident>>(stream, SnakeCaseLowerJsonSerializerOptions, CancellationToken);
+		var serializerOptions = new JsonSerializerOptions
+		{
+			PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+		};
+
+		var incidents = await JsonSerializer.DeserializeAsync<List<Incident>>(stream, serializerOptions, CancellationToken);
 
 		return incidents ?? [];
 	}
