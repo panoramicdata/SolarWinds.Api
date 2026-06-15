@@ -47,38 +47,19 @@ if ($localHead -ne $remoteHead) {
     git push origin main
 }
 
-# Get version from NBGV
-function Get-NbgvVersionJson {
-    $nbgvCommand = Get-Command nbgv -ErrorAction SilentlyContinue
-
-    if (-not $nbgvCommand) {
-        Write-Host "NBGV not found on PATH. Installing global nbgv tool ..." -ForegroundColor Yellow
-        dotnet tool install -g nbgv | Out-Host
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "nbgv install failed, trying dotnet tool update -g nbgv ..." -ForegroundColor Yellow
-            dotnet tool update -g nbgv | Out-Host
-        }
-
-        $globalTool = Join-Path $env:USERPROFILE '.dotnet\tools\nbgv.exe'
-        if (Test-Path $globalTool) {
-            return (& $globalTool get-version -f json | ConvertFrom-Json)
-        }
-
-        $nbgvCommand = Get-Command nbgv -ErrorAction SilentlyContinue
-    }
-
-    if ($nbgvCommand) {
-        return (& $nbgvCommand.Source get-version -f json | ConvertFrom-Json)
-    }
-
-    throw "NBGV is unavailable. Install with 'dotnet tool install -g nbgv' and ensure '~/.dotnet/tools' is on PATH."
+# Get version from Nerdbank.GitVersioning via the project's MSBuild targets (the
+# referenced NuGet package), so this does not depend on the global 'nbgv' CLI tool
+# being installed or on PATH.
+$project = Join-Path $PSScriptRoot 'SolarWinds.Api/SolarWinds.Api.csproj'
+$buildOutput = dotnet build $project -t:GetBuildVersion --getProperty:NuGetPackageVersion -nologo -v:quiet -p:TreatWarningsAsErrors=false
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to determine version from Nerdbank.GitVersioning.`n$buildOutput"
+    exit 1
 }
-
-$versionJson = Get-NbgvVersionJson
-$version = $versionJson.SimpleVersion
+$version = ($buildOutput | Select-Object -Last 1).ToString().Trim()
 
 if (-not $version) {
-    Write-Error "Failed to determine version from NBGV."
+    Write-Error "Failed to determine version from Nerdbank.GitVersioning."
     exit 1
 }
 
