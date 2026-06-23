@@ -3,7 +3,7 @@
 # SolarWinds.Api NuGet package
 
 [![Nuget](https://img.shields.io/nuget/v/SolarWinds.Api)](https://www.nuget.org/packages/SolarWinds.Api/)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/TODO)](https://app.codacy.com/gh/panoramicdata/SolarWinds.Api/dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2f5983ab097146faa542a06c73dfcc1a)](https://app.codacy.com/gh/panoramicdata/SolarWinds.Api/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 A .NET API client for SolarWinds Orion and Service Desk.
 
