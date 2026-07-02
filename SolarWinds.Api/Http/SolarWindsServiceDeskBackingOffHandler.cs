@@ -18,10 +18,7 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 	/// <returns>The final response after retries, or the first non-retriable response.</returns>
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
-		if (request == null)
-		{
-			throw new ArgumentNullException(nameof(request));
-		}
+		ArgumentNullException.ThrowIfNull(request);
 
 		var bufferedRequest = await BufferedRequest.CreateAsync(request, cancellationToken).ConfigureAwait(false);
 
@@ -30,7 +27,7 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 			using var requestToSend = bufferedRequest.CreateRequestMessage();
 			var response = await base.SendAsync(requestToSend, cancellationToken).ConfigureAwait(false);
 
-			if (!TryGetRetryDelay(response, attempt, out var delay, out var reason) || attempt >= _options.MaxAttemptCount)
+			if (!TryGetRetryDelay(request.Method, response, attempt, out var delay, out var reason) || attempt >= _options.MaxAttemptCount)
 			{
 				return response;
 			}
@@ -51,14 +48,28 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 
 	/// <summary>
 	/// Determines whether a response should be retried and computes the delay before retrying.
+	/// A response that indicates success is never retried: the request has already been processed,
+	/// and re-sending a non-idempotent request (e.g. an incident-creating POST) would duplicate it,
+	/// even when rate-limit headers show the quota is exhausted.
+	/// Transient gateway failures are only retried for idempotent methods, because a 502/504 does
+	/// not guarantee the origin did not process the request.
 	/// </summary>
+	/// <param name="method">HTTP method of the request that produced the response.</param>
 	/// <param name="response">Response received from the server.</param>
 	/// <param name="attempt">Current attempt number (1-based).</param>
 	/// <param name="delay">Computed delay before the next attempt.</param>
 	/// <param name="reason">Human-readable reason for the retry decision.</param>
 	/// <returns><see langword="true"/> when the request should be retried; otherwise <see langword="false"/>.</returns>
-	internal bool TryGetRetryDelay(HttpResponseMessage response, int attempt, out TimeSpan delay, out string reason)
+	internal bool TryGetRetryDelay(HttpMethod method, HttpResponseMessage response, int attempt, out TimeSpan delay, out string reason)
 	{
+		if (response.IsSuccessStatusCode)
+		{
+			delay = TimeSpan.Zero;
+			reason = string.Empty;
+			return false;
+		}
+
+		// A rate-limited request was rejected without being processed, so it is safe to re-send for any method.
 		if (TryGetRateLimitDelay(response, attempt, out delay, out reason))
 		{
 			return true;
@@ -69,6 +80,13 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 			case HttpStatusCode.BadGateway:
 			case HttpStatusCode.ServiceUnavailable:
 			case HttpStatusCode.GatewayTimeout:
+				if (!IsIdempotent(method))
+				{
+					delay = TimeSpan.Zero;
+					reason = string.Empty;
+					return false;
+				}
+
 				delay = TimeSpan.FromSeconds(5);
 				reason = $"transient status {(int)response.StatusCode}";
 				return true;
@@ -78,6 +96,20 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 				return false;
 		}
 	}
+
+	/// <summary>
+	/// Determines whether an HTTP method is idempotent and therefore safe to re-send when the
+	/// origin may already have processed the request.
+	/// </summary>
+	/// <param name="method">The HTTP method to classify.</param>
+	/// <returns><see langword="true"/> for idempotent methods; otherwise <see langword="false"/>.</returns>
+	internal static bool IsIdempotent(HttpMethod method)
+		=> method == HttpMethod.Get
+			|| method == HttpMethod.Head
+			|| method == HttpMethod.Options
+			|| method == HttpMethod.Trace
+			|| method == HttpMethod.Put
+			|| method == HttpMethod.Delete;
 
 	private bool TryGetRateLimitDelay(HttpResponseMessage response, int attempt, out TimeSpan delay, out string reason)
 	{
@@ -248,23 +280,23 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 				VersionPolicy = VersionPolicy,
 			};
 
-			foreach (var header in RequestHeaders)
+			foreach (var (Name, Values) in RequestHeaders)
 			{
-				request.Headers.TryAddWithoutValidation(header.Name, header.Values);
+				request.Headers.TryAddWithoutValidation(Name, Values);
 			}
 
-			foreach (var option in Options)
+			foreach (var (Key, Value) in Options)
 			{
-				request.Options.Set(new HttpRequestOptionsKey<object?>(option.Key), option.Value);
+				request.Options.Set(new HttpRequestOptionsKey<object?>(Key), Value);
 			}
 
 			if (ContentBytes != null)
 			{
 				request.Content = new ByteArrayContent(ContentBytes);
 
-				foreach (var header in ContentHeaders)
+				foreach (var (Name, Values) in ContentHeaders)
 				{
-					request.Content.Headers.TryAddWithoutValidation(header.Name, header.Values);
+					request.Content.Headers.TryAddWithoutValidation(Name, Values);
 				}
 			}
 
