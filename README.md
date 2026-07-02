@@ -16,11 +16,11 @@ This repository publishes an interactive Swagger UI for the generated Service De
 - OpenAPI document: `SolarWinds.ServiceDesk.OpenApi.json`
 - Live UI: [https://panoramicdata.github.io/SolarWinds.Api/](https://panoramicdata.github.io/SolarWinds.Api/)
 
-To regenerate the OpenAPI document for a follow-up commit where git height will increment by one, run:
+To regenerate the OpenAPI document after changing the API surface, run:
 
-`dotnet run --project ./SolarWinds.Api.OpenApi/SolarWinds.Api.OpenApi.csproj --configuration Release -- ./SolarWinds.ServiceDesk.OpenApi.json --next-commit-version`
+`dotnet run --project ./SolarWinds.Api.OpenApi/SolarWinds.Api.OpenApi.csproj --configuration Release -- ./SolarWinds.ServiceDesk.OpenApi.json`
 
-`--next-commit-version` requires a clean working tree (`git status --porcelain`) and increments the last numeric segment of the NBGV-derived version before writing the document.
+The document version is the `version.json` version family (e.g. `2026.5`) without git height, so regeneration is deterministic: the committed document only changes when the API surface (or `version.json`) does.
 
 After enabling GitHub Pages with **Build and deployment: GitHub Actions**, the site is published at:
 

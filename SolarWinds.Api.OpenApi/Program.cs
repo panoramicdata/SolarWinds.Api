@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -24,9 +23,8 @@ internal static partial class Program
 	{
 		try
 		{
-			var parsedArgs = ParsedArgs.Parse(args);
-			var outputPath = ResolveOutputPath(parsedArgs.OutputPath);
-			var document = BuildOpenApiDocument(parsedArgs.UseNextCommitVersion);
+			var outputPath = ResolveOutputPath(ParseOutputPath(args));
+			var document = BuildOpenApiDocument();
 			Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
 			File.WriteAllText(outputPath, document.ToJsonString(JsonOptions));
 			Console.WriteLine($"Generated OpenAPI document: {outputPath}");
@@ -51,9 +49,9 @@ internal static partial class Program
 		return Path.Combine(repoRoot, "SolarWinds.ServiceDesk.OpenApi.json");
 	}
 
-	private static JsonObject BuildOpenApiDocument(bool useNextCommitVersion)
+	private static JsonObject BuildOpenApiDocument()
 	{
-		var apiVersion = GetApiVersion(useNextCommitVersion);
+		var apiVersion = GetApiVersion();
 		var paths = new JsonObject();
 		var components = new JsonObject();
 		var schemas = new JsonObject();
@@ -136,117 +134,22 @@ internal static partial class Program
 		};
 	}
 
-	private static string GetApiVersion(bool useNextCommitVersion)
+	private static string GetApiVersion()
 	{
-		if (useNextCommitVersion)
-		{
-			EnsureCleanPorcelain();
-		}
-
-		var assembly = typeof(SolarWindsServiceDeskClient).Assembly;
-		var informationalVersion = assembly
-			.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-			?.InformationalVersion;
-
-		if (string.IsNullOrWhiteSpace(informationalVersion))
-		{
-			return "0.0.0";
-		}
-
-		var plusIndex = informationalVersion.IndexOf('+');
-		var normalizedVersion = plusIndex >= 0
-			? informationalVersion[..plusIndex]
-			: informationalVersion;
-
-		return useNextCommitVersion
-			? IncrementLastNumericSegment(normalizedVersion)
-			: normalizedVersion;
+		// The NBGV AssemblyVersion is height-free (major.minor.0.0), so the document
+		// version only changes when version.json does. Embedding git height here would
+		// make every commit invalidate the checked-in document.
+		var assemblyVersion = typeof(SolarWindsServiceDeskClient).Assembly.GetName().Version;
+		return assemblyVersion is null ? "0.0" : assemblyVersion.ToString(2);
 	}
 
-	private static void EnsureCleanPorcelain()
-	{
-		var process = new Process
+	private static string? ParseOutputPath(string[] args)
+		=> args switch
 		{
-			StartInfo = new ProcessStartInfo
-			{
-				FileName = "git",
-				Arguments = "status --porcelain",
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-			}
+			[] => null,
+			[var outputPath] when !outputPath.StartsWith("--", StringComparison.Ordinal) => outputPath,
+			_ => throw new ArgumentException("Usage: SolarWinds.Api.OpenApi [<output-path>]")
 		};
-
-		process.Start();
-		var output = process.StandardOutput.ReadToEnd();
-		var error = process.StandardError.ReadToEnd();
-		process.WaitForExit();
-
-		if (process.ExitCode != 0)
-		{
-			throw new InvalidOperationException($"Failed to run 'git status --porcelain': {error}");
-		}
-
-		if (!string.IsNullOrWhiteSpace(output))
-		{
-			throw new InvalidOperationException("Working tree must be clean before using --next-commit-version.");
-		}
-	}
-
-	private static string IncrementLastNumericSegment(string version)
-	{
-		var separatorIndex = version.IndexOf('-');
-		var core = separatorIndex >= 0 ? version[..separatorIndex] : version;
-		var suffix = separatorIndex >= 0 ? version[separatorIndex..] : string.Empty;
-
-		var segments = core.Split('.', StringSplitOptions.RemoveEmptyEntries);
-		for (var i = segments.Length - 1; i >= 0; i--)
-		{
-			if (!int.TryParse(segments[i], out var parsed))
-			{
-				continue;
-			}
-
-			segments[i] = (parsed + 1).ToString();
-			return string.Join('.', segments) + suffix;
-		}
-
-		return version;
-	}
-
-	private sealed record ParsedArgs(string? OutputPath, bool UseNextCommitVersion)
-	{
-		public static ParsedArgs Parse(string[] args)
-		{
-			string? outputPath = null;
-			var useNextCommitVersion = false;
-
-			foreach (var arg in args)
-			{
-				if (string.Equals(arg, "--next-commit-version", StringComparison.OrdinalIgnoreCase))
-				{
-					useNextCommitVersion = true;
-					continue;
-				}
-
-				if (arg.StartsWith("--", StringComparison.Ordinal))
-				{
-					throw new ArgumentException($"Unknown argument: {arg}");
-				}
-
-				if (outputPath is null)
-				{
-					outputPath = arg;
-					continue;
-				}
-
-				throw new ArgumentException("Only one output path argument is supported.");
-			}
-
-			return new ParsedArgs(outputPath, useNextCommitVersion);
-		}
-	}
 
 	private static void BuildInterfaceOperations(Type iface, JsonObject paths, SchemaBuilder schemaBuilder, ISet<string> documentTags)
 	{
