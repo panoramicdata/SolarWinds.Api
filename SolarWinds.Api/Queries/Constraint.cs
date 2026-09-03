@@ -14,8 +14,7 @@ public abstract class Constraint
 	{
 		Table = table;
 
-
-		if(value is string stringObject)
+		if (value is string)
 		{
 			Value = $"'{value}'";
 		}

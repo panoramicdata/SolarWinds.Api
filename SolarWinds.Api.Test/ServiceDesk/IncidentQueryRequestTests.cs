@@ -12,25 +12,15 @@ public class IncidentQueryRequestTests
 	public async Task GetAll_WithEmptyRequest_OmitsOptionalQueryParameters()
 	{
 		var capture = new CaptureHandler();
-		using var client = new HttpClient(capture)
-		{
-			BaseAddress = new Uri("https://api.samanage.com")
-		};
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var incidentsApi = RestService.For<IIncidents>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-			}))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
+		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
 
 		await incidentsApi.GetAsync(new GetIncidentsRequest(), CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
-		var query = ParseQuery(capture.LastRequest.RequestUri);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		query.Should().ContainKey("layout");
 		query["layout"].Should().Be("short");
 		query.Should().NotContainKey("updated");
@@ -51,19 +41,9 @@ public class IncidentQueryRequestTests
 	public async Task GetAll_WithLayoutLongAndUpdatedRange_UsesExpectedQueryParameters()
 	{
 		var capture = new CaptureHandler();
-		using var client = new HttpClient(capture)
-		{
-			BaseAddress = new Uri("https://api.samanage.com")
-		};
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var incidentsApi = RestService.For<IIncidents>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-			}))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
+		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
 
 		await incidentsApi.GetAsync(new GetIncidentsRequest
 		{
@@ -80,7 +60,7 @@ public class IncidentQueryRequestTests
 		capture.LastRequest.RequestUri.Should().NotBeNull();
 		capture.LastRequest.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
 
-		var query = ParseQuery(capture.LastRequest.RequestUri);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		query.Should().ContainKey("layout");
 		query["layout"].Should().Be("long");
 		query.Should().ContainKey("updated");
@@ -102,19 +82,9 @@ public class IncidentQueryRequestTests
 	public async Task GetAll_WithUpdatedFromTo_UsesExpectedQueryParameters()
 	{
 		var capture = new CaptureHandler();
-		using var client = new HttpClient(capture)
-		{
-			BaseAddress = new Uri("https://api.samanage.com")
-		};
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var incidentsApi = RestService.For<IIncidents>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-			}))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
+		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
 
 		await incidentsApi.GetAsync(new GetIncidentsRequest
 		{
@@ -124,7 +94,7 @@ public class IncidentQueryRequestTests
 		}, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
-		var query = ParseQuery(capture.LastRequest!.RequestUri!);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest!.RequestUri!);
 
 		query.Should().ContainKey("layout");
 		query["layout"].Should().Be("long");
@@ -144,19 +114,9 @@ public class IncidentQueryRequestTests
 		const string columns = "number,slm,sla_next_timestamp,state,preview,title,priority,origin,type,sub_type,assigned_to,requester,site,department,reassignments,asset,cc,created_by,customer_satisfaction_feedback,closed_at,changes,created_at,updated_at_with_time,updated_at,total_time_spent,to_resolve_elapsed,to_resolve,to_first_response_elapsed,to_first_response,to_close,to_assignment,incident_slash_service_request,tag_list,scheduled,resolved_by,resolved_at,resolution_type,resolution,problems,price,pending_approval,object_id,last_state_change,last_group_reassigned,last_reassigned,assigned_to_group,due_date,description,customer_satisfied?,created_at_with_time";
 
 		var capture = new CaptureHandler();
-		using var client = new HttpClient(capture)
-		{
-			BaseAddress = new Uri("https://api.samanage.com")
-		};
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var incidentsApi = RestService.For<IIncidents>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-			}))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
+		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
 
 		await incidentsApi.GetAsync(new GetIncidentsRequest
 		{
@@ -175,7 +135,7 @@ public class IncidentQueryRequestTests
 		}, CancellationToken.None);
 
 		capture.LastRequest.Should().NotBeNull();
-		var query = ParseQuery(capture.LastRequest!.RequestUri!);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest!.RequestUri!);
 
 		query.Should().ContainKey("report_id");
 		query["report_id"].Should().Be("8992193");
@@ -215,19 +175,9 @@ public class IncidentQueryRequestTests
 		const string problemSignature = "New Laptop Request";
 
 		var capture = new CaptureHandler();
-		using var client = new HttpClient(capture)
-		{
-			BaseAddress = new Uri("https://api.samanage.com")
-		};
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var incidentsApi = RestService.For<IIncidents>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-			}))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
+		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
 
 		await incidentsApi.GetAsync(new GetIncidentsRequest
 		{
@@ -239,46 +189,11 @@ public class IncidentQueryRequestTests
 		capture.LastRequest.RequestUri.Should().NotBeNull();
 		capture.LastRequest.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
 
-		var query = ParseQuery(capture.LastRequest.RequestUri);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		query.Should().ContainKey("layout");
 		query["layout"].Should().Be("short");
 		query.Should().ContainKey("title[]");
 		query["title[]"].Should().Be(problemSignature);
 	}
 
-	private static Dictionary<string, string> ParseQuery(Uri uri)
-	{
-		var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-		var query = uri.Query;
-		if (string.IsNullOrWhiteSpace(query))
-		{
-			return result;
-		}
-
-		foreach (var pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
-		{
-			var pieces = pair.Split('=', 2);
-			var key = Uri.UnescapeDataString(pieces[0]);
-			var value = pieces.Length > 1 ? Uri.UnescapeDataString(pieces[1]) : string.Empty;
-			result[key] = value;
-		}
-
-		return result;
-	}
-
-	private sealed class CaptureHandler : HttpMessageHandler
-	{
-		public HttpRequestMessage? LastRequest { get; private set; }
-
-		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-		{
-			LastRequest = request;
-			var response = new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StringContent("[]")
-			};
-
-			return Task.FromResult(response);
-		}
-	}
 }

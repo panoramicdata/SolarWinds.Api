@@ -90,13 +90,7 @@ public class ResponseTemplateTests(ITestOutputHelper output) : TestWithOutput(ou
 		{
 			if (created?.Id > 0)
 			{
-				try
-				{
-					await ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken);
-				}
-				catch (ApiException)
-				{
-				}
+				await TryCleanupAsync(() => ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken));
 			}
 		}
 	}

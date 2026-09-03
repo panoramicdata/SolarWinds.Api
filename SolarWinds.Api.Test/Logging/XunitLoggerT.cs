@@ -30,5 +30,7 @@ public class XunitLogger<T>(ITestOutputHelper output) : ILogger<T>, IDisposable
 	/// </summary>
 	public void Dispose()
 	{
+		// Nothing to release: the logger writes to xunit's ITestOutputHelper, whose lifetime the
+		// test framework owns. Dispose exists because BeginScope returns this instance as the scope.
 	}
 }

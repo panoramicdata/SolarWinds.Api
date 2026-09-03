@@ -13,13 +13,13 @@ public class UiSurfaceRequestTests
 	{
 		const string responseJson = "{}";
 		var capture = new CaptureHandler(responseJson);
-		using var client = CreateClient(capture);
-		var api = CreateApi<IUiCustomViews>(client);
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
+		var api = ServiceDeskTestApi.CreateApi<IUiCustomViews>(client);
 
 		_ = await api.GetViewAsync("incidents", new UiCustomViewRequest { ReportId = 8992193, IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/custom_views/incidents.json");
-		var query = ParseQuery(capture.LastRequest.RequestUri);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		query["report_id"].Should().Be("8992193");
 		query["is_portal_mode"].Should().Be("False");
 
@@ -37,7 +37,7 @@ public class UiSurfaceRequestTests
 			IsPortalMode = false,
 		}, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
-		var advancedQuery = ParseQuery(capture.LastRequest!.RequestUri!);
+		var advancedQuery = ServiceDeskTestApi.ParseQuery(capture.LastRequest!.RequestUri!);
 		advancedQuery["page_parameters[controller]"].Should().Be("users");
 		advancedQuery["page_parameters[action]"].Should().Be("index");
 		advancedQuery["page_parameters[enabled]"].Should().Be("1");
@@ -52,10 +52,10 @@ public class UiSurfaceRequestTests
 	{
 		const string responseJson = "{}";
 		var capture = new CaptureHandler(responseJson);
-		using var client = CreateClient(capture);
-		var api = CreateApi<IUiInfrastructure>(client);
-		var dashboardsApi = CreateApi<IDashboards>(client);
-		var widgetsApi = CreateApi<IWidgets>(client);
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
+		var api = ServiceDeskTestApi.CreateApi<IUiInfrastructure>(client);
+		var dashboardsApi = ServiceDeskTestApi.CreateApi<IDashboards>(client);
+		var widgetsApi = ServiceDeskTestApi.CreateApi<IWidgets>(client);
 
 		_ = await api.GetCustomContextAsync(new UiCustomContextRequest { Context = "incidents", IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/custom.json");
@@ -104,9 +104,9 @@ public class UiSurfaceRequestTests
 	public async Task UsersAvatars_And_ChangeCatalogsTree_UseExpectedQueryParameters()
 	{
 		var capture = new CaptureHandler("[]");
-		using var client = CreateClient(capture);
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var usersApi = CreateApi<IUsers>(client);
+		var usersApi = ServiceDeskTestApi.CreateApi<IUsers>(client);
 		_ = await usersApi.GetAvatarsAsync([14959623, 14959585], false, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/users/get_avatars.json");
@@ -118,77 +118,34 @@ public class UiSurfaceRequestTests
 		_ = await usersApi.GetAsync(new GetUsersRequest { Enabled = 1, ReportId = 8992244, IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/users.json");
-		var usersQuery = ParseQuery(capture.LastRequest.RequestUri);
+		var usersQuery = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		usersQuery["enabled"].Should().Be("1");
 		usersQuery["report_id"].Should().Be("8992244");
 		usersQuery["is_portal_mode"].Should().Be("False");
 
-		var ccApi = CreateApi<IChangeCatalogs>(client);
+		var ccApi = ServiceDeskTestApi.CreateApi<IChangeCatalogs>(client);
 		_ = await ccApi.GetAsync(new GetChangeCatalogsRequest { Type = "tree", NewButton = true, State = 3, IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/change_catalogs.json");
-		var ccQuery = ParseQuery(capture.LastRequest.RequestUri);
+		var ccQuery = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		ccQuery["type"].Should().Be("tree");
 		ccQuery["newButton"].Should().Be("True");
 		ccQuery["state"].Should().Be("3");
 		ccQuery["is_portal_mode"].Should().Be("False");
 
-		var listsApi = CreateApi<IUiJsonHtmlLists>(client);
+		var listsApi = ServiceDeskTestApi.CreateApi<IUiJsonHtmlLists>(client);
 		_ = await listsApi.GetAsync("incidents", new UiJsonHtmlRequest { ReportId = 8992193 }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/incidents.jsonhtml");
 
-		var customFormsApi = CreateApi<ICustomForms>(client);
+		var customFormsApi = ServiceDeskTestApi.CreateApi<ICustomForms>(client);
 		_ = await customFormsApi.GetSetupListAsync(new UiCustomViewRequest { ReportId = 9298777, IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/setup/custom_forms.json");
 
-		var templatesApi = CreateApi<IResponseTemplates>(client);
+		var templatesApi = ServiceDeskTestApi.CreateApi<IResponseTemplates>(client);
 		_ = await templatesApi.GetSetupListAsync(new PortalModeRequest { IsPortalMode = false }, CancellationToken.None);
 		capture.LastRequest.Should().NotBeNull();
 		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/setup/response_templates.json");
-	}
-
-	private static HttpClient CreateClient(HttpMessageHandler handler) => new(handler) { BaseAddress = new Uri("https://api.samanage.com") };
-
-	private static T CreateApi<T>(HttpClient client) where T : class
-		=> RestService.For<T>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower }))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
-
-	private static Dictionary<string, string> ParseQuery(Uri uri)
-	{
-		var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-		var query = uri.Query;
-		if (string.IsNullOrWhiteSpace(query))
-		{
-			return result;
-		}
-
-		foreach (var pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
-		{
-			var pieces = pair.Split('=', 2);
-			var key = Uri.UnescapeDataString(pieces[0]);
-			var value = pieces.Length > 1 ? Uri.UnescapeDataString(pieces[1]) : string.Empty;
-			result[key] = value;
-		}
-		return result;
-	}
-
-	private sealed class CaptureHandler(string responseContent) : HttpMessageHandler
-	{
-		public HttpRequestMessage? LastRequest { get; private set; }
-		public string ResponseContent { get; set; } = responseContent;
-
-		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-		{
-			LastRequest = request;
-			return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StringContent(ResponseContent, Encoding.UTF8, "application/json")
-			});
-		}
 	}
 }

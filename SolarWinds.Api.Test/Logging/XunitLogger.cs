@@ -89,6 +89,8 @@ public class XunitLogger(ITestOutputHelper output, string category, LogLevel min
 		/// </summary>
 		public void Dispose()
 		{
+			// A log scope holds no resources here: the scope exists only so that BeginScope has
+			// something to return, and nothing is written when it ends.
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Refit;
 using SolarWinds.Api.Http;
@@ -11,8 +12,6 @@ namespace SolarWinds.Api;
 /// </summary>
 public class SolarWindsServiceDeskClient
 {
-	private readonly HttpClient _httpClient;
-
 	private static readonly RefitSettings RefitSettings = new(
 		new SystemTextJsonContentSerializer(new JsonSerializerOptions
 		{
@@ -265,65 +264,171 @@ public class SolarWindsServiceDeskClient
 			throw new ArgumentException("AccessToken must be provided.", nameof(options));
 		}
 
+		var httpClient = CreateHttpClient(options);
+
+		InitializeItsmApis(httpClient);
+		InitializeAssetApis(httpClient);
+		InitializeProcurementApis(httpClient);
+		InitializeOrganizationApis(httpClient);
+		InitializeActivityApis(httpClient);
+		InitializeUiApis(httpClient);
+	}
+
+	private static HttpClient CreateHttpClient(SolarWindsServiceDeskClientOptions options)
+	{
 		HttpMessageHandler handler = new HttpClientHandler();
 		handler = options.Logger is { } logger
 			? new LoggingDelegatingHandler(logger) { InnerHandler = handler }
 			: handler;
 		handler = new SolarWindsServiceDeskBackingOffHandler(options) { InnerHandler = handler };
 
-		_httpClient = new HttpClient(handler)
+		var httpClient = new HttpClient(handler)
 		{
 			BaseAddress = new Uri(options.BaseUrl),
 			Timeout = options.HttpClientTimeout
 		};
 
-		_httpClient.DefaultRequestHeaders.Add("X-Samanage-Authorization", "Bearer " + options.AccessToken);
-		_httpClient.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.samanage.v2.1+json");
+		httpClient.DefaultRequestHeaders.Add("X-Samanage-Authorization", "Bearer " + options.AccessToken);
+		httpClient.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.samanage.v2.1+json");
 
-		Tickets = RestService.For<ITickets>(_httpClient, RefitSettings);
-		Users = RestService.For<IUsers>(_httpClient, RefitSettings);
-		Incidents = RestService.For<IIncidents>(_httpClient, RefitSettings);
-		OtherAssets = RestService.For<IOtherAssets>(_httpClient, RefitSettings);
-		ConfigurationItems = RestService.For<IConfigurationItems>(_httpClient, RefitSettings);
-		Problems = RestService.For<IProblems>(_httpClient, RefitSettings);
-		Changes = RestService.For<IChanges>(_httpClient, RefitSettings);
-		ChangeCatalogs = RestService.For<IChangeCatalogs>(_httpClient, RefitSettings);
-		ChangeRequests = RestService.For<IChangeRequests>(_httpClient, RefitSettings);
-		Releases = RestService.For<IReleases>(_httpClient, RefitSettings);
-		Solutions = RestService.For<ISolutions>(_httpClient, RefitSettings);
-		CatalogItems = RestService.For<ICatalogItems>(_httpClient, RefitSettings);
-		ServiceRequests = RestService.For<IServiceRequests>(_httpClient, RefitSettings);
-		Sites = RestService.For<ISites>(_httpClient, RefitSettings);
-		Departments = RestService.For<IDepartments>(_httpClient, RefitSettings);
-		Roles = RestService.For<IRoles>(_httpClient, RefitSettings);
-		Groups = RestService.For<IGroups>(_httpClient, RefitSettings);
-		Memberships = RestService.For<IMemberships>(_httpClient, RefitSettings);
-		Categories = RestService.For<ICategories>(_httpClient, RefitSettings);
-		Hardwares = RestService.For<IHardwares>(_httpClient, RefitSettings);
-		MobileDevices = RestService.For<IMobileDevices>(_httpClient, RefitSettings);
-		Softwares = RestService.For<ISoftwares>(_httpClient, RefitSettings);
-		Printers = RestService.For<IPrinters>(_httpClient, RefitSettings);
-		Contracts = RestService.For<IContracts>(_httpClient, RefitSettings);
-		PurchaseOrders = RestService.For<IPurchaseOrders>(_httpClient, RefitSettings);
-		Vendors = RestService.For<IVendors>(_httpClient, RefitSettings);
-		Tasks = RestService.For<ITasks>(_httpClient, RefitSettings);
-		Comments = RestService.For<IComments>(_httpClient, RefitSettings);
-		TimeTracks = RestService.For<ITimeTracks>(_httpClient, RefitSettings);
-		Purchases = RestService.For<IPurchases>(_httpClient, RefitSettings);
-		Audits = RestService.For<IAudits>(_httpClient, RefitSettings);
-		Risks = RestService.For<IRisks>(_httpClient, RefitSettings);
-		Attachments = RestService.For<IAttachments>(_httpClient, RefitSettings);
-		Notifications = RestService.For<INotifications>(_httpClient, RefitSettings);
-		IncidentTypes = RestService.For<IIncidentTypes>(_httpClient, RefitSettings);
-		SetupItsmStates = RestService.For<ISetupItsmStates>(_httpClient, RefitSettings);
-		UiCustomViews = RestService.For<IUiCustomViews>(_httpClient, RefitSettings);
-		UiInfrastructure = RestService.For<IUiInfrastructure>(_httpClient, RefitSettings);
-		Dashboards = RestService.For<IDashboards>(_httpClient, RefitSettings);
-		Widgets = RestService.For<IWidgets>(_httpClient, RefitSettings);
-		UiJsonHtmlLists = RestService.For<IUiJsonHtmlLists>(_httpClient, RefitSettings);
-		CustomForms = RestService.For<ICustomForms>(_httpClient, RefitSettings);
-		ResponseTemplates = RestService.For<IResponseTemplates>(_httpClient, RefitSettings);
-		WorkflowApprovers = RestService.For<IWorkflowApprovers>(_httpClient, RefitSettings);
-		CustomFields = RestService.For<ICustomFields>(_httpClient, RefitSettings);
+		return httpClient;
+	}
+
+	/// <summary>
+	/// Builds the APIs for incident, problem, change, release and request records.
+	/// </summary>
+	[MemberNotNull(
+		nameof(Tickets),
+		nameof(Incidents),
+		nameof(Problems),
+		nameof(Changes),
+		nameof(ChangeCatalogs),
+		nameof(ChangeRequests),
+		nameof(Releases),
+		nameof(Solutions),
+		nameof(Risks),
+		nameof(IncidentTypes),
+		nameof(SetupItsmStates),
+		nameof(CatalogItems),
+		nameof(ServiceRequests))]
+	private void InitializeItsmApis(HttpClient httpClient)
+	{
+		Tickets = RestService.For<ITickets>(httpClient, RefitSettings);
+		Incidents = RestService.For<IIncidents>(httpClient, RefitSettings);
+		Problems = RestService.For<IProblems>(httpClient, RefitSettings);
+		Changes = RestService.For<IChanges>(httpClient, RefitSettings);
+		ChangeCatalogs = RestService.For<IChangeCatalogs>(httpClient, RefitSettings);
+		ChangeRequests = RestService.For<IChangeRequests>(httpClient, RefitSettings);
+		Releases = RestService.For<IReleases>(httpClient, RefitSettings);
+		Solutions = RestService.For<ISolutions>(httpClient, RefitSettings);
+		Risks = RestService.For<IRisks>(httpClient, RefitSettings);
+		IncidentTypes = RestService.For<IIncidentTypes>(httpClient, RefitSettings);
+		SetupItsmStates = RestService.For<ISetupItsmStates>(httpClient, RefitSettings);
+		CatalogItems = RestService.For<ICatalogItems>(httpClient, RefitSettings);
+		ServiceRequests = RestService.For<IServiceRequests>(httpClient, RefitSettings);
+	}
+
+	/// <summary>
+	/// Builds the APIs for hardware and configuration inventory.
+	/// </summary>
+	[MemberNotNull(
+		nameof(OtherAssets),
+		nameof(ConfigurationItems),
+		nameof(Hardwares),
+		nameof(MobileDevices),
+		nameof(Softwares),
+		nameof(Printers))]
+	private void InitializeAssetApis(HttpClient httpClient)
+	{
+		OtherAssets = RestService.For<IOtherAssets>(httpClient, RefitSettings);
+		ConfigurationItems = RestService.For<IConfigurationItems>(httpClient, RefitSettings);
+		Hardwares = RestService.For<IHardwares>(httpClient, RefitSettings);
+		MobileDevices = RestService.For<IMobileDevices>(httpClient, RefitSettings);
+		Softwares = RestService.For<ISoftwares>(httpClient, RefitSettings);
+		Printers = RestService.For<IPrinters>(httpClient, RefitSettings);
+	}
+
+	/// <summary>
+	/// Builds the APIs for contracts, purchasing and suppliers.
+	/// </summary>
+	[MemberNotNull(
+		nameof(Contracts),
+		nameof(PurchaseOrders),
+		nameof(Vendors),
+		nameof(Purchases))]
+	private void InitializeProcurementApis(HttpClient httpClient)
+	{
+		Contracts = RestService.For<IContracts>(httpClient, RefitSettings);
+		PurchaseOrders = RestService.For<IPurchaseOrders>(httpClient, RefitSettings);
+		Vendors = RestService.For<IVendors>(httpClient, RefitSettings);
+		Purchases = RestService.For<IPurchases>(httpClient, RefitSettings);
+	}
+
+	/// <summary>
+	/// Builds the APIs for people, places and the groupings that classify records.
+	/// </summary>
+	[MemberNotNull(
+		nameof(Users),
+		nameof(Sites),
+		nameof(Departments),
+		nameof(Roles),
+		nameof(Groups),
+		nameof(Memberships),
+		nameof(Categories))]
+	private void InitializeOrganizationApis(HttpClient httpClient)
+	{
+		Users = RestService.For<IUsers>(httpClient, RefitSettings);
+		Sites = RestService.For<ISites>(httpClient, RefitSettings);
+		Departments = RestService.For<IDepartments>(httpClient, RefitSettings);
+		Roles = RestService.For<IRoles>(httpClient, RefitSettings);
+		Groups = RestService.For<IGroups>(httpClient, RefitSettings);
+		Memberships = RestService.For<IMemberships>(httpClient, RefitSettings);
+		Categories = RestService.For<ICategories>(httpClient, RefitSettings);
+	}
+
+	/// <summary>
+	/// Builds the APIs for the work, correspondence and history attached to a record.
+	/// </summary>
+	[MemberNotNull(
+		nameof(Tasks),
+		nameof(Comments),
+		nameof(TimeTracks),
+		nameof(Audits),
+		nameof(Attachments),
+		nameof(Notifications),
+		nameof(WorkflowApprovers))]
+	private void InitializeActivityApis(HttpClient httpClient)
+	{
+		Tasks = RestService.For<ITasks>(httpClient, RefitSettings);
+		Comments = RestService.For<IComments>(httpClient, RefitSettings);
+		TimeTracks = RestService.For<ITimeTracks>(httpClient, RefitSettings);
+		Audits = RestService.For<IAudits>(httpClient, RefitSettings);
+		Attachments = RestService.For<IAttachments>(httpClient, RefitSettings);
+		Notifications = RestService.For<INotifications>(httpClient, RefitSettings);
+		WorkflowApprovers = RestService.For<IWorkflowApprovers>(httpClient, RefitSettings);
+	}
+
+	/// <summary>
+	/// Builds the APIs for the portal's views, dashboards and form definitions.
+	/// </summary>
+	[MemberNotNull(
+		nameof(UiCustomViews),
+		nameof(UiInfrastructure),
+		nameof(Dashboards),
+		nameof(Widgets),
+		nameof(UiJsonHtmlLists),
+		nameof(CustomForms),
+		nameof(ResponseTemplates),
+		nameof(CustomFields))]
+	private void InitializeUiApis(HttpClient httpClient)
+	{
+		UiCustomViews = RestService.For<IUiCustomViews>(httpClient, RefitSettings);
+		UiInfrastructure = RestService.For<IUiInfrastructure>(httpClient, RefitSettings);
+		Dashboards = RestService.For<IDashboards>(httpClient, RefitSettings);
+		Widgets = RestService.For<IWidgets>(httpClient, RefitSettings);
+		UiJsonHtmlLists = RestService.For<IUiJsonHtmlLists>(httpClient, RefitSettings);
+		CustomForms = RestService.For<ICustomForms>(httpClient, RefitSettings);
+		ResponseTemplates = RestService.For<IResponseTemplates>(httpClient, RefitSettings);
+		CustomFields = RestService.For<ICustomFields>(httpClient, RefitSettings);
 	}
 }

@@ -35,6 +35,11 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	private readonly ILooseIncidentUpdates _looseIncidentUpdates;
 
 	/// <summary>
+	/// The records and run-unique timestamp shared by every probe in a run.
+	/// </summary>
+	private sealed record ProbeContext(string Timestamp, int SiteId, int DepartmentId, int ConfigurationItemId);
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="IncidentWriteFieldsProbeTests"/> class.
 	/// </summary>
 	public IncidentWriteFieldsProbeTests(ITestOutputHelper output) : base(output) =>
@@ -51,192 +56,17 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 			return;
 		}
 
+		var context = await BuildProbeContextAsync();
 		var results = new Dictionary<string, bool>(StringComparer.Ordinal);
-		var timestamp = DateTimeOffset.UtcNow.ToString("yyyyMMddHHmmssfff");
 
-		var sites = await ServiceDeskClient.Sites.GetAsync(CancellationToken);
-		sites.Should().NotBeEmpty();
-		var siteId = sites[0].Id;
+		await ProbeScalarFieldsAsync(results, context);
+		await ProbeStateFieldsAsync(results, context);
+		await ProbeCollectionFieldsAsync(results, context);
 
-		var departments = await ServiceDeskClient.Departments.GetAsync(CancellationToken);
-		departments.Should().NotBeEmpty();
-		var departmentId = departments[0].Id;
+		ReportProbeResults("write-field", results);
 
-		var configurationItems = await ServiceDeskClient.ConfigurationItems.GetAsync(new GetConfigurationItemsRequest(), CancellationToken);
-		configurationItems.Should().NotBeEmpty();
-		var configurationItemId = configurationItems[0].Id;
-
-		async Task<Incident?> TryCreateProbeIncidentAsync(string propertyName, Func<IncidentCreateRequest> createRequestFactory)
-		{
-			for (var attempt = 1; attempt <= 5; attempt++)
-			{
-				try
-				{
-					return await _looseIncidentUpdates.CreateAsync(createRequestFactory(), CancellationToken);
-				}
-				catch (ApiException ex) when ((int)ex.StatusCode >= 500)
-				{
-					if (attempt == 5)
-					{
-						_output.WriteLine($"{propertyName}: create API exception after {attempt} attempts");
-					}
-				}
-				catch (ApiException ex)
-				{
-					_output.WriteLine($"{propertyName}: create API exception {(int)ex.StatusCode}");
-					return null;
-				}
-			}
-
-			return null;
-		}
-
-		async Task<bool> RunProbeAsync(
-			string propertyName,
-			Func<IncidentCreateRequest> createRequestFactory,
-			Func<Incident, Task<IncidentWriteFields>> updateRequestFactory,
-			Func<Incident, Incident, Task<bool>> verifyUpdated)
-		{
-			async Task<bool> RunProbeAttemptAsync()
-			{
-				Incident? created = null;
-				try
-				{
-					created = await TryCreateProbeIncidentAsync(propertyName, createRequestFactory);
-					if (created is null)
-					{
-						return false;
-					}
-
-					var beforeUpdate = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
-
-					try
-					{
-						_ = await _looseIncidentUpdates.UpdateAsync(
-							created.Id,
-							await updateRequestFactory(beforeUpdate),
-							CancellationToken);
-					}
-					catch (ApiException)
-					{
-						_output.WriteLine($"{propertyName}: update API exception");
-						return false;
-					}
-
-					var refreshed = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
-					return await verifyUpdated(beforeUpdate, refreshed);
-				}
-				finally
-				{
-					if (created?.Id > 0)
-					{
-						try
-						{
-							await ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken);
-						}
-						catch (ApiException)
-						{
-						}
-					}
-				}
-			}
-
-			if (await RunProbeAttemptAsync())
-			{
-				return true;
-			}
-
-			_output.WriteLine($"{propertyName}: retrying probe after initial verification failure");
-			return await RunProbeAttemptAsync();
-		}
-
-		results[nameof(IncidentWriteFields.Name)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.Name),
-				() => CreateProbeIncidentRequest($"name-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { Name = $"Updated name {timestamp}" }),
-				(_, refreshed) => Task.FromResult(refreshed.Name == $"Updated name {timestamp}"));
-
-		results[nameof(IncidentWriteFields.SiteId)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.SiteId),
-				() => CreateProbeIncidentRequest($"site-id-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { SiteId = siteId }),
-				(_, refreshed) => Task.FromResult(TryGetJsonObjectId(refreshed.Site, out var updatedSiteId) && updatedSiteId == siteId));
-
-		results[nameof(IncidentWriteFields.DepartmentId)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.DepartmentId),
-				() => CreateProbeIncidentRequest($"department-id-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { DepartmentId = departmentId }),
-				(_, refreshed) => Task.FromResult(TryGetJsonObjectId(refreshed.Department, out var updatedDepartmentId) && updatedDepartmentId == departmentId));
-
-		results[nameof(IncidentWriteFields.Description)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.Description),
-				() => CreateProbeIncidentRequest($"description-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { Description = $"Updated description {timestamp}" }),
-				(_, refreshed) => Task.FromResult(refreshed.Description == $"Updated description {timestamp}"));
-
-		int? targetStateId = null;
-		string? targetStateName = null;
-
-		results[nameof(IncidentWriteFields.StateId)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.StateId),
-				() => CreateProbeIncidentRequest($"state-id-{timestamp}"),
-				async created =>
-				{
-					(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
-					return new IncidentWriteFields { StateId = targetStateId };
-				},
-				(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
-
-		targetStateId = null;
-		targetStateName = null;
-
-		results[nameof(IncidentWriteFields.State)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.State),
-				() => CreateProbeIncidentRequest($"state-{timestamp}"),
-				async created =>
-				{
-					(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
-					return new IncidentWriteFields { State = targetStateName };
-				},
-				(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
-
-		results[nameof(IncidentWriteFields.Priority)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.Priority),
-				() => CreateProbeIncidentRequest($"priority-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { Priority = "High" }),
-				(_, refreshed) => Task.FromResult(string.Equals(refreshed.Priority, "High", StringComparison.OrdinalIgnoreCase)));
-
-		results[nameof(IncidentWriteFields.DueAt)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.DueAt),
-				() => CreateProbeIncidentRequest($"due-at-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { DueAt = DateTime.UtcNow.AddDays(1) }),
-				(_, refreshed) => Task.FromResult(refreshed.DueAt.HasValue));
-
-		results[nameof(IncidentWriteFields.CustomFieldsValues)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.CustomFieldsValues),
-				() => CreateProbeIncidentRequest($"custom-fields-values-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { CustomFieldsValues = new Dictionary<string, object> { ["coverage_probe"] = timestamp } }),
-				(_, refreshed) => Task.FromResult(JsonSerializer.Serialize(refreshed.CustomFieldsValues).Contains(timestamp, StringComparison.OrdinalIgnoreCase)));
-
-		results[nameof(IncidentWriteFields.ConfigurationItemIds)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.ConfigurationItemIds),
-				() => CreateProbeIncidentRequest($"configuration-item-ids-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { ConfigurationItemIds = [configurationItemId] }),
-				(_, refreshed) => Task.FromResult(TryGetJsonArrayFirstObjectId(refreshed.ConfigurationItems, out var relatedConfigurationItemId) && relatedConfigurationItemId == configurationItemId));
-
-		results[nameof(IncidentWriteFields.Cc)] = await RunProbeAsync(
-				nameof(IncidentWriteFields.Cc),
-				() => CreateProbeIncidentRequest($"cc-{timestamp}"),
-				_ => Task.FromResult(new IncidentWriteFields { Cc = [$"coverage-{timestamp}@example.com"] }),
-				(_, refreshed) => Task.FromResult(JsonSerializer.Serialize(refreshed.Cc).Contains($"coverage-{timestamp}@example.com", StringComparison.OrdinalIgnoreCase)));
-
-		var failedResults = results.Where(entry => !entry.Value).Select(entry => entry.Key).ToArray();
-		_output.WriteLine($"Incident write-field probes executed: {results.Count}, failures: {failedResults.Length}");
-		if (failedResults.Length > 0)
-		{
-			_output.WriteLine("Incident write-field probes that failed: " + string.Join(", ", failedResults));
-		}
-
+		// State and CustomFieldsValues are accepted on create but not on update, so a successful
+		// round trip through update would mean the API had changed under us.
 		var expectedUpdateFailures = new HashSet<string>(StringComparer.Ordinal)
 		{
 			nameof(IncidentWriteFields.State),
@@ -257,6 +87,241 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	}
 
 	/// <summary>
+	/// Reads the existing records a probe needs to reference, and mints the timestamp that makes
+	/// each probe's values unique to this run.
+	/// </summary>
+	private async Task<ProbeContext> BuildProbeContextAsync()
+	{
+		var sites = await ServiceDeskClient.Sites.GetAsync(CancellationToken);
+		sites.Should().NotBeEmpty();
+
+		var departments = await ServiceDeskClient.Departments.GetAsync(CancellationToken);
+		departments.Should().NotBeEmpty();
+
+		var configurationItems = await ServiceDeskClient.ConfigurationItems.GetAsync(new GetConfigurationItemsRequest(), CancellationToken);
+		configurationItems.Should().NotBeEmpty();
+
+		return new ProbeContext(
+			DateTimeOffset.UtcNow.ToString("yyyyMMddHHmmssfff"),
+			sites[0].Id,
+			departments[0].Id,
+			configurationItems[0].Id);
+	}
+
+	/// <summary>
+	/// Probes the fields whose updated value can be read straight back off the refreshed incident.
+	/// </summary>
+	private async Task ProbeScalarFieldsAsync(Dictionary<string, bool> results, ProbeContext context)
+	{
+		var timestamp = context.Timestamp;
+
+		results[nameof(IncidentWriteFields.Name)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.Name),
+			() => CreateProbeIncidentRequest($"name-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { Name = $"Updated name {timestamp}" }),
+			(_, refreshed) => Task.FromResult(refreshed.Name == $"Updated name {timestamp}"));
+
+		results[nameof(IncidentWriteFields.SiteId)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.SiteId),
+			() => CreateProbeIncidentRequest($"site-id-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { SiteId = context.SiteId }),
+			(_, refreshed) => Task.FromResult(TryGetJsonObjectId(refreshed.Site, out var updatedSiteId) && updatedSiteId == context.SiteId));
+
+		results[nameof(IncidentWriteFields.DepartmentId)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.DepartmentId),
+			() => CreateProbeIncidentRequest($"department-id-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { DepartmentId = context.DepartmentId }),
+			(_, refreshed) => Task.FromResult(TryGetJsonObjectId(refreshed.Department, out var updatedDepartmentId) && updatedDepartmentId == context.DepartmentId));
+
+		results[nameof(IncidentWriteFields.Description)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.Description),
+			() => CreateProbeIncidentRequest($"description-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { Description = $"Updated description {timestamp}" }),
+			(_, refreshed) => Task.FromResult(refreshed.Description == $"Updated description {timestamp}"));
+
+		results[nameof(IncidentWriteFields.Priority)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.Priority),
+			() => CreateProbeIncidentRequest($"priority-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { Priority = "High" }),
+			(_, refreshed) => Task.FromResult(string.Equals(refreshed.Priority, "High", StringComparison.OrdinalIgnoreCase)));
+
+		results[nameof(IncidentWriteFields.DueAt)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.DueAt),
+			() => CreateProbeIncidentRequest($"due-at-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { DueAt = DateTime.UtcNow.AddDays(1) }),
+			(_, refreshed) => Task.FromResult(refreshed.DueAt.HasValue));
+	}
+
+	/// <summary>
+	/// Probes the two ways of setting the workflow state. Both need a target state looked up on
+	/// the incident itself, because the states on offer differ per tenant and per incident.
+	/// </summary>
+	private async Task ProbeStateFieldsAsync(Dictionary<string, bool> results, ProbeContext context)
+	{
+		var timestamp = context.Timestamp;
+		int? targetStateId = null;
+		string? targetStateName = null;
+
+		results[nameof(IncidentWriteFields.StateId)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.StateId),
+			() => CreateProbeIncidentRequest($"state-id-{timestamp}"),
+			async created =>
+			{
+				(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
+				return new IncidentWriteFields { StateId = targetStateId };
+			},
+			(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
+
+		targetStateId = null;
+		targetStateName = null;
+
+		results[nameof(IncidentWriteFields.State)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.State),
+			() => CreateProbeIncidentRequest($"state-{timestamp}"),
+			async created =>
+			{
+				(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
+				return new IncidentWriteFields { State = targetStateName };
+			},
+			(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
+	}
+
+	/// <summary>
+	/// Probes the fields that carry a collection or a nested object, and so come back as JSON that
+	/// has to be searched rather than compared directly.
+	/// </summary>
+	private async Task ProbeCollectionFieldsAsync(Dictionary<string, bool> results, ProbeContext context)
+	{
+		var timestamp = context.Timestamp;
+
+		results[nameof(IncidentWriteFields.CustomFieldsValues)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.CustomFieldsValues),
+			() => CreateProbeIncidentRequest($"custom-fields-values-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { CustomFieldsValues = new Dictionary<string, object> { ["coverage_probe"] = timestamp } }),
+			(_, refreshed) => Task.FromResult(JsonSerializer.Serialize(refreshed.CustomFieldsValues).Contains(timestamp, StringComparison.OrdinalIgnoreCase)));
+
+		results[nameof(IncidentWriteFields.ConfigurationItemIds)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.ConfigurationItemIds),
+			() => CreateProbeIncidentRequest($"configuration-item-ids-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { ConfigurationItemIds = [context.ConfigurationItemId] }),
+			(_, refreshed) => Task.FromResult(TryGetJsonArrayFirstObjectId(refreshed.ConfigurationItems, out var relatedConfigurationItemId) && relatedConfigurationItemId == context.ConfigurationItemId));
+
+		results[nameof(IncidentWriteFields.Cc)] = await RunProbeAsync(
+			nameof(IncidentWriteFields.Cc),
+			() => CreateProbeIncidentRequest($"cc-{timestamp}"),
+			_ => Task.FromResult(new IncidentWriteFields { Cc = [$"coverage-{timestamp}@example.com"] }),
+			(_, refreshed) => Task.FromResult(JsonSerializer.Serialize(refreshed.Cc).Contains($"coverage-{timestamp}@example.com", StringComparison.OrdinalIgnoreCase)));
+	}
+
+	/// <summary>
+	/// Creates a probe incident, retrying a server-side failure, which these sandbox tenants
+	/// return intermittently on create.
+	/// </summary>
+	private async Task<Incident?> TryCreateProbeIncidentAsync(string propertyName, Func<IncidentCreateRequest> createRequestFactory)
+	{
+		const int maxAttemptCount = 5;
+
+		for (var attempt = 1; attempt <= maxAttemptCount; attempt++)
+		{
+			try
+			{
+				return await _looseIncidentUpdates.CreateAsync(createRequestFactory(), CancellationToken);
+			}
+			catch (ApiException ex) when ((int)ex.StatusCode >= 500)
+			{
+				if (attempt == maxAttemptCount)
+				{
+					_output.WriteLine($"{propertyName}: create API exception after {attempt} attempts");
+				}
+			}
+			catch (ApiException ex)
+			{
+				_output.WriteLine($"{propertyName}: create API exception {(int)ex.StatusCode}");
+				return null;
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Creates an incident, updates one field on it, and reports whether the change is visible on
+	/// a re-read. The whole probe is attempted twice, because a first failure is often the tenant
+	/// rather than the field.
+	/// </summary>
+	/// <param name="propertyName">Name of the field under test, used in the log output.</param>
+	/// <param name="createRequestFactory">Builds the request that creates the probe incident.</param>
+	/// <param name="updateRequestFactory">Builds the update to apply, given the created incident.</param>
+	/// <param name="verifyUpdated">Decides whether the change is visible, given the before and after incidents.</param>
+	private async Task<bool> RunProbeAsync(
+		string propertyName,
+		Func<IncidentCreateRequest> createRequestFactory,
+		Func<Incident, Task<IncidentWriteFields>> updateRequestFactory,
+		Func<Incident, Incident, Task<bool>> verifyUpdated)
+	{
+		if (await RunProbeAttemptAsync())
+		{
+			return true;
+		}
+
+		_output.WriteLine($"{propertyName}: retrying probe after initial verification failure");
+		return await RunProbeAttemptAsync();
+
+		async Task<bool> RunProbeAttemptAsync()
+		{
+			Incident? created = null;
+			try
+			{
+				created = await TryCreateProbeIncidentAsync(propertyName, createRequestFactory);
+				if (created is null)
+				{
+					return false;
+				}
+
+				var beforeUpdate = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
+
+				try
+				{
+					_ = await _looseIncidentUpdates.UpdateAsync(
+						created.Id,
+						await updateRequestFactory(beforeUpdate),
+						CancellationToken);
+				}
+				catch (ApiException)
+				{
+					_output.WriteLine($"{propertyName}: update API exception");
+					return false;
+				}
+
+				var refreshed = await ServiceDeskClient.Incidents.GetAsync(created.Id, ResponseLayout.Short, CancellationToken);
+				return await verifyUpdated(beforeUpdate, refreshed);
+			}
+			finally
+			{
+				if (created?.Id > 0)
+				{
+					await TryCleanupAsync(() => ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken));
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Writes the tally of probe outcomes to the test output, naming the fields that failed.
+	/// </summary>
+	/// <param name="label">Describes which set of probes ran, for the log line.</param>
+	/// <param name="results">Each probed field, and whether it behaved as the probe expected.</param>
+	private void ReportProbeResults(string label, Dictionary<string, bool> results)
+	{
+		var failedResults = results.Where(entry => !entry.Value).Select(entry => entry.Key).ToArray();
+		_output.WriteLine($"Incident {label} probes executed: {results.Count}, failures: {failedResults.Length}");
+		if (failedResults.Length > 0)
+		{
+			_output.WriteLine($"Incident {label} probes that failed: " + string.Join(", ", failedResults));
+		}
+	}
+
+	/// <summary>
 	/// Executes IncidentWriteFields_CreateAsync_ReportsRemainingCreateCoverage.
 	/// </summary>
 	[Fact]
@@ -271,66 +336,67 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 		var timestamp = DateTimeOffset.UtcNow.ToString("yyyyMMddHHmmssfff");
 		const string targetStateName = "New";
 
-		async Task<bool> RunCreateProbeAsync(
-			string propertyName,
-			Action<IncidentWriteFields> mutate,
-			Func<JsonElement, bool> verifyCreated)
-		{
-			Incident? created = null;
-			try
-			{
-				try
-				{
-					var request = CreateProbeIncidentRequest($"create-{propertyName}-{timestamp}");
-					mutate(request.Incident);
-					created = await _looseIncidentUpdates.CreateAsync(request, CancellationToken);
-				}
-				catch (ApiException)
-				{
-					return false;
-				}
-
-				var raw = await _looseIncidentUpdates.GetRawAsync(created.Id, CancellationToken);
-				return verifyCreated(raw);
-			}
-			finally
-			{
-				if (created?.Id > 0)
-				{
-					try
-					{
-						await ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken);
-					}
-					catch (ApiException)
-					{
-					}
-				}
-			}
-		}
-
 		results[nameof(IncidentWriteFields.State)] = await RunCreateProbeAsync(
 			nameof(IncidentWriteFields.State),
+			timestamp,
 			fields => fields.State = targetStateName,
 			json => TryGetJsonPropertyValue(json, "state", out var state) && string.Equals(state, targetStateName, StringComparison.OrdinalIgnoreCase));
 
 		results[nameof(IncidentWriteFields.DueAt)] = await RunCreateProbeAsync(
 			nameof(IncidentWriteFields.DueAt),
+			timestamp,
 			fields => fields.DueAt = DateTime.UtcNow.AddDays(1),
 			json => TryGetJsonDateTimeByProperty(json, "due_at", out _));
 
 		results[nameof(IncidentWriteFields.CustomFieldsValues)] = await RunCreateProbeAsync(
 			nameof(IncidentWriteFields.CustomFieldsValues),
+			timestamp,
 			fields => fields.CustomFieldsValues = new Dictionary<string, object> { ["coverage_probe"] = timestamp },
 			json => TryGetJsonProperty(json, "custom_fields_values", out var customFields) && customFields.ValueKind != JsonValueKind.Null);
 
-		var failedResults = results.Where(entry => !entry.Value).Select(entry => entry.Key).ToArray();
-		_output.WriteLine($"Incident create-field probes executed: {results.Count}, failures: {failedResults.Length}");
-		if (failedResults.Length > 0)
-		{
-			_output.WriteLine("Incident create-field probes that failed: " + string.Join(", ", failedResults));
-		}
+		ReportProbeResults("create-field", results);
 
 		results.Should().OnlyContain(entry => entry.Value, "remaining incident write fields should create successfully");
+	}
+
+	/// <summary>
+	/// Creates an incident with one field set, and reports whether that field is present on the
+	/// raw JSON the API returns for it.
+	/// </summary>
+	/// <param name="propertyName">Name of the field under test, used in the incident name.</param>
+	/// <param name="timestamp">Run-unique suffix that keeps the probe incidents apart.</param>
+	/// <param name="mutate">Sets the field under test on the create request.</param>
+	/// <param name="verifyCreated">Decides whether the field survived, given the raw incident JSON.</param>
+	private async Task<bool> RunCreateProbeAsync(
+		string propertyName,
+		string timestamp,
+		Action<IncidentWriteFields> mutate,
+		Func<JsonElement, bool> verifyCreated)
+	{
+		Incident? created = null;
+		try
+		{
+			try
+			{
+				var request = CreateProbeIncidentRequest($"create-{propertyName}-{timestamp}");
+				mutate(request.Incident);
+				created = await _looseIncidentUpdates.CreateAsync(request, CancellationToken);
+			}
+			catch (ApiException)
+			{
+				return false;
+			}
+
+			var raw = await _looseIncidentUpdates.GetRawAsync(created.Id, CancellationToken);
+			return verifyCreated(raw);
+		}
+		finally
+		{
+			if (created?.Id > 0)
+			{
+				await TryCleanupAsync(() => ServiceDeskClient.Incidents.DeleteAsync(created.Id, CancellationToken));
+			}
+		}
 	}
 
 	private static bool ShouldRunDestructiveIntegrationTests()
@@ -385,29 +451,47 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 		}
 	};
 
+	/// <summary>
+	/// The states a probe prefers to move an incident to, most preferred first. All of them leave
+	/// the incident open, so the probe can still delete it afterwards.
+	/// </summary>
+	private static readonly string[] PreferredTargetStateNames =
+		["Awaiting Input", "On Hold", "Assigned", "In Progress", "New"];
+
 	private async Task<(int Id, string Name)> GetTargetStateAsync(int incidentId)
 	{
 		var generalInfo = await ServiceDeskClient.Incidents.GetEntityGeneralInfoAsync(incidentId, CancellationToken);
-
-		static bool Matches(IncidentEntityGeneralInfoState state, string value) =>
-			string.Equals(state.Key, value, StringComparison.OrdinalIgnoreCase)
-			|| string.Equals(state.Title, value, StringComparison.OrdinalIgnoreCase);
 
 		var candidates = generalInfo.States
 			.Where(state => !state.Selected && !state.Archived)
 			.ToList();
 
-		var targetState = candidates.FirstOrDefault(state => Matches(state, "Awaiting Input"))
-			?? candidates.FirstOrDefault(state => Matches(state, "On Hold"))
-			?? candidates.FirstOrDefault(state => Matches(state, "Assigned"))
-			?? candidates.FirstOrDefault(state => Matches(state, "In Progress"))
-			?? candidates.FirstOrDefault(state => Matches(state, "New"))
-			?? candidates.FirstOrDefault(state => !Matches(state, "Resolved") && !Matches(state, "Closed"))
+		var targetState = FindPreferredTargetState(candidates)
 			?? candidates.FirstOrDefault()
 			?? generalInfo.States.First();
 
 		return (targetState.Id, targetState.Title ?? targetState.Key ?? targetState.Id.ToString());
 	}
+
+	/// <summary>
+	/// Picks the most preferred of the offered states, falling back to any state that is neither
+	/// Resolved nor Closed.
+	/// </summary>
+	/// <param name="candidates">The states the incident can currently be moved to.</param>
+	private static IncidentEntityGeneralInfoState? FindPreferredTargetState(List<IncidentEntityGeneralInfoState> candidates)
+		=> PreferredTargetStateNames
+			.Select(name => candidates.FirstOrDefault(state => StateMatches(state, name)))
+			.FirstOrDefault(state => state is not null)
+			?? candidates.FirstOrDefault(state => !StateMatches(state, "Resolved") && !StateMatches(state, "Closed"));
+
+	/// <summary>
+	/// Whether a state goes by the given name, which tenants put on either the key or the title.
+	/// </summary>
+	/// <param name="state">The state to test.</param>
+	/// <param name="value">The name to match.</param>
+	private static bool StateMatches(IncidentEntityGeneralInfoState state, string value)
+		=> string.Equals(state.Key, value, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(state.Title, value, StringComparison.OrdinalIgnoreCase);
 
 	private static bool TryGetJsonObjectId(object? value, out int id)
 	{

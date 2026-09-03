@@ -72,6 +72,25 @@ public abstract class TestWithOutput
 	/// </summary>
 	protected SolarWindsServiceDeskClient ServiceDeskClient => _serviceDeskClientLazy.Value;
 
+
+	/// <summary>
+	/// Runs a best-effort cleanup call, ignoring an API failure. Cleanup runs after a test has
+	/// already made its assertions, so a record that has gone already - or a tenant that refuses
+	/// the delete - must not turn a passing test red.
+	/// </summary>
+	/// <param name="cleanup">The cleanup call to attempt.</param>
+	protected static async Task TryCleanupAsync(Func<Task> cleanup)
+	{
+		try
+		{
+			await cleanup();
+		}
+		catch (ApiException)
+		{
+			// Ignored by design: cleanup is best-effort, as described above.
+		}
+	}
+
 	private readonly Lazy<SolarWindsOrionClient> _orionClientLazy;
 
 	private readonly Lazy<SolarWindsServiceDeskClient> _serviceDeskClientLazy;

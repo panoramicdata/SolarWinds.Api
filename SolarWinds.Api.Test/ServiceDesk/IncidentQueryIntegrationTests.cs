@@ -240,27 +240,13 @@ public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithO
 	}
 
 	private static string? ExtractStringValue(JsonElement value)
-	{
-		if (value.ValueKind == JsonValueKind.String)
+		=> value.ValueKind switch
 		{
-			return value.GetString();
-		}
-
-		if (value.ValueKind == JsonValueKind.Number || value.ValueKind == JsonValueKind.True || value.ValueKind == JsonValueKind.False)
-		{
-			return value.ToString();
-		}
-
-		if (value.ValueKind == JsonValueKind.Object && value.TryGetProperty("value", out var nestedValue))
-		{
-			return ExtractStringValue(nestedValue);
-		}
-
-		if (value.ValueKind == JsonValueKind.Array && value.GetArrayLength() > 0)
-		{
-			return ExtractStringValue(value[0]);
-		}
-
-		return null;
-	}
+			JsonValueKind.String => value.GetString(),
+			JsonValueKind.Number or JsonValueKind.True or JsonValueKind.False => value.ToString(),
+			// A field can be wrapped as { "value": ... }, or given as a single-element array.
+			JsonValueKind.Object => value.TryGetProperty("value", out var nestedValue) ? ExtractStringValue(nestedValue) : null,
+			JsonValueKind.Array => value.GetArrayLength() > 0 ? ExtractStringValue(value[0]) : null,
+			_ => null
+		};
 }

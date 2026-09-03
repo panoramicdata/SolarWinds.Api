@@ -14,19 +14,9 @@ public class SoftwareQueryRequestTests
 		const string columns = "software,version,vendor,category,installs,first_detected,tag,windows_system_component,last_update,hidden,disable_auto_merge,is_primary";
 
 		var capture = new CaptureHandler();
-		using var client = new HttpClient(capture)
-		{
-			BaseAddress = new Uri("https://api.samanage.com")
-		};
+		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
 
-		var softwaresApi = RestService.For<ISoftwares>(client, new RefitSettings(
-			new SystemTextJsonContentSerializer(new JsonSerializerOptions
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-			}))
-		{
-			UrlParameterFormatter = new ServiceDeskUrlParameterFormatter()
-		});
+		var softwaresApi = ServiceDeskTestApi.CreateApi<ISoftwares>(client);
 
 		await softwaresApi.GetAsync(new GetSoftwaresRequest
 		{
@@ -42,7 +32,7 @@ public class SoftwareQueryRequestTests
 		capture.LastRequest.RequestUri.Should().NotBeNull();
 		capture.LastRequest.RequestUri!.AbsolutePath.Should().Be("/softwares.json");
 
-		var query = ParseQuery(capture.LastRequest.RequestUri);
+		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
 		query.Should().ContainKey("report_id");
 		query["report_id"].Should().Be("8992186");
 		query.Should().ContainKey("applied");
@@ -55,39 +45,4 @@ public class SoftwareQueryRequestTests
 		query["columns"].Should().Be(columns);
 	}
 
-	private static Dictionary<string, string> ParseQuery(Uri uri)
-	{
-		var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-		var query = uri.Query;
-		if (string.IsNullOrWhiteSpace(query))
-		{
-			return result;
-		}
-
-		foreach (var pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
-		{
-			var pieces = pair.Split('=', 2);
-			var key = Uri.UnescapeDataString(pieces[0]);
-			var value = pieces.Length > 1 ? Uri.UnescapeDataString(pieces[1]) : string.Empty;
-			result[key] = value;
-		}
-
-		return result;
-	}
-
-	private sealed class CaptureHandler : HttpMessageHandler
-	{
-		public HttpRequestMessage? LastRequest { get; private set; }
-
-		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-		{
-			LastRequest = request;
-			var response = new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StringContent("[]")
-			};
-
-			return Task.FromResult(response);
-		}
-	}
 }

@@ -22,8 +22,13 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 
 		var bufferedRequest = await BufferedRequest.CreateAsync(request, cancellationToken).ConfigureAwait(false);
 
-		for (var attempt = 1; ; attempt++)
+		// The attempt limit is enforced inside the loop, because deciding whether to retry needs the
+		// response that has not been received yet at the top of an iteration.
+		var attempt = 0;
+		while (true)
 		{
+			attempt++;
+
 			using var requestToSend = bufferedRequest.CreateRequestMessage();
 			var response = await base.SendAsync(requestToSend, cancellationToken).ConfigureAwait(false);
 
@@ -226,7 +231,7 @@ public class SolarWindsServiceDeskBackingOffHandler(SolarWindsServiceDeskClientO
 
 	private sealed class BufferedRequest
 	{
-		private BufferedRequest(HttpMethod method, Uri? requestUri, Version version, HttpVersionPolicy versionPolicy)
+		public BufferedRequest(HttpMethod method, Uri? requestUri, Version version, HttpVersionPolicy versionPolicy)
 		{
 			Method = method;
 			RequestUri = requestUri;
