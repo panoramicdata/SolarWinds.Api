@@ -148,8 +148,12 @@ public class IncidentQueryRequestTests
 		query.Should().ContainKey("title[]");
 		query["title[]"].Should().Be("prin?er");
 
-		query.Should().ContainKey("department[]");
-		query["department[]"].Should().Be("1143037,1143039,1143040");
+		// Service Desk takes a multi-valued filter as a repeated key, Rails-style, so all three
+		// departments must appear as their own department[] parameter. A single joined value would
+		// reach the API as one department named "1143037,1143039,1143040".
+		var queryValues = ServiceDeskTestApi.ParseQueryValues(capture.LastRequest.RequestUri!);
+		queryValues.Should().ContainKey("department[]");
+		queryValues["department[]"].Should().Equal("1143037", "1143039", "1143040");
 
 		query.Should().ContainKey("sort_by");
 		query["sort_by"].Should().Be("title");

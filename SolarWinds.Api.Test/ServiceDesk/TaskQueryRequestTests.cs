@@ -37,8 +37,11 @@ public class TaskQueryRequestTests
 		query["report_id"].Should().Be("8992259");
 		query.Should().ContainKey("applied");
 		query["applied"].Should().Be("True");
-		query.Should().ContainKey("assigned_to[]");
-		query["assigned_to[]"].Should().Be(assignedTo);
+		// Service Desk takes a multi-valued filter as a repeated key, Rails-style, so each assignee
+		// must appear as its own assigned_to[] parameter rather than as one joined value.
+		var queryValues = ServiceDeskTestApi.ParseQueryValues(capture.LastRequest.RequestUri);
+		queryValues.Should().ContainKey("assigned_to[]");
+		queryValues["assigned_to[]"].Should().Equal(assignedTo.Split(','));
 		query.Should().ContainKey("columns");
 		query["columns"].Should().Be(columns);
 	}
