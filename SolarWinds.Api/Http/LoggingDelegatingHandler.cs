@@ -18,17 +18,11 @@ public class LoggingDelegatingHandler(ILogger logger) : DelegatingHandler
 	{
 		var sb = new StringBuilder();
 		sb.AppendLine($">>> {request.Method} {request.RequestUri}");
-		foreach (var header in request.Headers)
-		{
-			sb.AppendLine($"  {header.Key}: {string.Join(", ", header.Value)}");
-		}
+		sb.AppendRedacted(request.Headers);
 
 		if (request.Content != null)
 		{
-			foreach (var header in request.Content.Headers)
-			{
-				sb.AppendLine($"  {header.Key}: {string.Join(", ", header.Value)}");
-			}
+			sb.AppendRedacted(request.Content.Headers);
 
 			var body = await request.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 			if (!string.IsNullOrWhiteSpace(body))
@@ -43,17 +37,11 @@ public class LoggingDelegatingHandler(ILogger logger) : DelegatingHandler
 
 		var rsb = new StringBuilder();
 		rsb.AppendLine($"<<< {(int)response.StatusCode} {response.ReasonPhrase} ({request.Method} {request.RequestUri})");
-		foreach (var header in response.Headers)
-		{
-			rsb.AppendLine($"  {header.Key}: {string.Join(", ", header.Value)}");
-		}
+		rsb.AppendRedacted(response.Headers);
 
 		if (response.Content != null)
 		{
-			foreach (var header in response.Content.Headers)
-			{
-				rsb.AppendLine($"  {header.Key}: {string.Join(", ", header.Value)}");
-			}
+			rsb.AppendRedacted(response.Content.Headers);
 
 			var responseBody = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 			if (!string.IsNullOrWhiteSpace(responseBody))

@@ -768,12 +768,9 @@ public class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWi
 		return baseUrl.Contains("panoramicdatalimited.samanage.com", StringComparison.OrdinalIgnoreCase);
 	}
 
-	private static IConfiguration GetCoverageConfiguration()
-	{
-		return new ConfigurationBuilder()
+	private static IConfiguration GetCoverageConfiguration() => new ConfigurationBuilder()
 			.AddUserSecrets<ServiceDeskEndpointCoverageTests>()
 			.Build();
-	}
 
 	private static string RequireSecret(IConfiguration configuration, string key, string guidance)
 	{

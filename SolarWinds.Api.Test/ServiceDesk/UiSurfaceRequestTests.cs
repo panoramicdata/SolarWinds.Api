@@ -162,7 +162,11 @@ public class UiSurfaceRequestTests
 	{
 		var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 		var query = uri.Query;
-		if (string.IsNullOrWhiteSpace(query)) return result;
+		if (string.IsNullOrWhiteSpace(query))
+		{
+			return result;
+		}
+
 		foreach (var pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
 		{
 			var pieces = pair.Split('=', 2);
