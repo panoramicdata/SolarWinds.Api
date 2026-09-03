@@ -19,11 +19,15 @@ public class NodesCustomProperty : CustomPropertiesEntity
 	/// The cp_dvcOwner custom property
 	/// </summary>
 	[DataMember(Name = "cp_dvcOwner")]
+#pragma warning disable IDE1006 // Naming Styles
 	public string? cp_dvcOwner { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
 	/// <summary>
 	/// The cp_dvcTypeTier custom property
 	/// </summary>
 	[DataMember(Name = "cp_dvcTypeTier")]
+#pragma warning disable IDE1006 // Naming Styles
 	public string? cp_dvcTypeTier { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 }
