@@ -6,6 +6,7 @@ namespace SolarWinds.Api.Test.Orion;
 /// <summary>
 /// Represents this type.
 /// </summary>
+[Trait("Category", "Integration")]
 public class CustomPropertyUsageTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iTestOutputHelper)
 {
 

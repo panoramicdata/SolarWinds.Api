@@ -5,6 +5,7 @@ namespace SolarWinds.Api.Test.ServiceDesk;
 /// <summary>
 /// Represents this type.
 /// </summary>
+[Trait("Category", "Integration")]
 public partial class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) : TestWithOutput(output)
 {
 	/// <summary>

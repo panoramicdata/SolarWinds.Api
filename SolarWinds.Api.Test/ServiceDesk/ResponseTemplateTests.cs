@@ -3,6 +3,7 @@ namespace SolarWinds.Api.Test.ServiceDesk;
 /// <summary>
 /// Represents this type.
 /// </summary>
+[Trait("Category", "Integration")]
 public class ResponseTemplateTests(ITestOutputHelper output) : TestWithOutput(output)
 {
 	/// <summary>

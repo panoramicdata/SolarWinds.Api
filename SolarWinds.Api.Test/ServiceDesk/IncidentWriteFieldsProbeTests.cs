@@ -29,6 +29,7 @@ public interface ILooseIncidentUpdates
 /// <summary>
 /// Represents this type.
 /// </summary>
+[Trait("Category", "Integration")]
 public class IncidentWriteFieldsProbeTests : TestWithOutput
 {
 	private readonly ITestOutputHelper _output;

@@ -42,6 +42,7 @@ public class QueryTests(ITestOutputHelper iTestOutputHelper) : TestWithOutput(iT
 	/// Valid SQL query returns items
 	/// </summary>
 	[Fact]
+	[Trait("Category", "Integration")]
 	public async Task JObject_SqlQuery_ReturnsItems()
 	{
 		var queryResponse = await OrionClient.SqlJObjectQueryAsync(new SqlQuery
