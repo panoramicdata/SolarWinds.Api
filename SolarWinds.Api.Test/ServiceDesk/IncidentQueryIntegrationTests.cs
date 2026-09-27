@@ -6,6 +6,7 @@ namespace SolarWinds.Api.Test.ServiceDesk;
 /// <summary>
 /// Represents this type.
 /// </summary>
+[Trait("Category", "Integration")]
 public class IncidentQueryIntegrationTests(ITestOutputHelper output) : TestWithOutput(output)
 {
 	/// <summary>
