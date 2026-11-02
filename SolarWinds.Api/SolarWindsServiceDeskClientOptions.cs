@@ -41,4 +41,9 @@ public class SolarWindsServiceDeskClientOptions
 	/// The underlying <see cref="HttpClient"/> timeout. Defaults to infinite so handler-managed backoff can complete.
 	/// </summary>
 	public TimeSpan HttpClientTimeout { get; set; } = Timeout.InfiniteTimeSpan;
+
+	/// <summary>
+	/// When true, the client refuses every request other than GET, HEAD and OPTIONS before sending it.
+	/// </summary>
+	public bool IsReadOnly { get; set; }
 }

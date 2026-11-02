@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
+using SolarWinds.Api.Http;
 
 namespace SolarWinds.Api;
 
@@ -18,7 +19,7 @@ public class SolarWindsOrionClient(SolarWindsOrionClientOptions options) : Solar
 {
 	private static HttpClientHandler BuildHandler(SolarWindsOrionClientOptions options)
 	{
-		var handler = new HttpClientHandler
+		var handler = new SolarWindsOrionHttpClientHandler(options)
 		{
 			Credentials = new NetworkCredential(options.Username, options.Password),
 		};

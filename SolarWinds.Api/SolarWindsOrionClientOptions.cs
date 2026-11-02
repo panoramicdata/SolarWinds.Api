@@ -41,4 +41,9 @@ public class SolarWindsOrionClientOptions
 	/// Gets or sets the HTTP proxy settings.
 	/// </summary>
 	public HttpProxySettings? ProxySettings { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the client refuses every request other than a SWQL query, before sending it.
+	/// </summary>
+	public bool IsReadOnly { get; set; }
 }
