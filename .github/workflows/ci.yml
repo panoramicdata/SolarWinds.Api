@@ -77,7 +77,7 @@ jobs:
     # directly (Microsoft.Testing.Extensions.CodeCoverage). On Linux it has no .exe extension.
     - name: Run tests with coverage
       run: >-
-        ./SolarWinds.Api.Test/bin/Debug/net10.0/SolarWinds.Api.Test
+        ./SolarWinds.Api.Test/bin/Debug/net11.0/SolarWinds.Api.Test
         --coverage
         --coverage-settings ${{ github.workspace }}/coverage.config
         --coverage-output-format cobertura
@@ -91,7 +91,7 @@ jobs:
       uses: codacy/codacy-coverage-reporter-action@v1
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        coverage-reports: SolarWinds.Api.Test/bin/Debug/net10.0/TestResults/coverage.cobertura.xml
+        coverage-reports: SolarWinds.Api.Test/bin/Debug/net11.0/TestResults/coverage.cobertura.xml
 
     - name: Upload coverage artifact
       if: always()
@@ -99,7 +99,7 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: coverage
-        path: SolarWinds.Api.Test/bin/Debug/net10.0/TestResults/coverage.cobertura.xml
+        path: SolarWinds.Api.Test/bin/Debug/net11.0/TestResults/coverage.cobertura.xml
         retention-days: 7
 
   publish:
