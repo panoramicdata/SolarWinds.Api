@@ -7,6 +7,8 @@
 
 A .NET API client for SolarWinds Orion and Service Desk.
 
+Supports .NET 11.0.
+
 ## OpenAPI UI (GitHub Pages)
 
 This repository publishes an interactive Swagger UI for the generated Service Desk OpenAPI document via GitHub Pages.
