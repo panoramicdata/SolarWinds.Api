@@ -16,7 +16,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[Fact]
 	public async Task SendAsync_Retries429AndPreservesBody()
 	{
-		var (status, inner) = await SendAsync(
+		var (status, inner) = await SendThroughHandlerAsync(
 			HttpMethod.Post,
 			"purchases",
 			"{\"name\":\"test\"}",
@@ -36,7 +36,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	public async Task SendAsync_RetriesWhenRateLimitHeadersShowExhausted()
 	{
 		var resetEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-		var (status, inner) = await SendAsync(
+		var (status, inner) = await SendThroughHandlerAsync(
 			HttpMethod.Get,
 			"purchases",
 			null,
@@ -55,7 +55,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[Fact]
 	public async Task SendAsync_DoesNotRetryPlainBadRequest()
 	{
-		var (status, inner) = await SendAsync(HttpMethod.Get, "purchases", null, 2, null, Respond(400));
+		var (status, inner) = await SendThroughHandlerAsync(HttpMethod.Get, "purchases", null, 2, null, Respond(400));
 
 		status.Should().Be(HttpStatusCode.BadRequest);
 		inner.CallCount.Should().Be(1);
@@ -68,7 +68,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	public async Task SendAsync_DoesNotRetrySuccessfulPostWhenRateLimitHeadersShowExhausted()
 	{
 		var resetEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-		var (status, inner) = await SendAsync(
+		var (status, inner) = await SendThroughHandlerAsync(
 			HttpMethod.Post,
 			"incidents",
 			PostBody,
@@ -86,7 +86,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[Fact]
 	public async Task SendAsync_DoesNotRetrySuccessfulGetWhenRateLimitHeadersShowExhausted()
 	{
-		var (status, inner) = await SendAsync(
+		var (status, inner) = await SendThroughHandlerAsync(
 			HttpMethod.Get,
 			"incidents",
 			null,
@@ -104,7 +104,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[Fact]
 	public async Task SendAsync_RetriesGetOnServiceUnavailable()
 	{
-		var (status, inner) = await SendAsync(
+		var (status, inner) = await SendThroughHandlerAsync(
 			HttpMethod.Get,
 			"incidents",
 			null,
@@ -126,7 +126,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[InlineData(HttpStatusCode.GatewayTimeout)]
 	public async Task SendAsync_DoesNotRetryPostOnTransientGatewayStatus(HttpStatusCode statusCode)
 	{
-		var (status, inner) = await SendAsync(HttpMethod.Post, "incidents", PostBody, 5, null, Respond((int)statusCode));
+		var (status, inner) = await SendThroughHandlerAsync(HttpMethod.Post, "incidents", PostBody, 5, null, Respond((int)statusCode));
 
 		status.Should().Be(statusCode);
 		inner.CallCount.Should().Be(1);
@@ -138,7 +138,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[Fact]
 	public async Task SendAsync_RetriesPostOn429()
 	{
-		var (status, inner) = await SendAsync(
+		var (status, inner) = await SendThroughHandlerAsync(
 			HttpMethod.Post,
 			"incidents",
 			PostBody,
@@ -172,7 +172,7 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 			return response;
 		};
 
-	private static async Task<(HttpStatusCode Status, SequenceHandler Inner)> SendAsync(
+	private static async Task<(HttpStatusCode Status, SequenceHandler Inner)> SendThroughHandlerAsync(
 		HttpMethod method,
 		string resource,
 		string? body,
