@@ -97,4 +97,51 @@ internal static class ServiceDeskTestApi
 
 		return result.ToDictionary(entry => entry.Key, entry => entry.Value.ToArray(), StringComparer.OrdinalIgnoreCase);
 	}
+
+	/// <summary>
+	/// Runs a call against a Refit API wired to a <see cref="CaptureHandler"/> and returns the request it sent.
+	/// </summary>
+	/// <typeparam name="T">The Refit API interface.</typeparam>
+	/// <param name="call">The call to make.</param>
+	public static async Task<HttpRequestMessage> CaptureAsync<T>(Func<T, Task> call)
+	{
+		var capture = new CaptureHandler();
+		using var client = CreateHttpClient(capture);
+		await call(CreateApi<T>(client));
+		capture.LastRequest.Should().NotBeNull();
+		return capture.LastRequest!;
+	}
+
+	/// <summary>
+	/// Asserts that the request is a GET of the path, and that each expected query parameter has the expected value.
+	/// </summary>
+	/// <param name="request">The captured request.</param>
+	/// <param name="path">The expected absolute path.</param>
+	/// <param name="expected">The expected query name and value pairs.</param>
+	public static Dictionary<string, string> AssertGet(HttpRequestMessage request, string path, params (string Key, string Value)[] expected)
+	{
+		request.Method.Should().Be(HttpMethod.Get);
+		request.RequestUri!.AbsolutePath.Should().Be(path);
+		var query = ParseQuery(request.RequestUri);
+		foreach (var (key, value) in expected)
+		{
+			query.Should().ContainKey(key);
+			query[key].Should().Be(value);
+		}
+
+		return query;
+	}
+
+	/// <summary>
+	/// Asserts that every value of a repeated query key appears, in order.
+	/// </summary>
+	/// <param name="request">The captured request.</param>
+	/// <param name="key">The query key.</param>
+	/// <param name="values">The expected values.</param>
+	public static void AssertRepeated(HttpRequestMessage request, string key, params string[] values)
+	{
+		var all = ParseQueryValues(request.RequestUri!);
+		all.Should().ContainKey(key);
+		all[key].Should().Equal(values);
+	}
 }

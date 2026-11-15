@@ -23,24 +23,9 @@ public partial class ServiceDeskEndpointCoverageTests(ITestOutputHelper output) 
 		await TryCleanupAsync(() => delete(id.Value));
 	}
 
-	private static bool ShouldRunDestructiveIntegrationTests()
-	{
-		var configuration = GetCoverageConfiguration();
+	private static bool ShouldRunDestructiveIntegrationTests() => DestructiveTestGate.ShouldRun();
 
-		var runCoverage = bool.TryParse(configuration["ServiceDesk:Coverage:RunDestructiveTests"], out var explicitRun) && explicitRun;
-		var runLifecycle = bool.TryParse(configuration["ServiceDesk:Lifecycle:RunTests"], out var lifecycleRun) && lifecycleRun;
-		if (!runCoverage && !runLifecycle)
-		{
-			return false;
-		}
-
-		var baseUrl = configuration["ServiceDesk:BaseUrl"] ?? string.Empty;
-		return baseUrl.Contains("panoramicdatalimited.samanage.com", StringComparison.OrdinalIgnoreCase);
-	}
-
-	private static IConfiguration GetCoverageConfiguration() => new ConfigurationBuilder()
-			.AddUserSecrets<ServiceDeskEndpointCoverageTests>()
-			.Build();
+	private static IConfiguration GetCoverageConfiguration() => DestructiveTestGate.Configuration();
 
 	private static string RequireSecret(IConfiguration configuration, string key, string guidance)
 	{

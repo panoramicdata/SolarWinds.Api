@@ -1,51 +1,43 @@
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 /// <summary>
-/// Represents this type.
+/// Tests the query string built for incident requests.
 /// </summary>
 public class IncidentQueryRequestTests
 {
+	private static Task<HttpRequestMessage> CaptureAsync(GetIncidentsRequest request)
+		=> ServiceDeskTestApi.CaptureAsync<IIncidents>(api => api.GetAsync(request, CancellationToken.None));
+
 	/// <summary>
-	/// Executes GetAll_WithEmptyRequest_OmitsOptionalQueryParameters.
+	/// An empty request omits the optional parameters.
 	/// </summary>
 	[Fact]
 	public async Task GetAll_WithEmptyRequest_OmitsOptionalQueryParameters()
 	{
-		var capture = new CaptureHandler();
-		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
+		var request = await CaptureAsync(new GetIncidentsRequest());
 
-		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
-
-		await incidentsApi.GetAsync(new GetIncidentsRequest(), CancellationToken.None);
-
-		capture.LastRequest.Should().NotBeNull();
-		capture.LastRequest!.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
-		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
-		query.Should().ContainKey("layout");
-		query["layout"].Should().Be("short");
-		query.Should().NotContainKey("updated");
-		query.Should().NotContainKey("updated_from");
-		query.Should().NotContainKey("updated_to");
-		query.Should().NotContainKey("updated_custom_gte");
-		query.Should().NotContainKey("updated_custom_lte");
-		query.Should().NotContainKey("created_from");
-		query.Should().NotContainKey("created_to");
-		query.Should().NotContainKey("page");
-		query.Should().NotContainKey("per_page");
+		var query = ServiceDeskTestApi.AssertGet(request, "/incidents.json", ("layout", "short"));
+		query.Keys.Should().NotContain(
+		[
+			"updated",
+			"updated_from",
+			"updated_to",
+			"updated_custom_gte",
+			"updated_custom_lte",
+			"created_from",
+			"created_to",
+			"page",
+			"per_page"
+		]);
 	}
 
 	/// <summary>
-	/// Executes GetAll_WithLayoutLongAndUpdatedRange_UsesExpectedQueryParameters.
+	/// A long layout with an updated range is sent as the expected parameters.
 	/// </summary>
 	[Fact]
 	public async Task GetAll_WithLayoutLongAndUpdatedRange_UsesExpectedQueryParameters()
 	{
-		var capture = new CaptureHandler();
-		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
-
-		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
-
-		await incidentsApi.GetAsync(new GetIncidentsRequest
+		var request = await CaptureAsync(new GetIncidentsRequest
 		{
 			Layout = ResponseLayout.Long,
 			Updated = "Select Date Range",
@@ -53,72 +45,50 @@ public class IncidentQueryRequestTests
 			UpdatedCustomLte = new DateTime(2023, 3, 9),
 			Page = 2,
 			PerPage = 100
-		}, CancellationToken.None);
+		});
 
-		capture.LastRequest.Should().NotBeNull();
-		capture.LastRequest!.Method.Should().Be(HttpMethod.Get);
-		capture.LastRequest.RequestUri.Should().NotBeNull();
-		capture.LastRequest.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
-
-		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
-		query.Should().ContainKey("layout");
-		query["layout"].Should().Be("long");
-		query.Should().ContainKey("updated");
-		query["updated"].Should().Be("Select Date Range");
-		query.Should().ContainKey("updated_custom_gte");
-		query["updated_custom_gte"].Should().Be("Mar 2 2023");
-		query.Should().ContainKey("updated_custom_lte");
-		query["updated_custom_lte"].Should().Be("Mar 9 2023");
-		query.Should().ContainKey("page");
-		query["page"].Should().Be("2");
-		query.Should().ContainKey("per_page");
-		query["per_page"].Should().Be("100");
+		ServiceDeskTestApi.AssertGet(
+			request,
+			"/incidents.json",
+			("layout", "long"),
+			("updated", "Select Date Range"),
+			("updated_custom_gte", "Mar 2 2023"),
+			("updated_custom_lte", "Mar 9 2023"),
+			("page", "2"),
+			("per_page", "100"));
 	}
 
 	/// <summary>
-	/// Executes GetAll_WithUpdatedFromTo_UsesExpectedQueryParameters.
+	/// An updated from/to window is sent as dates without the range selector.
 	/// </summary>
 	[Fact]
 	public async Task GetAll_WithUpdatedFromTo_UsesExpectedQueryParameters()
 	{
-		var capture = new CaptureHandler();
-		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
-
-		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
-
-		await incidentsApi.GetAsync(new GetIncidentsRequest
+		var request = await CaptureAsync(new GetIncidentsRequest
 		{
 			Layout = ResponseLayout.Long,
 			UpdatedFrom = new DateTime(2023, 11, 29, 8, 0, 0),
 			UpdatedTo = new DateTime(2023, 11, 30, 8, 0, 0),
-		}, CancellationToken.None);
+		});
 
-		capture.LastRequest.Should().NotBeNull();
-		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest!.RequestUri!);
-
-		query.Should().ContainKey("layout");
-		query["layout"].Should().Be("long");
-		query.Should().ContainKey("updated_from");
-		query["updated_from"].Should().Be("Nov 29 2023");
-		query.Should().ContainKey("updated_to");
-		query["updated_to"].Should().Be("Nov 30 2023");
+		var query = ServiceDeskTestApi.AssertGet(
+			request,
+			"/incidents.json",
+			("layout", "long"),
+			("updated_from", "Nov 29 2023"),
+			("updated_to", "Nov 30 2023"));
 		query.Should().NotContainKey("updated");
 	}
 
 	/// <summary>
-	/// Executes GetAll_WithPortalSearchParameters_UsesExpectedQueryParameters.
+	/// Portal search parameters are sent as the expected query parameters.
 	/// </summary>
 	[Fact]
 	public async Task GetAll_WithPortalSearchParameters_UsesExpectedQueryParameters()
 	{
 		const string columns = "number,slm,sla_next_timestamp,state,preview,title,priority,origin,type,sub_type,assigned_to,requester,site,department,reassignments,asset,cc,created_by,customer_satisfaction_feedback,closed_at,changes,created_at,updated_at_with_time,updated_at,total_time_spent,to_resolve_elapsed,to_resolve,to_first_response_elapsed,to_first_response,to_close,to_assignment,incident_slash_service_request,tag_list,scheduled,resolved_by,resolved_at,resolution_type,resolution,problems,price,pending_approval,object_id,last_state_change,last_group_reassigned,last_reassigned,assigned_to_group,due_date,description,customer_satisfied?,created_at_with_time";
 
-		var capture = new CaptureHandler();
-		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
-
-		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
-
-		await incidentsApi.GetAsync(new GetIncidentsRequest
+		var request = await CaptureAsync(new GetIncidentsRequest
 		{
 			ReportId = 8992193,
 			Applied = true,
@@ -132,72 +102,39 @@ public class IncidentQueryRequestTests
 			SearchInContext = "printer",
 			RequestId = "482d079acd55fa66278f",
 			ConnectionId = "eMdXLeRxoAMCEuw="
-		}, CancellationToken.None);
+		});
 
-		capture.LastRequest.Should().NotBeNull();
-		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest!.RequestUri!);
-
-		query.Should().ContainKey("report_id");
-		query["report_id"].Should().Be("8992193");
-		query.Should().ContainKey("applied");
-		query["applied"].Should().Be("True");
-		query.Should().ContainKey("description[]");
-		query["description[]"].Should().Be("printer");
-		query.Should().ContainKey("description_is_not[]");
-		query["description_is_not[]"].Should().Be("w00");
-		query.Should().ContainKey("title[]");
-		query["title[]"].Should().Be("prin?er");
-
-		// Service Desk takes a multi-valued filter as a repeated key, Rails-style, so all three
-		// departments must appear as their own department[] parameter. A single joined value would
-		// reach the API as one department named "1143037,1143039,1143040".
-		var queryValues = ServiceDeskTestApi.ParseQueryValues(capture.LastRequest.RequestUri!);
-		queryValues.Should().ContainKey("department[]");
-		queryValues["department[]"].Should().Equal("1143037", "1143039", "1143040");
-
-		query.Should().ContainKey("sort_by");
-		query["sort_by"].Should().Be("title");
-		query.Should().ContainKey("sort_order");
-		query["sort_order"].Should().Be("DESC");
-		query.Should().ContainKey("columns");
-		query["columns"].Should().Be(columns);
+		var query = ServiceDeskTestApi.AssertGet(
+			request,
+			"/incidents.json",
+			("report_id", "8992193"),
+			("applied", "True"),
+			("description[]", "printer"),
+			("description_is_not[]", "w00"),
+			("title[]", "prin?er"),
+			("sort_by", "title"),
+			("sort_order", "DESC"),
+			("columns", columns),
+			("search_in_context", "printer"),
+			("requestId", "482d079acd55fa66278f"),
+			("connectionId", "eMdXLeRxoAMCEuw="));
 		query["columns"].Should().Contain("customer_satisfied?");
-		query.Should().ContainKey("search_in_context");
-		query["search_in_context"].Should().Be("printer");
-		query.Should().ContainKey("requestId");
-		query["requestId"].Should().Be("482d079acd55fa66278f");
-		query.Should().ContainKey("connectionId");
-		query["connectionId"].Should().Be("eMdXLeRxoAMCEuw=");
+
+		// Each department must be its own department[] parameter, not one joined value.
+		ServiceDeskTestApi.AssertRepeated(request, "department[]", "1143037", "1143039", "1143040");
 	}
 
 	/// <summary>
-	/// Executes GetAll_WithTitleQuery_UsesExpectedQueryParameters.
+	/// A title filter is sent as a repeated title parameter.
 	/// </summary>
 	[Fact]
 	public async Task GetAll_WithTitleQuery_UsesExpectedQueryParameters()
 	{
-		const string problemSignature = "New Laptop Request";
-
-		var capture = new CaptureHandler();
-		using var client = ServiceDeskTestApi.CreateHttpClient(capture);
-
-		var incidentsApi = ServiceDeskTestApi.CreateApi<IIncidents>(client);
-
-		await incidentsApi.GetAsync(new GetIncidentsRequest
+		var request = await CaptureAsync(new GetIncidentsRequest
 		{
-			Title = [problemSignature]
-		}, CancellationToken.None);
+			Title = ["New Laptop Request"]
+		});
 
-		capture.LastRequest.Should().NotBeNull();
-		capture.LastRequest!.Method.Should().Be(HttpMethod.Get);
-		capture.LastRequest.RequestUri.Should().NotBeNull();
-		capture.LastRequest.RequestUri!.AbsolutePath.Should().Be("/incidents.json");
-
-		var query = ServiceDeskTestApi.ParseQuery(capture.LastRequest.RequestUri);
-		query.Should().ContainKey("layout");
-		query["layout"].Should().Be("short");
-		query.Should().ContainKey("title[]");
-		query["title[]"].Should().Be(problemSignature);
+		ServiceDeskTestApi.AssertGet(request, "/incidents.json", ("layout", "short"), ("title[]", "New Laptop Request"));
 	}
-
 }

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using static SolarWinds.Api.Test.ServiceDesk.ProbeJson;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
@@ -30,7 +31,7 @@ public interface ILooseIncidentUpdates
 /// Represents this type.
 /// </summary>
 [Trait("Category", "Integration")]
-public class IncidentWriteFieldsProbeTests : TestWithOutput
+public partial class IncidentWriteFieldsProbeTests : TestWithOutput
 {
 	private readonly ITestOutputHelper _output;
 	private readonly ILooseIncidentUpdates _looseIncidentUpdates;
@@ -52,7 +53,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	[Fact]
 	public async Task IncidentWriteFields_UpdateAsync_ReportsWhichFieldsRoundTrip()
 	{
-		if (!ShouldRunDestructiveIntegrationTests())
+		if (!DestructiveTestGate.ShouldRun())
 		{
 			return;
 		}
@@ -107,111 +108,6 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 			sites[0].Id,
 			departments[0].Id,
 			configurationItems[0].Id);
-	}
-
-	/// <summary>
-	/// Probes the fields whose updated value can be read straight back off the refreshed incident.
-	/// </summary>
-	private async Task ProbeScalarFieldsAsync(Dictionary<string, bool> results, ProbeContext context)
-	{
-		var timestamp = context.Timestamp;
-
-		results[nameof(IncidentWriteFields.Name)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.Name),
-			() => CreateProbeIncidentRequest($"name-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { Name = $"Updated name {timestamp}" }),
-			(_, refreshed) => Task.FromResult(refreshed.Name == $"Updated name {timestamp}"));
-
-		results[nameof(IncidentWriteFields.SiteId)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.SiteId),
-			() => CreateProbeIncidentRequest($"site-id-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { SiteId = context.SiteId }),
-			(_, refreshed) => Task.FromResult(TryGetJsonObjectId(refreshed.Site, out var updatedSiteId) && updatedSiteId == context.SiteId));
-
-		results[nameof(IncidentWriteFields.DepartmentId)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.DepartmentId),
-			() => CreateProbeIncidentRequest($"department-id-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { DepartmentId = context.DepartmentId }),
-			(_, refreshed) => Task.FromResult(TryGetJsonObjectId(refreshed.Department, out var updatedDepartmentId) && updatedDepartmentId == context.DepartmentId));
-
-		results[nameof(IncidentWriteFields.Description)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.Description),
-			() => CreateProbeIncidentRequest($"description-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { Description = $"Updated description {timestamp}" }),
-			(_, refreshed) => Task.FromResult(refreshed.Description == $"Updated description {timestamp}"));
-
-		results[nameof(IncidentWriteFields.Priority)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.Priority),
-			() => CreateProbeIncidentRequest($"priority-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { Priority = "High" }),
-			(_, refreshed) => Task.FromResult(string.Equals(refreshed.Priority, "High", StringComparison.OrdinalIgnoreCase)));
-
-		results[nameof(IncidentWriteFields.DueAt)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.DueAt),
-			() => CreateProbeIncidentRequest($"due-at-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { DueAt = DateTime.UtcNow.AddDays(1) }),
-			(_, refreshed) => Task.FromResult(refreshed.DueAt.HasValue));
-	}
-
-	/// <summary>
-	/// Probes the two ways of setting the workflow state. Both need a target state looked up on
-	/// the incident itself, because the states on offer differ per tenant and per incident.
-	/// </summary>
-	private async Task ProbeStateFieldsAsync(Dictionary<string, bool> results, ProbeContext context)
-	{
-		var timestamp = context.Timestamp;
-		int? targetStateId = null;
-		string? targetStateName = null;
-
-		results[nameof(IncidentWriteFields.StateId)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.StateId),
-			() => CreateProbeIncidentRequest($"state-id-{timestamp}"),
-			async created =>
-			{
-				(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
-				return new IncidentWriteFields { StateId = targetStateId };
-			},
-			(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
-
-		targetStateId = null;
-		targetStateName = null;
-
-		results[nameof(IncidentWriteFields.State)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.State),
-			() => CreateProbeIncidentRequest($"state-{timestamp}"),
-			async created =>
-			{
-				(targetStateId, targetStateName) = await GetTargetStateAsync(created.Id);
-				return new IncidentWriteFields { State = targetStateName };
-			},
-			(_, refreshed) => Task.FromResult(string.Equals(refreshed.State, targetStateName, StringComparison.OrdinalIgnoreCase)));
-	}
-
-	/// <summary>
-	/// Probes the fields that carry a collection or a nested object, and so come back as JSON that
-	/// has to be searched rather than compared directly.
-	/// </summary>
-	private async Task ProbeCollectionFieldsAsync(Dictionary<string, bool> results, ProbeContext context)
-	{
-		var timestamp = context.Timestamp;
-
-		results[nameof(IncidentWriteFields.CustomFieldsValues)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.CustomFieldsValues),
-			() => CreateProbeIncidentRequest($"custom-fields-values-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { CustomFieldsValues = new Dictionary<string, object> { ["coverage_probe"] = timestamp } }),
-			(_, refreshed) => Task.FromResult(JsonSerializer.Serialize(refreshed.CustomFieldsValues).Contains(timestamp, StringComparison.OrdinalIgnoreCase)));
-
-		results[nameof(IncidentWriteFields.ConfigurationItemIds)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.ConfigurationItemIds),
-			() => CreateProbeIncidentRequest($"configuration-item-ids-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { ConfigurationItemIds = [context.ConfigurationItemId] }),
-			(_, refreshed) => Task.FromResult(TryGetJsonArrayFirstObjectId(refreshed.ConfigurationItems, out var relatedConfigurationItemId) && relatedConfigurationItemId == context.ConfigurationItemId));
-
-		results[nameof(IncidentWriteFields.Cc)] = await RunProbeAsync(
-			nameof(IncidentWriteFields.Cc),
-			() => CreateProbeIncidentRequest($"cc-{timestamp}"),
-			_ => Task.FromResult(new IncidentWriteFields { Cc = [$"coverage-{timestamp}@example.com"] }),
-			(_, refreshed) => Task.FromResult(JsonSerializer.Serialize(refreshed.Cc).Contains($"coverage-{timestamp}@example.com", StringComparison.OrdinalIgnoreCase)));
 	}
 
 	/// <summary>
@@ -328,7 +224,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	[Fact]
 	public async Task IncidentWriteFields_CreateAsync_ReportsRemainingCreateCoverage()
 	{
-		if (!ShouldRunDestructiveIntegrationTests())
+		if (!DestructiveTestGate.ShouldRun())
 		{
 			return;
 		}
@@ -400,28 +296,9 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 		}
 	}
 
-	private static bool ShouldRunDestructiveIntegrationTests()
-	{
-		var configuration = GetCoverageConfiguration();
-
-		var runCoverage = bool.TryParse(configuration["ServiceDesk:Coverage:RunDestructiveTests"], out var explicitRun) && explicitRun;
-		var runLifecycle = bool.TryParse(configuration["ServiceDesk:Lifecycle:RunTests"], out var lifecycleRun) && lifecycleRun;
-		if (!runCoverage && !runLifecycle)
-		{
-			return false;
-		}
-
-		var baseUrl = configuration["ServiceDesk:BaseUrl"] ?? string.Empty;
-		return baseUrl.Contains("panoramicdatalimited.samanage.com", StringComparison.OrdinalIgnoreCase);
-	}
-
-	private static IConfiguration GetCoverageConfiguration() => new ConfigurationBuilder()
-			.AddUserSecrets<IncidentWriteFieldsProbeTests>()
-			.Build();
-
 	private static ILooseIncidentUpdates CreateLooseIncidentUpdatesClient()
 	{
-		var configuration = GetCoverageConfiguration();
+		var configuration = DestructiveTestGate.Configuration();
 		var baseUrl = configuration["ServiceDesk:BaseUrl"] ?? throw new InvalidOperationException("ServiceDesk:BaseUrl is missing in User Secrets.");
 		var accessToken = configuration["ServiceDesk:AccessToken"] ?? throw new InvalidOperationException("ServiceDesk:AccessToken is missing in User Secrets.");
 
@@ -493,101 +370,4 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	private static bool StateMatches(IncidentEntityGeneralInfoState state, string value)
 		=> string.Equals(state.Key, value, StringComparison.OrdinalIgnoreCase)
 			|| string.Equals(state.Title, value, StringComparison.OrdinalIgnoreCase);
-
-	private static bool TryGetJsonObjectId(object? value, out int id)
-	{
-		id = 0;
-
-		if (value is null)
-		{
-			return false;
-		}
-
-		using var document = JsonDocument.Parse(JsonSerializer.Serialize(value));
-		var root = document.RootElement;
-		if (root.ValueKind != JsonValueKind.Object)
-		{
-			return false;
-		}
-
-		return TryGetJsonPropertyInt32(root, "id", out id) || TryGetJsonPropertyInt32(root, "Id", out id);
-	}
-
-	private static bool TryGetJsonArrayFirstObjectId(object? value, out int id)
-	{
-		id = 0;
-
-		if (value is null)
-		{
-			return false;
-		}
-
-		using var document = JsonDocument.Parse(JsonSerializer.Serialize(value));
-		var root = document.RootElement;
-		if (root.ValueKind != JsonValueKind.Array || root.GetArrayLength() == 0)
-		{
-			return false;
-		}
-
-		var first = root[0];
-		return first.ValueKind == JsonValueKind.Object
-			&& (TryGetJsonPropertyInt32(first, "id", out id) || TryGetJsonPropertyInt32(first, "Id", out id));
-	}
-
-	private static bool TryGetJsonPropertyInt32(JsonElement element, string propertyName, out int value)
-	{
-		foreach (var property in element.EnumerateObject())
-		{
-			if (string.Equals(property.Name, propertyName, StringComparison.OrdinalIgnoreCase)
-				&& property.Value.TryGetInt32(out value))
-			{
-				return true;
-			}
-		}
-
-		value = 0;
-		return false;
-	}
-
-	private static bool TryGetJsonProperty(JsonElement element, string propertyName, out JsonElement value)
-	{
-		foreach (var property in element.EnumerateObject())
-		{
-			if (string.Equals(property.Name, propertyName, StringComparison.OrdinalIgnoreCase))
-			{
-				value = property.Value;
-				return true;
-			}
-		}
-
-		value = default;
-		return false;
-	}
-
-	private static bool TryGetJsonPropertyValue(JsonElement element, string propertyName, out string value)
-	{
-		if (TryGetJsonProperty(element, propertyName, out var propertyValue)
-			&& propertyValue.ValueKind == JsonValueKind.String
-			&& propertyValue.GetString() is { } propertyString)
-		{
-			value = propertyString;
-			return true;
-		}
-
-		value = string.Empty;
-		return false;
-	}
-
-	private static bool TryGetJsonDateTimeByProperty(JsonElement element, string propertyName, out DateTime value)
-	{
-		if (TryGetJsonProperty(element, propertyName, out var propertyValue)
-			&& propertyValue.ValueKind == JsonValueKind.String
-			&& propertyValue.TryGetDateTime(out value))
-		{
-			return true;
-		}
-
-		value = default;
-		return false;
-	}
 }

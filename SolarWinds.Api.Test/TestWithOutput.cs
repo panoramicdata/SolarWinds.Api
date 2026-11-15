@@ -154,4 +154,27 @@ public abstract class TestWithOutput
 
 		return new SolarWindsServiceDeskClient(options);
 	}
+
+	/// <summary>
+	/// Runs a call, retrying up to three times when the server answers with a 5xx status.
+	/// </summary>
+	/// <typeparam name="T">The call result type.</typeparam>
+	/// <param name="call">The call to make.</param>
+	protected static async Task<T> RetryOnServerErrorAsync<T>(Func<Task<T>> call)
+	{
+		const int maxAttempts = 3;
+		for (var attempt = 1; attempt <= maxAttempts; attempt++)
+		{
+			try
+			{
+				return await call();
+			}
+			catch (ApiException ex) when ((int)ex.StatusCode >= 500 && attempt < maxAttempts)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken);
+			}
+		}
+
+		throw new InvalidOperationException("Unreachable: the final attempt either returns or throws.");
+	}
 }
