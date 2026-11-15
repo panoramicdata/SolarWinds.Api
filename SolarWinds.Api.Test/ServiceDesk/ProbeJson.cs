@@ -8,26 +8,18 @@ internal static class ProbeJson
 	internal static bool TryGetJsonObjectId(object? value, out int id)
 	{
 		id = 0;
-
 		if (value is null)
 		{
 			return false;
 		}
 
 		using var document = JsonDocument.Parse(JsonSerializer.Serialize(value));
-		var root = document.RootElement;
-		if (root.ValueKind != JsonValueKind.Object)
-		{
-			return false;
-		}
-
-		return TryGetJsonPropertyInt32(root, "id", out id) || TryGetJsonPropertyInt32(root, "Id", out id);
+		return TryGetObjectId(document.RootElement, out id);
 	}
 
 	internal static bool TryGetJsonArrayFirstObjectId(object? value, out int id)
 	{
 		id = 0;
-
 		if (value is null)
 		{
 			return false;
@@ -35,14 +27,15 @@ internal static class ProbeJson
 
 		using var document = JsonDocument.Parse(JsonSerializer.Serialize(value));
 		var root = document.RootElement;
-		if (root.ValueKind != JsonValueKind.Array || root.GetArrayLength() == 0)
-		{
-			return false;
-		}
+		return root.ValueKind == JsonValueKind.Array
+			&& root.GetArrayLength() > 0
+			&& TryGetObjectId(root[0], out id);
+	}
 
-		var first = root[0];
-		return first.ValueKind == JsonValueKind.Object
-			&& (TryGetJsonPropertyInt32(first, "id", out id) || TryGetJsonPropertyInt32(first, "Id", out id));
+	private static bool TryGetObjectId(JsonElement element, out int id)
+	{
+		id = 0;
+		return element.ValueKind == JsonValueKind.Object && TryGetJsonPropertyInt32(element, "id", out id);
 	}
 
 	private static bool TryGetJsonPropertyInt32(JsonElement element, string propertyName, out int value)

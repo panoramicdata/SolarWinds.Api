@@ -163,7 +163,7 @@ public abstract class TestWithOutput
 	protected static async Task<T> RetryOnServerErrorAsync<T>(Func<Task<T>> call)
 	{
 		const int maxAttempts = 3;
-		for (var attempt = 1; ; attempt++)
+		for (var attempt = 1; attempt <= maxAttempts; attempt++)
 		{
 			try
 			{
@@ -174,5 +174,7 @@ public abstract class TestWithOutput
 				await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken);
 			}
 		}
+
+		throw new InvalidOperationException("Unreachable: the final attempt either returns or throws.");
 	}
 }
