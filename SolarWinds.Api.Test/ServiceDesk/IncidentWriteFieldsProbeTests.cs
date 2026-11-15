@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using static SolarWinds.Api.Test.ServiceDesk.ProbeJson;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 
@@ -52,7 +53,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	[Fact]
 	public async Task IncidentWriteFields_UpdateAsync_ReportsWhichFieldsRoundTrip()
 	{
-		if (!ShouldRunDestructiveIntegrationTests())
+		if (!DestructiveTestGate.ShouldRun())
 		{
 			return;
 		}
@@ -328,7 +329,7 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	[Fact]
 	public async Task IncidentWriteFields_CreateAsync_ReportsRemainingCreateCoverage()
 	{
-		if (!ShouldRunDestructiveIntegrationTests())
+		if (!DestructiveTestGate.ShouldRun())
 		{
 			return;
 		}
@@ -400,28 +401,9 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 		}
 	}
 
-	private static bool ShouldRunDestructiveIntegrationTests()
-	{
-		var configuration = GetCoverageConfiguration();
-
-		var runCoverage = bool.TryParse(configuration["ServiceDesk:Coverage:RunDestructiveTests"], out var explicitRun) && explicitRun;
-		var runLifecycle = bool.TryParse(configuration["ServiceDesk:Lifecycle:RunTests"], out var lifecycleRun) && lifecycleRun;
-		if (!runCoverage && !runLifecycle)
-		{
-			return false;
-		}
-
-		var baseUrl = configuration["ServiceDesk:BaseUrl"] ?? string.Empty;
-		return baseUrl.Contains("panoramicdatalimited.samanage.com", StringComparison.OrdinalIgnoreCase);
-	}
-
-	private static IConfiguration GetCoverageConfiguration() => new ConfigurationBuilder()
-			.AddUserSecrets<IncidentWriteFieldsProbeTests>()
-			.Build();
-
 	private static ILooseIncidentUpdates CreateLooseIncidentUpdatesClient()
 	{
-		var configuration = GetCoverageConfiguration();
+		var configuration = DestructiveTestGate.Configuration();
 		var baseUrl = configuration["ServiceDesk:BaseUrl"] ?? throw new InvalidOperationException("ServiceDesk:BaseUrl is missing in User Secrets.");
 		var accessToken = configuration["ServiceDesk:AccessToken"] ?? throw new InvalidOperationException("ServiceDesk:AccessToken is missing in User Secrets.");
 
@@ -493,101 +475,4 @@ public class IncidentWriteFieldsProbeTests : TestWithOutput
 	private static bool StateMatches(IncidentEntityGeneralInfoState state, string value)
 		=> string.Equals(state.Key, value, StringComparison.OrdinalIgnoreCase)
 			|| string.Equals(state.Title, value, StringComparison.OrdinalIgnoreCase);
-
-	private static bool TryGetJsonObjectId(object? value, out int id)
-	{
-		id = 0;
-
-		if (value is null)
-		{
-			return false;
-		}
-
-		using var document = JsonDocument.Parse(JsonSerializer.Serialize(value));
-		var root = document.RootElement;
-		if (root.ValueKind != JsonValueKind.Object)
-		{
-			return false;
-		}
-
-		return TryGetJsonPropertyInt32(root, "id", out id) || TryGetJsonPropertyInt32(root, "Id", out id);
-	}
-
-	private static bool TryGetJsonArrayFirstObjectId(object? value, out int id)
-	{
-		id = 0;
-
-		if (value is null)
-		{
-			return false;
-		}
-
-		using var document = JsonDocument.Parse(JsonSerializer.Serialize(value));
-		var root = document.RootElement;
-		if (root.ValueKind != JsonValueKind.Array || root.GetArrayLength() == 0)
-		{
-			return false;
-		}
-
-		var first = root[0];
-		return first.ValueKind == JsonValueKind.Object
-			&& (TryGetJsonPropertyInt32(first, "id", out id) || TryGetJsonPropertyInt32(first, "Id", out id));
-	}
-
-	private static bool TryGetJsonPropertyInt32(JsonElement element, string propertyName, out int value)
-	{
-		foreach (var property in element.EnumerateObject())
-		{
-			if (string.Equals(property.Name, propertyName, StringComparison.OrdinalIgnoreCase)
-				&& property.Value.TryGetInt32(out value))
-			{
-				return true;
-			}
-		}
-
-		value = 0;
-		return false;
-	}
-
-	private static bool TryGetJsonProperty(JsonElement element, string propertyName, out JsonElement value)
-	{
-		foreach (var property in element.EnumerateObject())
-		{
-			if (string.Equals(property.Name, propertyName, StringComparison.OrdinalIgnoreCase))
-			{
-				value = property.Value;
-				return true;
-			}
-		}
-
-		value = default;
-		return false;
-	}
-
-	private static bool TryGetJsonPropertyValue(JsonElement element, string propertyName, out string value)
-	{
-		if (TryGetJsonProperty(element, propertyName, out var propertyValue)
-			&& propertyValue.ValueKind == JsonValueKind.String
-			&& propertyValue.GetString() is { } propertyString)
-		{
-			value = propertyString;
-			return true;
-		}
-
-		value = string.Empty;
-		return false;
-	}
-
-	private static bool TryGetJsonDateTimeByProperty(JsonElement element, string propertyName, out DateTime value)
-	{
-		if (TryGetJsonProperty(element, propertyName, out var propertyValue)
-			&& propertyValue.ValueKind == JsonValueKind.String
-			&& propertyValue.TryGetDateTime(out value))
-		{
-			return true;
-		}
-
-		value = default;
-		return false;
-	}
 }

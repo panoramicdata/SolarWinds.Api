@@ -3,32 +3,12 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 /// <summary>
 /// Writable change catalog fields used by create and update operations.
 /// </summary>
-public sealed class ChangeCatalogWriteFields
+public sealed class ChangeCatalogWriteFields : TaggedRecordFields
 {
-	/// <summary>
-	/// Gets or sets catalog name.
-	/// </summary>
-	public string? Name { get; set; }
-
 	/// <summary>
 	/// Gets or sets change type identifier.
 	/// </summary>
 	public int? ChangeType { get; set; }
-
-	/// <summary>
-	/// Gets or sets site identifier.
-	/// </summary>
-	public int? SiteId { get; set; }
-
-	/// <summary>
-	/// Gets or sets department identifier.
-	/// </summary>
-	public int? DepartmentId { get; set; }
-
-	/// <summary>
-	/// Gets or sets description text.
-	/// </summary>
-	public string? Description { get; set; }
 
 	/// <summary>
 	/// Gets or sets state identifier.
@@ -64,31 +44,6 @@ public sealed class ChangeCatalogWriteFields
 	/// Gets or sets test plan text.
 	/// </summary>
 	public string? TestPlan { get; set; }
-
-	/// <summary>
-	/// Gets or sets tags to append.
-	/// </summary>
-	public string? AddToTagList { get; set; }
-
-	/// <summary>
-	/// Gets or sets tags to remove.
-	/// </summary>
-	public string? RemoveFromTagList { get; set; }
-
-	/// <summary>
-	/// Gets or sets complete tag list replacement value.
-	/// </summary>
-	public string? TagList { get; set; }
-
-	/// <summary>
-	/// Gets or sets custom field value attribute payload.
-	/// </summary>
-	public object[]? CustomFieldsValuesAttributes { get; set; }
-
-	/// <summary>
-	/// Gets or sets custom field value payload.
-	/// </summary>
-	public object? CustomFieldsValues { get; set; }
 
 	/// <summary>
 	/// Gets or sets whether the catalog should be visible in portal views.

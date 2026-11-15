@@ -4,259 +4,121 @@ using SolarWinds.Api.Http;
 namespace SolarWinds.Api.Test.ServiceDesk;
 
 /// <summary>
-/// Represents this type.
+/// Tests for the Service Desk retry handler.
 /// </summary>
 public class SolarWindsServiceDeskBackingOffHandlerTests
 {
+	private const string PostBody = "{\"incident\":{\"name\":\"test\"}}";
+
 	/// <summary>
-	/// Executes SendAsync_Retries429AndPreservesBody.
+	/// A 429 is retried and the request body is replayed.
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_Retries429AndPreservesBody()
 	{
-		var innerHandler = new SequenceHandler([
-			_ =>
-			{
-				var response = new HttpResponseMessage((HttpStatusCode)429)
-				{
-					Content = new StringContent("{}")
-				};
-				response.Headers.RetryAfter = new System.Net.Http.Headers.RetryConditionHeaderValue(TimeSpan.Zero);
-				return response;
-			},
-			_ => new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StringContent("{}")
-			}
-		]);
+		var (status, inner) = await SendAsync(
+			HttpMethod.Post,
+			"purchases",
+			"{\"name\":\"test\"}",
+			2,
+			null,
+			Respond(429, retryAfterZero: true),
+			Respond(200));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 2,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.samanage.com/purchases.json")
-		{
-			Content = new StringContent("{\"name\":\"test\"}")
-		};
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
-		innerHandler.RequestBodies.Should().BeEquivalentTo(["{\"name\":\"test\"}", "{\"name\":\"test\"}"]);
+		status.Should().Be(HttpStatusCode.OK);
+		inner.RequestBodies.Should().BeEquivalentTo(["{\"name\":\"test\"}", "{\"name\":\"test\"}"]);
 	}
 
 	/// <summary>
-	/// Executes SendAsync_RetriesWhenRateLimitHeadersShowExhausted.
+	/// Exhausted rate-limit headers trigger a retry.
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_RetriesWhenRateLimitHeadersShowExhausted()
 	{
-		var resetEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-		var innerHandler = new SequenceHandler([
-			_ =>
-			{
-				var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-				{
-					Content = new StringContent("{}")
-				};
-				response.Headers.Add("X-Ratelimit-Remaining", "0");
-				response.Headers.Add("X-Ratelimit-Reset", resetEpoch.ToString());
-				return response;
-			},
-			_ => new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StringContent("{}")
-			}
-		]);
+		var resetEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+		var (status, inner) = await SendAsync(
+			HttpMethod.Get,
+			"purchases",
+			null,
+			2,
+			0,
+			Respond(400, exhaustedResetEpoch: resetEpoch),
+			Respond(200));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 2,
-			MaxBackOffDelaySeconds = 0,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Get, "https://api.samanage.com/purchases.json");
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
-		innerHandler.CallCount.Should().Be(2);
+		status.Should().Be(HttpStatusCode.OK);
+		inner.CallCount.Should().Be(2);
 	}
 
 	/// <summary>
-	/// Executes SendAsync_DoesNotRetryPlainBadRequest.
+	/// A plain 400 is returned without retry.
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_DoesNotRetryPlainBadRequest()
 	{
-		var innerHandler = new SequenceHandler([
-			_ => new HttpResponseMessage(HttpStatusCode.BadRequest)
-			{
-				Content = new StringContent("{}")
-			}
-		]);
+		var (status, inner) = await SendAsync(HttpMethod.Get, "purchases", null, 2, null, Respond(400));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 2,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Get, "https://api.samanage.com/purchases.json");
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-		innerHandler.CallCount.Should().Be(1);
+		status.Should().Be(HttpStatusCode.BadRequest);
+		inner.CallCount.Should().Be(1);
 	}
 
 	/// <summary>
-	/// A successful create (201) carrying exhausted rate-limit headers must NOT be retried:
-	/// the incident already exists, and re-sending the POST would create duplicates (MS-24568).
+	/// A successful create carrying exhausted headers must not be retried, or the POST would be duplicated (MS-24568).
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_DoesNotRetrySuccessfulPostWhenRateLimitHeadersShowExhausted()
 	{
-		var resetEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-		var innerHandler = new SequenceHandler([
-			_ =>
-			{
-				var response = new HttpResponseMessage(HttpStatusCode.Created)
-				{
-					Content = new StringContent("{\"id\":1}")
-				};
-				response.Headers.Add("X-Ratelimit-Remaining", "0");
-				response.Headers.Add("X-Ratelimit-Reset", resetEpoch.ToString());
-				return response;
-			}
-		]);
+		var resetEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+		var (status, inner) = await SendAsync(
+			HttpMethod.Post,
+			"incidents",
+			PostBody,
+			5,
+			0,
+			Respond(201, exhaustedResetEpoch: resetEpoch));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 5,
-			MaxBackOffDelaySeconds = 0,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.samanage.com/incidents.json")
-		{
-			Content = new StringContent("{\"incident\":{\"name\":\"test\"}}")
-		};
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.Created);
-		innerHandler.CallCount.Should().Be(1);
+		status.Should().Be(HttpStatusCode.Created);
+		inner.CallCount.Should().Be(1);
 	}
 
 	/// <summary>
-	/// A successful GET carrying exhausted rate-limit headers must NOT be retried either;
-	/// the result is already in hand and re-sending only burns more quota.
+	/// A successful GET carrying exhausted headers is not retried either.
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_DoesNotRetrySuccessfulGetWhenRateLimitHeadersShowExhausted()
 	{
-		var innerHandler = new SequenceHandler([
-			_ =>
-			{
-				var response = new HttpResponseMessage(HttpStatusCode.OK)
-				{
-					Content = new StringContent("[]")
-				};
-				response.Headers.Add("X-Ratelimit-Remaining", "0");
-				return response;
-			}
-		]);
+		var (status, inner) = await SendAsync(
+			HttpMethod.Get,
+			"incidents",
+			null,
+			5,
+			0,
+			Respond(200, exhaustedResetEpoch: string.Empty));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 5,
-			MaxBackOffDelaySeconds = 0,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Get, "https://api.samanage.com/incidents.json");
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
-		innerHandler.CallCount.Should().Be(1);
+		status.Should().Be(HttpStatusCode.OK);
+		inner.CallCount.Should().Be(1);
 	}
 
 	/// <summary>
-	/// Transient gateway failures are retried for idempotent methods (GET).
+	/// Transient gateway failures are retried for idempotent methods.
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_RetriesGetOnServiceUnavailable()
 	{
-		var innerHandler = new SequenceHandler([
-			_ => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable)
-			{
-				Content = new StringContent("{}")
-			},
-			_ => new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StringContent("{}")
-			}
-		]);
+		var (status, inner) = await SendAsync(
+			HttpMethod.Get,
+			"incidents",
+			null,
+			2,
+			null,
+			Respond(503),
+			Respond(200));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 2,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Get, "https://api.samanage.com/incidents.json");
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.OK);
-		innerHandler.CallCount.Should().Be(2);
+		status.Should().Be(HttpStatusCode.OK);
+		inner.CallCount.Should().Be(2);
 	}
 
 	/// <summary>
-	/// Transient gateway failures are NOT retried for non-idempotent methods (POST): a 502/504
-	/// does not guarantee the origin failed to process the request, so re-sending risks duplicates.
-	/// The response is returned so the caller can decide.
+	/// Transient gateway failures are not retried for POST, so the caller decides.
 	/// </summary>
 	[Theory]
 	[InlineData(HttpStatusCode.BadGateway)]
@@ -264,81 +126,84 @@ public class SolarWindsServiceDeskBackingOffHandlerTests
 	[InlineData(HttpStatusCode.GatewayTimeout)]
 	public async Task SendAsync_DoesNotRetryPostOnTransientGatewayStatus(HttpStatusCode statusCode)
 	{
-		var innerHandler = new SequenceHandler([
-			_ => new HttpResponseMessage(statusCode)
-			{
-				Content = new StringContent("{}")
-			}
-		]);
+		var (status, inner) = await SendAsync(HttpMethod.Post, "incidents", PostBody, 5, null, Respond((int)statusCode));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
-		{
-			BaseUrl = "https://api.samanage.com",
-			AccessToken = "token",
-			Logger = NullLogger.Instance,
-			MaxAttemptCount = 5,
-		})
-		{
-			InnerHandler = innerHandler,
-		};
-
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.samanage.com/incidents.json")
-		{
-			Content = new StringContent("{\"incident\":{\"name\":\"test\"}}")
-		};
-
-		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(statusCode);
-		innerHandler.CallCount.Should().Be(1);
+		status.Should().Be(statusCode);
+		inner.CallCount.Should().Be(1);
 	}
 
 	/// <summary>
-	/// A 429 means the request was rejected without being processed, so even a POST is safe to retry.
-	/// (Covers the same path as SendAsync_Retries429AndPreservesBody; kept explicit for the method-safety rule.)
+	/// A 429 was rejected unprocessed, so even a POST is retried.
 	/// </summary>
 	[Fact]
 	public async Task SendAsync_RetriesPostOn429()
 	{
-		var innerHandler = new SequenceHandler([
-			_ =>
-			{
-				var response = new HttpResponseMessage((HttpStatusCode)429)
-				{
-					Content = new StringContent("{}")
-				};
-				response.Headers.RetryAfter = new System.Net.Http.Headers.RetryConditionHeaderValue(TimeSpan.Zero);
-				return response;
-			},
-			_ => new HttpResponseMessage(HttpStatusCode.Created)
-			{
-				Content = new StringContent("{\"id\":1}")
-			}
-		]);
+		var (status, inner) = await SendAsync(
+			HttpMethod.Post,
+			"incidents",
+			PostBody,
+			2,
+			0,
+			Respond(429, retryAfterZero: true),
+			Respond(201));
 
-		var handler = new SolarWindsServiceDeskBackingOffHandler(new SolarWindsServiceDeskClientOptions
+		status.Should().Be(HttpStatusCode.Created);
+		inner.CallCount.Should().Be(2);
+	}
+
+	private static Func<HttpRequestMessage, HttpResponseMessage> Respond(int statusCode, bool retryAfterZero = false, string? exhaustedResetEpoch = null)
+		=> _ =>
+		{
+			var response = new HttpResponseMessage((HttpStatusCode)statusCode) { Content = new StringContent("{}") };
+			if (retryAfterZero)
+			{
+				response.Headers.RetryAfter = new System.Net.Http.Headers.RetryConditionHeaderValue(TimeSpan.Zero);
+			}
+
+			if (exhaustedResetEpoch is not null)
+			{
+				response.Headers.Add("X-Ratelimit-Remaining", "0");
+				if (exhaustedResetEpoch.Length > 0)
+				{
+					response.Headers.Add("X-Ratelimit-Reset", exhaustedResetEpoch);
+				}
+			}
+
+			return response;
+		};
+
+	private static async Task<(HttpStatusCode Status, SequenceHandler Inner)> SendAsync(
+		HttpMethod method,
+		string resource,
+		string? body,
+		int maxAttemptCount,
+		int? maxBackOffDelaySeconds,
+		params Func<HttpRequestMessage, HttpResponseMessage>[] responses)
+	{
+		var inner = new SequenceHandler([.. responses]);
+		var options = new SolarWindsServiceDeskClientOptions
 		{
 			BaseUrl = "https://api.samanage.com",
 			AccessToken = "token",
 			Logger = NullLogger.Instance,
-			MaxAttemptCount = 2,
-			MaxBackOffDelaySeconds = 0,
-		})
-		{
-			InnerHandler = innerHandler,
+			MaxAttemptCount = maxAttemptCount,
 		};
 
-		using var invoker = new HttpMessageInvoker(handler);
-		using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.samanage.com/incidents.json")
+		if (maxBackOffDelaySeconds is int seconds)
 		{
-			Content = new StringContent("{\"incident\":{\"name\":\"test\"}}")
-		};
+			options.MaxBackOffDelaySeconds = seconds;
+		}
+
+		using var handler = new SolarWindsServiceDeskBackingOffHandler(options) { InnerHandler = inner };
+		using var invoker = new HttpMessageInvoker(handler, disposeHandler: false);
+		using var request = new HttpRequestMessage(method, $"https://api.samanage.com/{resource}.json");
+		if (body is not null)
+		{
+			request.Content = new StringContent(body);
+		}
 
 		using var response = await invoker.SendAsync(request, CancellationToken.None);
-
-		response.StatusCode.Should().Be(HttpStatusCode.Created);
-		innerHandler.CallCount.Should().Be(2);
+		return (response.StatusCode, inner);
 	}
 
 	private sealed class SequenceHandler(List<Func<HttpRequestMessage, HttpResponseMessage>> responses) : HttpMessageHandler

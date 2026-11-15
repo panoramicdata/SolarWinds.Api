@@ -17,7 +17,7 @@ internal static partial class Program
 		public JsonNode GetSchema(Type type)
 		{
 			var normalized = Nullable.GetUnderlyingType(type) ?? type;
-			if (TryBuildInlineSchema(normalized) is { } inline)
+			if (SchemaTypeMap.TryBuildInlineSchema(normalized) is { } inline)
 			{
 				return inline;
 			}
@@ -27,7 +27,7 @@ internal static partial class Program
 				return new JsonObject { ["type"] = "object" };
 			}
 
-			if (TryGetEnumerableElementType(normalized, out var elementType))
+			if (SchemaTypeMap.TryGetEnumerableElementType(normalized, out var elementType))
 			{
 				return new JsonObject
 				{
@@ -36,7 +36,7 @@ internal static partial class Program
 				};
 			}
 
-			if (TryGetDictionaryValueType(normalized, out var valueType))
+			if (SchemaTypeMap.TryGetDictionaryValueType(normalized, out var valueType))
 			{
 				return new JsonObject
 				{
@@ -166,112 +166,6 @@ internal static partial class Program
 			}
 
 			return name;
-		}
-
-		/// <summary>
-		/// The primitive and primitive-like types that are described in place rather than as a
-		/// named component schema, mapped to their OpenAPI type and optional format.
-		/// </summary>
-		private static readonly Dictionary<Type, (string Type, string? Format)> InlineSchemas = new()
-		{
-			[typeof(string)] = ("string", null),
-			[typeof(bool)] = ("boolean", null),
-			[typeof(byte)] = ("integer", "int32"),
-			[typeof(short)] = ("integer", "int32"),
-			[typeof(int)] = ("integer", "int32"),
-			[typeof(long)] = ("integer", "int64"),
-			[typeof(float)] = ("number", "float"),
-			[typeof(double)] = ("number", "double"),
-			[typeof(decimal)] = ("number", "double"),
-			[typeof(DateTime)] = ("string", "date-time"),
-			[typeof(DateTimeOffset)] = ("string", "date-time"),
-			[typeof(DateOnly)] = ("string", "date"),
-			[typeof(TimeOnly)] = ("string", null),
-			[typeof(TimeSpan)] = ("string", null),
-			[typeof(Guid)] = ("string", "uuid"),
-			[typeof(Uri)] = ("string", "uri")
-		};
-
-		/// <summary>
-		/// Builds the in-place schema for a primitive-like type, or returns <see langword="null"/>
-		/// for anything that needs a component schema of its own (an enum included).
-		/// </summary>
-		private static JsonObject? TryBuildInlineSchema(Type type)
-		{
-			if (!InlineSchemas.TryGetValue(type, out var mapping))
-			{
-				return null;
-			}
-
-			var schema = new JsonObject
-			{
-				["type"] = mapping.Type
-			};
-
-			if (mapping.Format is not null)
-			{
-				schema["format"] = mapping.Format;
-			}
-
-			return schema;
-		}
-
-		private static bool TryGetEnumerableElementType(Type type, out Type? elementType)
-		{
-			elementType = null;
-			if (type == typeof(string) || type == typeof(byte[]))
-			{
-				return false;
-			}
-
-			if (type.IsArray)
-			{
-				elementType = type.GetElementType();
-				return elementType is not null;
-			}
-
-			if (!typeof(IEnumerable).IsAssignableFrom(type))
-			{
-				return false;
-			}
-
-			elementType = GetSoleGenericArgument(type) ?? GetEnumerableInterfaceArgument(type);
-			return elementType is not null;
-		}
-
-		/// <summary>
-		/// The element type of a collection that takes exactly one type argument, such as
-		/// <see cref="List{T}"/>.
-		/// </summary>
-		private static Type? GetSoleGenericArgument(Type type)
-			=> type.IsGenericType && type.GetGenericArguments() is [var single] ? single : null;
-
-		/// <summary>
-		/// The element type taken from whichever <see cref="IEnumerable{T}"/> the type implements.
-		/// </summary>
-		private static Type? GetEnumerableInterfaceArgument(Type type)
-			=> type.GetInterfaces()
-				.FirstOrDefault(static i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-				?.GetGenericArguments()[0];
-
-		private static bool TryGetDictionaryValueType(Type type, out Type? valueType)
-		{
-			valueType = null;
-			var direct = type.GetInterfaces().Append(type)
-				.FirstOrDefault(static i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDictionary<,>));
-			if (direct is null)
-			{
-				return false;
-			}
-
-			var args = direct.GetGenericArguments();
-			if (args[0] != typeof(string))
-			{
-				return false;
-			}
-
-			valueType = args[1];
-			return true;
 		}
 	}
 }

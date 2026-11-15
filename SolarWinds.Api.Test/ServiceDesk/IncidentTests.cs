@@ -21,10 +21,7 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 			PerPage = 10
 		}, CancellationToken);
 
-		items.Should().NotBeNullOrEmpty();
-		items.Should().OnlyHaveUniqueItems(i => i.Id);
-		items.Should().OnlyHaveUniqueItems(i => i.Number);
-		items.Count.Should().BeLessThanOrEqualTo(10);
+		AssertListedIncidents(items);
 	}
 
 	/// <summary>
@@ -76,10 +73,7 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 				.Incidents
 				.GetAsync(getIncidentsRequest, CancellationToken);
 
-		items.Should().NotBeNullOrEmpty();
-		items.Should().OnlyHaveUniqueItems(i => i.Id);
-		items.Should().OnlyHaveUniqueItems(i => i.Number);
-		items.Count.Should().BeLessThanOrEqualTo(10);
+		AssertListedIncidents(items);
 	}
 
 	/// <summary>
@@ -100,35 +94,21 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 	{
 		var item = await GetResolvableIncidentAsync();
 
-		IncidentEntityGeneralInfo? info = null;
-		ApiException? lastServerException = null;
-		for (var attempt = 1; attempt <= 3; attempt++)
-		{
-			try
-			{
-				info = await ServiceDeskClient.Incidents.GetEntityGeneralInfoAsync(item.Id, CancellationToken);
-				break;
-			}
-			catch (ApiException ex) when ((int)ex.StatusCode >= 500)
-			{
-				lastServerException = ex;
-				if (attempt < 3)
-				{
-					await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken);
-				}
-			}
-		}
-
-		if (info is null && lastServerException is not null)
-		{
-			throw lastServerException;
-		}
+		var info = await RetryOnServerErrorAsync(() => ServiceDeskClient.Incidents.GetEntityGeneralInfoAsync(item.Id, CancellationToken));
 
 		info.Should().NotBeNull();
 		info.States.Should().NotBeNull();
 		info.States.Should().NotBeEmpty();
 		info.States.Should().Contain(state => state.Id > 0);
 		info.States.Should().Contain(state => state.Selected);
+	}
+
+	private static void AssertListedIncidents(List<Incident> items)
+	{
+		items.Should().NotBeNullOrEmpty();
+		items.Should().OnlyHaveUniqueItems(i => i.Id);
+		items.Should().OnlyHaveUniqueItems(i => i.Number);
+		items.Count.Should().BeLessThanOrEqualTo(10);
 	}
 
 	private async Task<Incident> GetResolvableIncidentAsync()
@@ -139,10 +119,7 @@ public class IncidentTests(ITestOutputHelper output) : TestWithOutput(output)
 			PerPage = 10
 		}, CancellationToken);
 
-		items.Should().NotBeNullOrEmpty();
-		items.Should().OnlyHaveUniqueItems(i => i.Id);
-		items.Should().OnlyHaveUniqueItems(i => i.Number);
-		items.Count.Should().BeLessThanOrEqualTo(10);
+		AssertListedIncidents(items);
 
 		foreach (var candidate in items)
 		{
