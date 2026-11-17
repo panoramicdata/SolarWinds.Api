@@ -9,8 +9,17 @@ namespace SolarWinds.Api.Test.ServiceDesk;
 public class ServiceDeskUrlParameterFormatterTests
 {
 	private static readonly ServiceDeskUrlParameterFormatter Formatter = new();
-	private static readonly ICustomAttributeProvider AttributeProvider = typeof(GetIncidentsRequest)
-		.GetProperty(nameof(GetIncidentsRequest.Layout))!;
+	private static readonly IParameterAttributeProvider AttributeProvider = new PropertyAttributeProvider(typeof(GetIncidentsRequest)
+		.GetProperty(nameof(GetIncidentsRequest.Layout))!);
+
+	private sealed class PropertyAttributeProvider(ICustomAttributeProvider provider) : IParameterAttributeProvider
+	{
+		public object[] GetCustomAttributes(bool inherit) => provider.GetCustomAttributes(inherit);
+
+		public object[] GetCustomAttributes(Type attributeType, bool inherit) => provider.GetCustomAttributes(attributeType, inherit);
+
+		public bool IsDefined(Type attributeType, bool inherit) => provider.IsDefined(attributeType, inherit);
+	}
 
 	/// <summary>
 	/// Executes Format_WithNullValue_ReturnsNull.
