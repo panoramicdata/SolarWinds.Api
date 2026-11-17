@@ -13,7 +13,7 @@ public sealed class ServiceDeskUrlParameterFormatter : IUrlParameterFormatter
 	private const string ShortMonthDayYearFormat = "MMM d yyyy";
 
 	/// <inheritdoc />
-	public string? Format(object? value, ICustomAttributeProvider attributeProvider, Type type)
+	public string? Format(object? value, IParameterAttributeProvider attributeProvider, Type type)
 	{
 		if (value is null)
 		{
