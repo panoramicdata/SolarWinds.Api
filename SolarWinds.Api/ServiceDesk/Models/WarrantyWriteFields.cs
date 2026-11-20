@@ -6,19 +6,19 @@ namespace SolarWinds.Api.ServiceDesk.Models;
 public sealed class WarrantyWriteFields
 {
 	/// <summary>
+	/// Gets or sets warranty status.
+	/// </summary>
+	public string? Status { get; set; }
+
+	/// <summary>
 	/// Gets or sets service name.
 	/// </summary>
 	public string? Service { get; set; }
 
 	/// <summary>
-	/// Gets or sets warranty provider name.
+	/// Gets or sets whether the warranty is manually entered.
 	/// </summary>
-	public string? Provider { get; set; }
-
-	/// <summary>
-	/// Gets or sets warranty start date.
-	/// </summary>
-	public string? StartDate { get; set; }
+	public bool? Manual { get; set; }
 
 	/// <summary>
 	/// Gets or sets warranty end date.
@@ -26,12 +26,12 @@ public sealed class WarrantyWriteFields
 	public string? EndDate { get; set; }
 
 	/// <summary>
-	/// Gets or sets warranty status.
+	/// Gets or sets warranty start date.
 	/// </summary>
-	public string? Status { get; set; }
+	public string? StartDate { get; set; }
 
 	/// <summary>
-	/// Gets or sets whether the warranty is manually entered.
+	/// Gets or sets warranty provider name.
 	/// </summary>
-	public bool? Manual { get; set; }
+	public string? Provider { get; set; }
 }
