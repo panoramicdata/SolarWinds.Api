@@ -1,46 +1,45 @@
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
 /// <summary>
 /// A Poller
 /// </summary>
-[DataContract]
 public class Poller : Entity
 {
 	/// <summary>
 	/// The PollerID
 	/// </summary>
-	[DataMember(Name = "PollerID")]
+	[JsonPropertyName("PollerID")]
 	public int PollerID { get; set; }
 
 	/// <summary>
 	/// The PollerType
 	/// </summary>
-	[DataMember(Name = "PollerType")]
+	[JsonPropertyName("PollerType")]
 	public required string PollerType { get; set; }
 
 	/// <summary>
 	/// The NetObject
 	/// </summary>
-	[DataMember(Name = "NetObject")]
+	[JsonPropertyName("NetObject")]
 	public required string NetObject { get; set; }
 
 	/// <summary>
 	/// The NetObjectType
 	/// </summary>
-	[DataMember(Name = "NetObjectType")]
+	[JsonPropertyName("NetObjectType")]
 	public required string NetObjectType { get; set; }
 
 	/// <summary>
 	/// The NetObjectID
 	/// </summary>
-	[DataMember(Name = "NetObjectID")]
+	[JsonPropertyName("NetObjectID")]
 	public required string NetObjectID { get; set; }
 
 	/// <summary>
 	/// Whether it is enabled
 	/// </summary>
-	[DataMember(Name = "Enabled")]
+	[JsonPropertyName("Enabled")]
 	public required string Enabled { get; set; }
 }

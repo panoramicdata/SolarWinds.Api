@@ -1,173 +1,172 @@
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
 /// <summary>
 /// A Node
 /// </summary>
-[DataContract]
 public class Node : ManagedEntity
 {
 	/// <summary>
 	/// NodeID
 	/// </summary>
-	[DataMember(Name = "NodeID")]
+	[JsonPropertyName("NodeID")]
 	public int NodeID { get; set; }
 
 	/// <summary>
 	/// ObjectSubType
 	/// </summary>
-	[DataMember(Name = "ObjectSubType")]
+	[JsonPropertyName("ObjectSubType")]
 	public required string ObjectSubType { get; set; }
 
 	/// <summary>
 	/// IPAddress
 	/// </summary>
-	[DataMember(Name = "IPAddress")]
+	[JsonPropertyName("IPAddress")]
 	public required string IPAddress { get; set; }
 
 	/// <summary>
 	/// IPAddressType
 	/// </summary>
-	[DataMember(Name = "IPAddressType")]
+	[JsonPropertyName("IPAddressType")]
 	public required string IPAddressType { get; set; }
 
 	/// <summary>
 	/// DynamicIP
 	/// </summary>
-	[DataMember(Name = "DynamicIP")]
+	[JsonPropertyName("DynamicIP")]
 	public bool DynamicIP { get; set; }
 
 	/// <summary>
 	/// Caption
 	/// </summary>
-	[DataMember(Name = "Caption")]
+	[JsonPropertyName("Caption")]
 	public required string Caption { get; set; }
 
 	/// <summary>
 	/// NodeDescription
 	/// </summary>
-	[DataMember(Name = "NodeDescription")]
+	[JsonPropertyName("NodeDescription")]
 	public required string NodeDescription { get; set; }
 
 	/// <summary>
 	/// DNS
 	/// </summary>
-	[DataMember(Name = "DNS")]
+	[JsonPropertyName("DNS")]
 	public required string DNS { get; set; }
 
 	/// <summary>
 	/// SysName
 	/// </summary>
-	[DataMember(Name = "SysName")]
+	[JsonPropertyName("SysName")]
 	public required string SysName { get; set; }
 
 	/// <summary>
 	/// SysName
 	/// </summary>
-	[DataMember(Name = "Vendor")]
+	[JsonPropertyName("Vendor")]
 	public required string Vendor { get; set; }
 
 	/// <summary>
 	/// SysObjectID
 	/// </summary>
-	[DataMember(Name = "SysObjectID")]
+	[JsonPropertyName("SysObjectID")]
 	public required string SysObjectID { get; set; }
 
 	/// <summary>
 	/// Location
 	/// </summary>
-	[DataMember(Name = "Location")]
+	[JsonPropertyName("Location")]
 	public required string Location { get; set; }
 
 	/// <summary>
 	/// Contact
 	/// </summary>
-	[DataMember(Name = "Contact")]
+	[JsonPropertyName("Contact")]
 	public required string Contact { get; set; }
 
 	/// <summary>
 	/// VendorIcon
 	/// </summary>
-	[DataMember(Name = "VendorIcon")]
+	[JsonPropertyName("VendorIcon")]
 	public required string VendorIcon { get; set; }
 
 	/// <summary>
 	/// Icon
 	/// </summary>
-	[DataMember(Name = "Icon")]
+	[JsonPropertyName("Icon")]
 	public required string Icon { get; set; }
 
 	/// <summary>
 	/// CustomStatus
 	/// </summary>
-	[DataMember(Name = "CustomStatus")]
+	[JsonPropertyName("CustomStatus")]
 	public bool CustomStatus { get; set; }
 
 	/// <summary>
 	/// IOSImage
 	/// </summary>
-	[DataMember(Name = "IOSImage")]
+	[JsonPropertyName("IOSImage")]
 	public required string IOSImage { get; set; }
 
 	/// <summary>
 	/// IOSVersion
 	/// </summary>
-	[DataMember(Name = "IOSVersion")]
+	[JsonPropertyName("IOSVersion")]
 	public required string IOSVersion { get; set; }
 
 	/// <summary>
 	/// GroupStatus
 	/// </summary>
-	[DataMember(Name = "GroupStatus")]
+	[JsonPropertyName("GroupStatus")]
 	public required string GroupStatus { get; set; }
 
 	/// <summary>
 	/// StatusIcon
 	/// </summary>
-	[DataMember(Name = "StatusIcon")]
+	[JsonPropertyName("StatusIcon")]
 	public required string StatusIcon { get; set; }
 
 	/// <summary>
 	/// LastBoot
 	/// </summary>
-	[DataMember(Name = "LastBoot")]
+	[JsonPropertyName("LastBoot")]
 	public DateTime LastBoot { get; set; }
 
 	/// <summary>
 	/// SystemUpTime
 	/// </summary>
-	[DataMember(Name = "SystemUpTime")]
+	[JsonPropertyName("SystemUpTime")]
 	public double SystemUpTime { get; set; }
 
 	/// <summary>
 	/// SystemUpTime
 	/// </summary>
-	[DataMember(Name = "ResponseTime")]
+	[JsonPropertyName("ResponseTime")]
 	public int ResponseTime { get; set; }
 
 	/// <summary>
 	/// PercentLoss
 	/// </summary>
-	[DataMember(Name = "PercentLoss")]
+	[JsonPropertyName("PercentLoss")]
 	public double PercentLoss { get; set; }
 
 	/// <summary>
 	/// AvgResponseTime
 	/// </summary>
-	[DataMember(Name = "AvgResponseTime")]
+	[JsonPropertyName("AvgResponseTime")]
 	public int AvgResponseTime { get; set; }
 
 	/// <summary>
 	/// MinResponseTime
 	/// </summary>
-	[DataMember(Name = "MinResponseTime")]
+	[JsonPropertyName("MinResponseTime")]
 	public int MinResponseTime { get; set; }
 
 	/// <summary>
 	/// MaxResponseTime
 	/// </summary>
-	[DataMember(Name = "MaxResponseTime")]
+	[JsonPropertyName("MaxResponseTime")]
 	public int MaxResponseTime { get; set; }
 
 	///// <summary>
@@ -177,13 +176,13 @@ public class Node : ManagedEntity
 	/// <summary>
 	/// CPULoad
 	/// </summary>
-	[DataMember(Name = "CPULoad")]
+	[JsonPropertyName("CPULoad")]
 	public int CPULoad { get; set; }
 
 	/// <summary>
 	/// MemoryUsed
 	/// </summary>
-	[DataMember(Name = "MemoryUsed")]
+	[JsonPropertyName("MemoryUsed")]
 	public double MemoryUsed { get; set; }
 
 	///// <summary>
@@ -204,306 +203,306 @@ public class Node : ManagedEntity
 	/// <summary>
 	/// MemoryAvailable
 	/// </summary>
-	[DataMember(Name = "MemoryAvailable")]
+	[JsonPropertyName("MemoryAvailable")]
 	public double MemoryAvailable { get; set; }
 
 	/// <summary>
 	/// MemoryAvailable
 	/// </summary>
-	[DataMember(Name = "PercentMemoryUsed")]
+	[JsonPropertyName("PercentMemoryUsed")]
 	public int PercentMemoryUsed { get; set; }
 
 	/// <summary>
 	/// PercentMemoryAvailable
 	/// </summary>
-	[DataMember(Name = "PercentMemoryAvailable")]
+	[JsonPropertyName("PercentMemoryAvailable")]
 	public int PercentMemoryAvailable { get; set; }
 
 	/// <summary>
 	/// LastSync
 	/// </summary>
-	[DataMember(Name = "LastSync")]
+	[JsonPropertyName("LastSync")]
 	public DateTime LastSync { get; set; }
 
 	/// <summary>
 	/// LastSystemUpTimePollUtc
 	/// </summary>
-	[DataMember(Name = "LastSystemUpTimePollUtc")]
+	[JsonPropertyName("LastSystemUpTimePollUtc")]
 	public DateTime LastSystemUpTimePollUtc { get; set; }
 
 	/// <summary>
 	/// MachineType
 	/// </summary>
-	[DataMember(Name = "MachineType")]
+	[JsonPropertyName("MachineType")]
 	public required string MachineType { get; set; }
 
 	/// <summary>
 	/// IsServer
 	/// </summary>
-	[DataMember(Name = "IsServer")]
+	[JsonPropertyName("IsServer")]
 	public bool IsServer { get; set; }
 
 	/// <summary>
 	/// Severity
 	/// </summary>
-	[DataMember(Name = "Severity")]
+	[JsonPropertyName("Severity")]
 	public int Severity { get; set; }
 
 	/// <summary>
 	/// UiSeverity
 	/// </summary>
-	[DataMember(Name = "UiSeverity")]
+	[JsonPropertyName("UiSeverity")]
 	public int UiSeverity { get; set; }
 
 	/// <summary>
 	/// ChildStatus
 	/// </summary>
-	[DataMember(Name = "ChildStatus")]
+	[JsonPropertyName("ChildStatus")]
 	public int ChildStatus { get; set; }
 
 	/// <summary>
 	/// Allow64BitCounters
 	/// </summary>
-	[DataMember(Name = "Allow64BitCounters")]
+	[JsonPropertyName("Allow64BitCounters")]
 	public bool Allow64BitCounters { get; set; }
 
 	/// <summary>
 	/// AgentPort
 	/// </summary>
-	[DataMember(Name = "AgentPort")]
+	[JsonPropertyName("AgentPort")]
 	public required string AgentPort { get; set; }
 
 	/// <summary>
 	/// TotalMemory
 	/// </summary>
-	[DataMember(Name = "TotalMemory")]
+	[JsonPropertyName("TotalMemory")]
 	public float TotalMemory { get; set; }
 
 	/// <summary>
 	/// CMTS
 	/// </summary>
-	[DataMember(Name = "CMTS")]
+	[JsonPropertyName("CMTS")]
 	public char CMTS { get; set; }
 
 	/// <summary>
 	/// CustomPollerLastStatisticsPoll
 	/// </summary>
-	[DataMember(Name = "CustomPollerLastStatisticsPoll")]
+	[JsonPropertyName("CustomPollerLastStatisticsPoll")]
 	public DateTime CustomPollerLastStatisticsPoll { get; set; }
 
 	/// <summary>
 	/// CustomPollerLastStatisticsPollSuccess
 	/// </summary>
-	[DataMember(Name = "CustomPollerLastStatisticsPollSuccess")]
+	[JsonPropertyName("CustomPollerLastStatisticsPollSuccess")]
 	public DateTime CustomPollerLastStatisticsPollSuccess { get; set; }
 
 	/// <summary>
 	/// CustomPollerLastStatisticsPollSuccess
 	/// </summary>
-	[DataMember(Name = "SNMPVersion")]
+	[JsonPropertyName("SNMPVersion")]
 	public short SNMPVersion { get; set; }
 
 	/// <summary>
 	/// PollInterval
 	/// </summary>
-	[DataMember(Name = "PollInterval")]
+	[JsonPropertyName("PollInterval")]
 	public int PollInterval { get; set; }
 
 	/// <summary>
 	/// EngineID
 	/// </summary>
-	[DataMember(Name = "EngineID")]
+	[JsonPropertyName("EngineID")]
 	public int EngineID { get; set; }
 
 	/// <summary>
 	/// RediscoveryInterval
 	/// </summary>
-	[DataMember(Name = "RediscoveryInterval")]
+	[JsonPropertyName("RediscoveryInterval")]
 	public int RediscoveryInterval { get; set; }
 
 	/// <summary>
 	/// NextPoll
 	/// </summary>
-	[DataMember(Name = "NextPoll")]
+	[JsonPropertyName("NextPoll")]
 	public DateTime NextPoll { get; set; }
 
 	/// <summary>
 	/// NextRediscovery
 	/// </summary>
-	[DataMember(Name = "NextRediscovery")]
+	[JsonPropertyName("NextRediscovery")]
 	public DateTime NextRediscovery { get; set; }
 
 	/// <summary>
 	/// StatCollection
 	/// </summary>
-	[DataMember(Name = "StatCollection")]
+	[JsonPropertyName("StatCollection")]
 	public int StatCollection { get; set; }
 
 	/// <summary>
 	/// External
 	/// </summary>
-	[DataMember(Name = "External")]
+	[JsonPropertyName("External")]
 	public bool External { get; set; }
 
 	/// <summary>
 	/// Community
 	/// </summary>
-	[DataMember(Name = "Community")]
+	[JsonPropertyName("Community")]
 	public required string Community { get; set; }
 
 	/// <summary>
 	/// RWCommunity
 	/// </summary>
-	[DataMember(Name = "RWCommunity")]
+	[JsonPropertyName("RWCommunity")]
 	public required string RWCommunity { get; set; }
 
 	/// <summary>
 	/// IP
 	/// </summary>
-	[DataMember(Name = "IP")]
+	[JsonPropertyName("IP")]
 	public required string IP { get; set; }
 
 	/// <summary>
 	/// IP_Address
 	/// </summary>
-	[DataMember(Name = "IP_Address")]
+	[JsonPropertyName("IP_Address")]
 	public required string IP_Address { get; set; }
 
 	/// <summary>
 	/// IPAddressGUID
 	/// </summary>
-	[DataMember(Name = "IPAddressGUID")]
+	[JsonPropertyName("IPAddressGUID")]
 	public Guid IPAddressGUID { get; set; }
 
 	/// <summary>
 	/// IPAddressGUID
 	/// </summary>
-	[DataMember(Name = "NodeName")]
+	[JsonPropertyName("NodeName")]
 	public required string NodeName { get; set; }
 
 	/// <summary>
 	/// BlockUntil
 	/// </summary>
-	[DataMember(Name = "BlockUntil")]
+	[JsonPropertyName("BlockUntil")]
 	public DateTime BlockUntil { get; set; }
 
 	/// <summary>
 	/// BlockUntil
 	/// </summary>
-	[DataMember(Name = "BufferNoMemThisHour")]
+	[JsonPropertyName("BufferNoMemThisHour")]
 	public double BufferNoMemThisHour { get; set; }
 
 	/// <summary>
 	/// BufferNoMemToday
 	/// </summary>
-	[DataMember(Name = "BufferNoMemToday")]
+	[JsonPropertyName("BufferNoMemToday")]
 	public double BufferNoMemToday { get; set; }
 
 	/// <summary>
 	/// BufferSmMissThisHour
 	/// </summary>
-	[DataMember(Name = "BufferSmMissThisHour")]
+	[JsonPropertyName("BufferSmMissThisHour")]
 	public double BufferSmMissThisHour { get; set; }
 
 	/// <summary>
 	/// BufferSmMissToday
 	/// </summary>
-	[DataMember(Name = "BufferSmMissToday")]
+	[JsonPropertyName("BufferSmMissToday")]
 	public double BufferSmMissToday { get; set; }
 
 	/// <summary>
 	/// BufferMdMissThisHour
 	/// </summary>
-	[DataMember(Name = "BufferMdMissThisHour")]
+	[JsonPropertyName("BufferMdMissThisHour")]
 	public double BufferMdMissThisHour { get; set; }
 
 	/// <summary>
 	/// BufferMdMissToday
 	/// </summary>
-	[DataMember(Name = "BufferMdMissToday")]
+	[JsonPropertyName("BufferMdMissToday")]
 	public double BufferMdMissToday { get; set; }
 
 	/// <summary>
 	/// BufferBgMissThisHour
 	/// </summary>
-	[DataMember(Name = "BufferBgMissThisHour")]
+	[JsonPropertyName("BufferBgMissThisHour")]
 	public double BufferBgMissThisHour { get; set; }
 
 	/// <summary>
 	/// BufferBgMissToday
 	/// </summary>
-	[DataMember(Name = "BufferBgMissToday")]
+	[JsonPropertyName("BufferBgMissToday")]
 	public double BufferBgMissToday { get; set; }
 
 	/// <summary>
 	/// BufferLgMissThisHour
 	/// </summary>
-	[DataMember(Name = "BufferLgMissThisHour")]
+	[JsonPropertyName("BufferLgMissThisHour")]
 	public double BufferLgMissThisHour { get; set; }
 
 	/// <summary>
 	/// BufferLgMissToday
 	/// </summary>
-	[DataMember(Name = "BufferLgMissToday")]
+	[JsonPropertyName("BufferLgMissToday")]
 	public double BufferLgMissToday { get; set; }
 
 	/// <summary>
 	/// BufferHgMissThisHour
 	/// </summary>
-	[DataMember(Name = "BufferHgMissThisHour")]
+	[JsonPropertyName("BufferHgMissThisHour")]
 	public double BufferHgMissThisHour { get; set; }
 
 	/// <summary>
 	/// BufferHgMissThisHour
 	/// </summary>
-	[DataMember(Name = "BufferHgMissToday")]
+	[JsonPropertyName("BufferHgMissToday")]
 	public double BufferHgMissToday { get; set; }
 
 	/// <summary>
 	/// OrionIdPrefix
 	/// </summary>
-	[DataMember(Name = "OrionIdPrefix")]
+	[JsonPropertyName("OrionIdPrefix")]
 	public required string OrionIdPrefix { get; set; }
 
 	/// <summary>
 	/// OrionIdColumn
 	/// </summary>
-	[DataMember(Name = "OrionIdColumn")]
+	[JsonPropertyName("OrionIdColumn")]
 	public required string OrionIdColumn { get; set; }
 
 	/// <summary>
 	/// SkippedPollingCycles
 	/// </summary>
-	[DataMember(Name = "SkippedPollingCycles")]
+	[JsonPropertyName("SkippedPollingCycles")]
 	public int SkippedPollingCycles { get; set; }
 
 	/// <summary>
 	/// MinutesSinceLastSync
 	/// </summary>
-	[DataMember(Name = "MinutesSinceLastSync")]
+	[JsonPropertyName("MinutesSinceLastSync")]
 	public int MinutesSinceLastSync { get; set; }
 
 	/// <summary>
 	/// EntityType
 	/// </summary>
-	[DataMember(Name = "EntityType")]
+	[JsonPropertyName("EntityType")]
 	public required string EntityType { get; set; }
 
 	/// <summary>
 	/// DetailsUrl
 	/// </summary>
-	[DataMember(Name = "DetailsUrl")]
+	[JsonPropertyName("DetailsUrl")]
 	public required string DetailsUrl { get; set; }
 
 	/// <summary>
 	/// Category
 	/// </summary>
-	[DataMember(Name = "Category")]
+	[JsonPropertyName("Category")]
 	public int Category { get; set; }
 
 	/// <summary>
 	/// IsOrionServer
 	/// </summary>
-	[DataMember(Name = "IsOrionServer")]
+	[JsonPropertyName("IsOrionServer")]
 	public bool IsOrionServer { get; set; }
 }

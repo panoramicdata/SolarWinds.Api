@@ -1,22 +1,21 @@
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
 /// <summary>
 /// A Service
 /// </summary>
-[DataContract]
 public class Service : Entity
 {
 	/// <summary>
 	/// ObjectSubType
 	/// </summary>
-	[DataMember(Name = "ServiceName")]
+	[JsonPropertyName("ServiceName")]
 	public required string ServiceName { get; set; }
 
 	/// <summary>
 	/// Memory
 	/// </summary>
-	[DataMember(Name = "Memory")]
+	[JsonPropertyName("Memory")]
 	public long Memory { get; set; }
 }

@@ -2,8 +2,8 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using SolarWinds.Api.Exceptions;
 using SolarWinds.Api.Queries;
 
@@ -72,9 +72,9 @@ public abstract class SolarWindsClientBase
 	/// </summary>
 	/// <param name="query">SQL query payload to execute.</param>
 	/// <param name="cancellationToken">Token used to cancel the request.</param>
-	/// <returns>The query response projected to <see cref="JObject"/> instances.</returns>
-	public Task<QueryResponse<JObject>> SqlJObjectQueryAsync(SqlQuery query, CancellationToken cancellationToken)
-		=> SqlQueryAsyncInternal<JObject>(query, cancellationToken);
+	/// <returns>The query response projected to <see cref="JsonObject"/> instances.</returns>
+	public Task<QueryResponse<JsonObject>> SqlJObjectQueryAsync(SqlQuery query, CancellationToken cancellationToken)
+		=> SqlQueryAsyncInternal<JsonObject>(query, cancellationToken);
 
 	private async Task<QueryResponse<T>> SqlQueryAsyncInternal<T>(SqlQuery query, CancellationToken cancellationToken)
 	{
@@ -84,7 +84,7 @@ public abstract class SolarWindsClientBase
 		ArgumentException.ThrowIfNullOrEmpty(query.Sql);
 
 		// Execute query
-		var content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, "application/json");
+		var content = new StringContent(JsonSerializer.Serialize(query, OrionJson.Options), Encoding.UTF8, "application/json");
 		var httpResponseMessage = await _httpClient.PostAsync("", content, cancellationToken);
 
 		// OK response?
@@ -98,15 +98,7 @@ public abstract class SolarWindsClientBase
 		QueryResponse<T>? result;
 		try
 		{
-			result = JsonConvert.DeserializeObject<QueryResponse<T>>(
-				responseBody,
-				new JsonSerializerSettings
-				{
-#if DEBUG
-					MissingMemberHandling = MissingMemberHandling.Error,
-#endif
-					TypeNameHandling = TypeNameHandling.None
-				});
+			result = JsonSerializer.Deserialize<QueryResponse<T>>(responseBody, OrionJson.Options);
 		}
 		catch (Exception e)
 		{

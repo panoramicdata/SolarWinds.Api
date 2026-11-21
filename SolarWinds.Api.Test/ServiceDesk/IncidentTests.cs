@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Newtonsoft.Json;
 
 namespace SolarWinds.Api.Test.ServiceDesk;
 

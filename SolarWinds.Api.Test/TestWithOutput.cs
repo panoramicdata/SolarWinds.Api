@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json;
 using SolarWinds.Api.Test.Logging;
 
 namespace SolarWinds.Api.Test;
@@ -95,6 +95,8 @@ public abstract class TestWithOutput
 
 	private readonly Lazy<SolarWindsServiceDeskClient> _serviceDeskClientLazy;
 
+	private static readonly JsonSerializerOptions ConfigOptions = new() { PropertyNameCaseInsensitive = true, ReadCommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true };
+
 	private SolarWindsOrionClient CreateOrionClient()
 	{
 		// Deserialize JSON directly from a file
@@ -104,10 +106,9 @@ public abstract class TestWithOutput
 		}
 
 		Config? config;
-		using (var file = File.OpenText("appsettings.json"))
+		using (var file = File.OpenRead("appsettings.json"))
 		{
-			var serializer = new Newtonsoft.Json.JsonSerializer();
-			config = (Config?)serializer.Deserialize(file, typeof(Config));
+			config = JsonSerializer.Deserialize<Config>(file, ConfigOptions);
 		}
 
 		if (config == null)

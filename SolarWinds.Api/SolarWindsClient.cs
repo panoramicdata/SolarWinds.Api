@@ -4,8 +4,6 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SolarWinds.Api.Exceptions;
 using SolarWinds.Api.Queries;
 

@@ -1,12 +1,11 @@
 using System.Diagnostics;
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
 /// <summary>
 /// A CustomPropertyValue
 /// </summary>
-[DataContract]
 [Table("Orion.CustomPropertyValues")]
 [DebuggerDisplay("{Table}.{Field}={Value}")]
 public class CustomPropertyValue : Entity
@@ -14,18 +13,18 @@ public class CustomPropertyValue : Entity
 	/// <summary>
 	/// The Table
 	/// </summary>
-	[DataMember(Name = "Table")]
+	[JsonPropertyName("Table")]
 	public required string Table { get; set; }
 
 	/// <summary>
 	/// The Field
 	/// </summary>
-	[DataMember(Name = "Field")]
+	[JsonPropertyName("Field")]
 	public required string Field { get; set; }
 
 	/// <summary>
 	/// The Value
 	/// </summary>
-	[DataMember(Name = "Value")]
+	[JsonPropertyName("Value")]
 	public required string Value { get; set; }
 }
