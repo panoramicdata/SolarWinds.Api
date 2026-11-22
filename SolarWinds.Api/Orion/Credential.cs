@@ -1,34 +1,33 @@
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
 	/// <summary>
 	/// A Credential
 	/// </summary>
-	[DataContract]
 	public class Credential : Entity
 	{
 		/// <summary>
 		/// Id
 		/// </summary>
-		[DataMember(Name = "Id")]
+		[JsonPropertyName("Id")]
 		public int Id { get; set; }
 
 		/// <summary>
 		/// Name
 		/// </summary>
-		[DataMember(Name = "Name")]
+		[JsonPropertyName("Name")]
 		public required string Name { get; set; }
 
 		/// <summary>
 		/// CredentialType
 		/// </summary>
-		[DataMember(Name = "CredentialType")]
+		[JsonPropertyName("CredentialType")]
 		public required string CredentialType { get; set; }
 
 		/// <summary>
 		/// CredentialOwner
 		/// </summary>
-		[DataMember(Name = "CredentialOwner")]
+		[JsonPropertyName("CredentialOwner")]
 		public required string CredentialOwner { get; set; }
 	}

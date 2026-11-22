@@ -1,70 +1,69 @@
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace SolarWinds.Api.Orion;
 
 /// <summary>
 /// A Managed entity
 /// </summary>
-[DataContract]
 public abstract class ManagedEntity : Entity
 {
 	/// <summary>
 	/// Status
 	/// </summary>
-	[DataMember(Name = "Status")]
+	[JsonPropertyName("Status")]
 	public int Status { get; set; }
 
 	/// <summary>
 	/// StatusLED
 	/// </summary>
-	[DataMember(Name = "StatusLED")]
+	[JsonPropertyName("StatusLED")]
 	public required string StatusLED { get; set; }
 
 	/// <summary>
 	/// StatusDescription
 	/// </summary>
-	[DataMember(Name = "StatusDescription")]
+	[JsonPropertyName("StatusDescription")]
 	public required string StatusDescription { get; set; }
 
 	/// <summary>
 	/// UnManaged
 	/// </summary>
-	[DataMember(Name = "UnManaged")]
+	[JsonPropertyName("UnManaged")]
 	public bool UnManaged { get; set; }
 
 	/// <summary>
 	/// UnManageFrom
 	/// </summary>
-	[DataMember(Name = "UnManageFrom")]
+	[JsonPropertyName("UnManageFrom")]
 	public DateTime UnManageFrom { get; set; }
 
 	/// <summary>
 	/// UnManageUntil
 	/// </summary>
-	[DataMember(Name = "UnManageUntil")]
+	[JsonPropertyName("UnManageUntil")]
 	public DateTime UnManageUntil { get; set; }
 
 	/// <summary>
 	/// Image
 	/// </summary>
-	[DataMember(Name = "Image")]
+	[JsonPropertyName("Image")]
 	public required string Image { get; set; }
 
 	/// <summary>
 	/// AncestorDisplayNames
 	/// </summary>
-	[DataMember(Name = "AncestorDisplayNames")]
+	[JsonPropertyName("AncestorDisplayNames")]
 	public required List<string> AncestorDisplayNames { get; set; }
 
 	/// <summary>
 	/// AncestorDetailsUrls
 	/// </summary>
-	[DataMember(Name = "AncestorDetailsUrls")]
+	[JsonPropertyName("AncestorDetailsUrls")]
 	public required List<string> AncestorDetailsUrls { get; set; }
 
 	/// <summary>
 	/// StatusIconHint
 	/// </summary>
-	[DataMember(Name = "StatusIconHint")]
+	[JsonPropertyName("StatusIconHint")]
 	public required string StatusIconHint { get; set; }
 }

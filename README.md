@@ -32,6 +32,16 @@ After enabling GitHub Pages with **Build and deployment: GitHub Actions**, the s
 
 ## Breaking Changes
 
+### Breaking changes in the next release
+
+The Orion (SWIS) half of the package no longer depends on Newtonsoft.Json; it now uses System.Text.Json. The package no longer references Newtonsoft.Json.
+
+- `SolarWindsClientBase.SqlJObjectQueryAsync` now returns `QueryResponse<System.Text.Json.Nodes.JsonObject>` instead of `QueryResponse<Newtonsoft.Json.Linq.JObject>`. `JsonObject` is the closest mutable equivalent; use `row["Name"]` and `GetValue<T>()`, and a JSON null reads as a C# `null`.
+- `RequireObjectPropertiesContractResolver` has been removed. It was a Newtonsoft `DefaultContractResolver` and nothing in the package used it.
+- The Orion models use `[JsonPropertyName]` rather than `[DataContract]`/`[DataMember]`. The serialised property names are unchanged.
+- Failures while reading a response still surface as `SolarWindsApiDeserializationException`, but its inner exception is now a `System.Text.Json.JsonException` instead of a `Newtonsoft.Json.JsonException`.
+- The `[DataContract]`/`[DataMember]` attributes were removed from the Orion models (`Entity` carries no attribute; its names equal the property names).
+- Consumers that used Newtonsoft.Json only transitively through this package must now reference it themselves.
 ### Version 2026.6.13
 
 The `SolarWindsClient` has been deprecated and replaced by `SolarWindsOrionClient`. The new client uses an options pattern for configuration, providing more flexibility for setting credentials, proxy settings, and logging.

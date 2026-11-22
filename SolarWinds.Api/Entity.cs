@@ -1,41 +1,33 @@
-using System.Runtime.Serialization;
-
 namespace SolarWinds.Api;
 
 /// <summary>
 /// Base type for Orion entities returned by SWIS queries.
 /// </summary>
-[DataContract]
 public abstract class Entity
 {
 	/// <summary>
 	/// Gets or sets the user-facing display name.
 	/// </summary>
-	[DataMember(Name = "DisplayName")]
 	public string DisplayName { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the entity description.
 	/// </summary>
-	[DataMember(Name = "Description")]
 	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the Orion instance type name.
 	/// </summary>
-	[DataMember(Name = "InstanceType")]
 	public string InstanceType { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the Orion URI that identifies this entity.
 	/// </summary>
-	[DataMember(Name = "Uri")]
 	public string Uri { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the site identifier associated with this entity instance.
 	/// </summary>
-	[DataMember(Name = "InstanceSiteId")]
 	public int InstanceSiteId { get; set; }
 
 	/// <summary>

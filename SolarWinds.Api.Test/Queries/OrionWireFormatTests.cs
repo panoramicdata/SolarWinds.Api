@@ -37,6 +37,17 @@ public class OrionWireFormatTests
 		handler.RequestBody.Should().Be("""{"query":"SELECT 1","parameters":{"p":0,"s":"x","b":true}}""");
 	}
 
+	/// <summary>Markup characters in SWQL are sent literally, as before.</summary>
+	[Fact]
+	public async Task SqlQuery_DoesNotEscapeMarkupCharacters()
+	{
+		var handler = new StubHandler("""{"results":[]}""");
+
+		await new TestClient(handler).SqlQueryAsync<Poller>(new SqlQuery { Sql = "SELECT 1 WHERE a>@p AND b<'x' & c" }, CancellationToken.None);
+
+		handler.RequestBody.Should().Be("""{"query":"SELECT 1 WHERE a>@p AND b<'x' & c","parameters":{}}""");
+	}
+
 	/// <summary>Pins the current wire behaviour.</summary>
 	[Fact]
 	public async Task TypedResponse_MapsDataMemberNames()
@@ -105,8 +116,8 @@ public class OrionWireFormatTests
 
 		var row = result.Results.Should().ContainSingle().Subject;
 		((int)row["PollerID"]!).Should().Be(7);
-		row["Description"]!.Type.ToString().Should().Be("Null");
-		row["Description"]!.ToObject<string>().Should().BeNull();
+		row.ContainsKey("Description").Should().BeTrue();
+		row["Description"].Should().BeNull();
 	}
 
 	/// <summary>Unknown members throw in DEBUG builds and are ignored otherwise.</summary>
